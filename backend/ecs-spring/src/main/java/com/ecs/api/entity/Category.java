@@ -15,17 +15,17 @@ import java.util.List;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int CATEGORY_NO;
+    @Column(name="CATEGORY_NO")
+    private int categoryNo;
 
-    @Column(nullable = false)
-    String CATEGORY_NM;
+    @Column(name = "CATEGORY_NM", nullable = false)
+    private String categoryNM;
 
     @ManyToOne
     @JoinColumn(name = "DRAW_NO")
-    private Draw DRAW_NO;
+    private Draw drawNo;
 
-
-    @OneToMany(mappedBy = "CATEGORY_NO",cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "categoryNo",cascade = CascadeType.REMOVE)
     private List<Subjects> subjects = new ArrayList<>();
 
 }

@@ -12,12 +12,13 @@ import javax.persistence.*;
 public class Subjects {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int SUBJECTS_NO;
+    @Column(name="SUBJECTS_NO")
+    private int subjectsNo;
 
-    @Column(nullable = false)
-    String SUBJECTS_NM;
+    @Column(name="SUBJECTS_NM", nullable = false)
+    private String subjectsNM;
 
     @ManyToOne
     @JoinColumn(name = "CATEGORY_NO")
-    private Category CATEGORY_NO;
+    private Category categoryNo;
 }
