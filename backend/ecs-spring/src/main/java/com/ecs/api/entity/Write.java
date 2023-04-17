@@ -17,6 +17,6 @@ public class Write {
     private LocalDateTime WRITE_DATE;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_NO")
-    private Users USER_NO;
+    @JoinColumn(name = "USERS_NO")
+    private Users USERS_NO;
 }
