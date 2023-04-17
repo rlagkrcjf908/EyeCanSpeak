@@ -10,7 +10,7 @@ function App() {
     <RecoilRoot>
       <HelmetProvider>
         <Helmet>
-          <title>PICSTORY</title>
+          <title>ECS</title>
         </Helmet>
       </HelmetProvider>
       <BrowserRouter>
