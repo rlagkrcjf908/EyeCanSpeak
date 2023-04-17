@@ -13,11 +13,12 @@ import javax.persistence.*;
 public class Likes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int LIKES_NO;
+    @Column(name="LIKES_NO")
+    private int likesNo;
     @ManyToOne
     @JoinColumn(name = "USERS_NO")
-    private Users USERS_NO;
+    private Users usersNo;
     @ManyToOne
     @JoinColumn(name = "DRAW_NO")
-    private Draw DRAW_NO;
+    private Draw drawNo;
 }

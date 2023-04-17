@@ -12,26 +12,32 @@ import java.util.List;
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int USERS_NO;
+    @Column(name="USERS_NO")
+    private int usersNo;
 
-    private String USERS_ID;
+    @Column(name="USERS_ID")
+    private String usersId;
 
-    private String USERS_NAME;
+    @Column(name="USERS_NAME")
+    private String usersName;
 
-    private String USERS_NICKNAME;
+    @Column(name="USERS_NICKNAME")
+    private String usersNickName;
 
     @CreatedDate
-    private LocalDateTime USERS_CREATE_DATE;
+    @Column(name="USERS_CREATE_DATE")
+    private LocalDateTime usersCreateDate;
 
     @LastModifiedDate
-    private LocalDateTime USERS_RECENT_DATE;
+    @Column(name="USERS_RECENT_DATE")
+    private LocalDateTime usersRecentDate;
 
-    @OneToMany(mappedBy = "USERS_NO", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "usersNo", cascade = CascadeType.REMOVE)
     private List<Write> writes= new ArrayList<>();
 
-    @OneToMany(mappedBy = "USERS_NO", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "usersNo", cascade = CascadeType.REMOVE)
     private List<Draw> draws= new ArrayList<>();
 
-    @OneToMany(mappedBy = "USERS_NO", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "usersNo", cascade = CascadeType.REMOVE)
     private List<Likes> likes= new ArrayList<>();
 }

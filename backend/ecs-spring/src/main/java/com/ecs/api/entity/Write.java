@@ -9,14 +9,17 @@ import java.time.LocalDateTime;
 public class Write {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int WRITE_NO;
+    @Column(name="WRITE_NO")
+    private int writeNo;
 
-    private String WRITE_CONTENT;
+    @Column(name="WRITE_CONTENT")
+    private String writeContent;
 
     @CreatedDate
-    private LocalDateTime WRITE_DATE;
+    @Column(name="WRITE_DATE")
+    private LocalDateTime writeDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USERS_NO")
-    private Users USERS_NO;
+    private Users usersNo;
 }

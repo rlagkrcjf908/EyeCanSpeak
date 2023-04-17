@@ -18,25 +18,26 @@ public class Draw {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int DRAW_NO;
+    @Column(name="DRAW_NO")
+    private int drawNo;
 
-    @Column(nullable = false)
-    String DRAW_DRAWING;
+    @Column(name="DRAW_DRAWING", nullable = false)
+    private String drawDrawing;
 
     @LastModifiedDate
     private LocalDateTime DRAW_DATE;
-    @Column(nullable = false)
-    boolean DRAW_POST_TF;
+    @Column(name="DRAW_POST_TF", nullable = false)
+    boolean drawPostTF;
 
     @ManyToOne
     @JoinColumn(name = "USERS_NO")
-    private Users USERS_NO;
+    private Users usersNo;
 
-    @OneToMany(mappedBy = "DRAW_NO",cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "drawNo",cascade = CascadeType.REMOVE)
     private List<Category> categories = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "DRAW_NO",cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "drawNo",cascade = CascadeType.REMOVE)
     private List<Likes> likes = new ArrayList<>();
 
 }
