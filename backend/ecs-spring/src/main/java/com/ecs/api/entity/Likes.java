@@ -19,5 +19,5 @@ public class Likes {
     private Users Users_NO;
     @ManyToOne
     @JoinColumn(name = "DRAW_NO")
-    private Drawing DRAW_NO;
+    private Draw DRAW_NO;
 }
