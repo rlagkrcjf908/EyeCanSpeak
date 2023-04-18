@@ -1,3 +1,7 @@
 export default function Drawing() {
-  return <></>
+  return (
+    <>
+      <h1>그리기페이지</h1>
+    </>
+  )
 }
