@@ -1,7 +1,9 @@
-import SelectFreeDraw from "../components/drawing/selectFreeDraw"
-import SelectGenreDraw from "../components/drawing/selectGenreDraw"
-import styles from "../styles/drawing/freeDraw.module.css"
+import Board from "../components/drawing/board"
 
 export default function Drawing() {
-  return <></>
+  return (
+    <>
+      <Board />
+    </>
+  )
 }
