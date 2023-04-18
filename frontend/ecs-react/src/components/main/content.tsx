@@ -29,15 +29,28 @@ export default function Content() {
     <>
       <div className={style.container}>
         <div className={`${style.mySlides} ${style.fade}`}>
-          <div className={style.contentBox}>11</div>
+          <div className={style.contentBox}>
+            <div className={style.imgBox}></div>
+            <div className={style.text}>손대신 눈으로 클릭 !@#$#$</div>
+          </div>
         </div>
-
         <div className={`${style.mySlides} ${style.fade}`}>
-          <div className={style.contentBox}>22</div>
+          <div className={style.contentBox}>
+            <div className={style.imgBox}></div>
+            <div className={style.text}>눈으로 글을 써 의사소통 어쩌고</div>
+          </div>
         </div>
-
         <div className={`${style.mySlides} ${style.fade}`}>
-          <div className={style.contentBox}>33</div>
+          <div className={style.contentBox}>
+            <div className={style.imgBox}></div>
+            <div className={style.text}>눈으로 그림을 !@#@%*</div>
+          </div>
+        </div>
+        <div className={`${style.mySlides} ${style.fade}`}>
+          <div className={style.contentBox}>
+            <div className={style.imgBox}></div>
+            <div className={style.text}>다른 사람들의 그림을 !)#@($</div>
+          </div>
         </div>
       </div>
       <div className={style.circle1}></div>
