@@ -3,6 +3,7 @@ import { BrowserRouter } from "react-router-dom"
 import RoutesSetup from "./routes/routesSetup"
 import { HelmetProvider, Helmet } from "react-helmet-async"
 import { RecoilRoot } from "recoil"
+import "./styles/common.css"
 import "./App.css"
 
 function App() {

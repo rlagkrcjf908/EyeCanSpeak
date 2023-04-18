@@ -1,0 +1,73 @@
+.mySlides {
+  display: none;
+  width: 600px;
+  height: 400px;
+  margin: 0 auto;
+}
+
+.active {
+  background-color: #717171;
+}
+
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+.contentBox {
+  margin: 20px auto;
+  width: 600px;
+  height: 400px;
+  background-color: rgb(204, 204, 204);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.circle1 {
+  z-index: -1;
+  position: absolute;
+  top: -200px;
+  left: -200px;
+  border: 1px solid white;
+  width: 700px;
+  height: 700px;
+  border-radius: 700px;
+  background-color: white;
+}
+.circle2 {
+  z-index: -1;
+  position: absolute;
+  right: -200px;
+  bottom: -100px;
+  border: 1px solid white;
+  width: 700px;
+  height: 700px;
+  border-radius: 700px;
+  background-color: white;
+}
+
+@-webkit-keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+  .text {
+    font-size: 11px;
+  }
+}
