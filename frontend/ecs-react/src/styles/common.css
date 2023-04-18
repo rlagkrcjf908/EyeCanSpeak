@@ -1,5 +1,6 @@
 body {
   background-color: #eef8ff;
+  overflow: hidden;
 }
 @font-face {
   font-family: "ImcreSoojin";
