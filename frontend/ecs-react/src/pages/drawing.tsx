@@ -1,7 +1,9 @@
+import Board from "../components/drawing/board"
+
 export default function Drawing() {
   return (
     <>
-      <h1>그리기페이지</h1>
+      <Board />
     </>
   )
 }
