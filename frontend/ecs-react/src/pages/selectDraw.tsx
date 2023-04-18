@@ -3,5 +3,10 @@ import SelectGenreDraw from "../components/drawing/selectGenreDraw"
 import styles from "../styles/drawing/freeDraw.module.css"
 
 export default function Drawing() {
-  return <></>
+  return (
+    <div className={styles.container}>
+      <SelectGenreDraw />
+      <SelectFreeDraw />
+    </div>
+  )
 }

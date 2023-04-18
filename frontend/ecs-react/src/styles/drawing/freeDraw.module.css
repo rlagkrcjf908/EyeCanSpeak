@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 80vw;
+  margin: auto;
+}
+.card {
+  width: 450px;
+  height: 500px;
+  margin: auto;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.card:hover {
+  display: block;
+}
+
+.card__background {
+  width: 450px;
+  height: 500px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -o-object-fit: cover;
+  object-fit: cover;
+  transform: scale(1);
+  transition: all 0.3s ease-in-out;
+}
+
+.card__background:hover {
+  transform: scale(1.2);
+}
