@@ -25,9 +25,6 @@ public class DrawController {
     public ResponseEntity<List<CategoryAllResDto>> getAllCategory(){
         try {
             List<Category> categories = drawService.getAllCategory();
-            System.out.println(categories.get(0).getCategoryNM());
-            System.out.println(categories.get(1).getCategoryNM());
-            System.out.println(categories.get(2).getCategoryNM());
             return ResponseEntity.status(200).body(CategoryAllResDto.of(categories));
         }catch (Exception e){
             e.printStackTrace();
