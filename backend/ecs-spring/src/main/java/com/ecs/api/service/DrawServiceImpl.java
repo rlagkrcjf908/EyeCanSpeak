@@ -52,6 +52,13 @@ public class DrawServiceImpl implements DrawService{
         return categories;
     }
 
+    @Override
+    public List<Subjects> getSubjects(int categoryNo) {
+        Category category = categoryRepository.findById(categoryNo).orElseThrow(()->new IllegalArgumentException("no such data"));
+        List<Subjects> subjects = subjectRepository.findByCategoryNo(category).orElseThrow(()->new IllegalArgumentException("no such data"));
+        return subjects;
+    }
+
     //--------------------------------------------------------------------------------------------------
     @Override
     public AwsS3ReqDto upload(DrawReqDto drawReqDto, MultipartFile multipartFile) throws IOException {

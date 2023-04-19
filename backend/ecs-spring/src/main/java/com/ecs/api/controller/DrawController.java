@@ -4,7 +4,9 @@ import com.ecs.api.dto.req.AwsS3ReqDto;
 import com.ecs.api.dto.req.DrawReqDto;
 import com.ecs.api.dto.res.BaseResDto;
 import com.ecs.api.dto.res.CategoryAllResDto;
+import com.ecs.api.dto.res.SubjectResDto;
 import com.ecs.api.entity.Category;
+import com.ecs.api.entity.Subjects;
 import com.ecs.api.service.DrawService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -25,13 +27,26 @@ public class DrawController {
     public ResponseEntity<List<CategoryAllResDto>> getAllCategory(){
         try {
             List<Category> categories = drawService.getAllCategory();
+
             return ResponseEntity.status(200).body(CategoryAllResDto.of(categories));
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(400).body(null);
         }
     }
+    @GetMapping("/subject/{categoryNo}")
+    public ResponseEntity<List<SubjectResDto>> getSubjects(@PathVariable("categoryNo") int categoryNo){
+        try{
+            List<Subjects> subjects = drawService.getSubjects(categoryNo);
+            return ResponseEntity.status(200).body(SubjectResDto.of(subjects));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(null);
+        }
 
+
+    }
     //그림 그리기 ------------------------------------------------------------------------
     //이미지 저장
     @PostMapping(value="/store",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
