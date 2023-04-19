@@ -6,9 +6,11 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.ecs.api.dto.req.AwsS3ReqDto;
 import com.ecs.api.dto.req.DrawReqDto;
+import com.ecs.api.entity.Category;
 import com.ecs.api.entity.Draw;
 import com.ecs.api.entity.Subjects;
 import com.ecs.api.entity.Users;
+import com.ecs.api.repository.CategoryRepository;
 import com.ecs.api.repository.DrawRepository;
 import com.ecs.api.repository.SubjectRepository;
 import com.ecs.api.repository.UserRepository;
@@ -20,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -38,9 +41,18 @@ public class DrawServiceImpl implements DrawService{
     private final DrawRepository drawReopsitory;
 
     private final SubjectRepository subjectRepository;
+    private final CategoryRepository categoryRepository;
 
 
+    //그림 주제 선택--------------------------------------------------------------------------------------
+    @Override
+    public List<Category> getAllCategory() {
+        List<Category> categories = categoryRepository.findAll();
 
+        return categories;
+    }
+
+    //--------------------------------------------------------------------------------------------------
     @Override
     public AwsS3ReqDto upload(DrawReqDto drawReqDto, MultipartFile multipartFile) throws IOException {
 
@@ -104,5 +116,6 @@ public class DrawServiceImpl implements DrawService{
         }
         amazonS3.deleteObject(bucket, awsS3ReqDto.getKey());
     }
+
 
 }
