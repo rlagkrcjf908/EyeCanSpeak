@@ -4,8 +4,8 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.ecs.api.dto.req.AwsS3;
-import com.ecs.api.dto.req.DrawPostReq;
+import com.ecs.api.dto.req.AwsS3ReqDto;
+import com.ecs.api.dto.req.DrawReqDto;
 import com.ecs.api.entity.Draw;
 import com.ecs.api.entity.Subjects;
 import com.ecs.api.entity.Users;
@@ -13,7 +13,6 @@ import com.ecs.api.repository.DrawRepository;
 import com.ecs.api.repository.SubjectRepository;
 import com.ecs.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,41 +30,44 @@ public class DrawServiceImpl implements DrawService{
     private final AmazonS3 amazonS3;
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
+    @Value("${cloud.aws.s3.dirName}")
+    private String dirName;
 
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    private DrawRepository drawReopsitory;
-    @Autowired
-    private SubjectRepository subjectRepository;
+    private final UserRepository userRepository;
+
+    private final DrawRepository drawReopsitory;
+
+    private final SubjectRepository subjectRepository;
+
+
 
     @Override
-    public AwsS3 upload(DrawPostReq drawPostReq,MultipartFile multipartFile, String dirName) throws IOException {
+    public AwsS3ReqDto upload(DrawReqDto drawReqDto, MultipartFile multipartFile) throws IOException {
 
         File file = convertMultipartFileToFile(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File convert fail"));
-        return upload(drawPostReq,file,dirName);
+        return upload(drawReqDto,file);
     }
-    private AwsS3 upload(DrawPostReq drawPostReq,File file, String dirName) {
-        String key = randomFileName(file, dirName);
+    private AwsS3ReqDto upload(DrawReqDto drawReqDto, File file) {
+        String key = randomFileName(file);
         String path = putS3(file, key);
         removeFile(file);
 
         Draw draw = new Draw();
-        Users user = userRepository.findByUsersNo(drawPostReq.getUsersNo());
-        Subjects subjects = subjectRepository.findBySubjectsNM(drawPostReq.getSubjectNM());
-        draw.setDrawPostTF(drawPostReq.isDrawPostTF());
+        Users user = userRepository.findByUsersNo(drawReqDto.getUsersNo());
+        Subjects subjects = subjectRepository.findBySubjectsNM(drawReqDto.getSubjectNM());
+        draw.setDrawPostTF(drawReqDto.isDrawPostTF());
         draw.setUsersNo(user);
         draw.setCategoryNo(subjects.getCategoryNo());
         draw.setDrawDrawing(path);
         drawReopsitory.save(draw);
-        return AwsS3
+        return AwsS3ReqDto
                 .builder()
                 .key(key)
                 .path(path)
                 .build();
     }
-    private String randomFileName(File file, String dirName) {
+    private String randomFileName(File file) {
         return dirName + "/" + UUID.randomUUID() + file.getName();
     }
 
@@ -96,11 +98,11 @@ public class DrawServiceImpl implements DrawService{
         return Optional.empty();
     }
     @Override
-    public void remove(AwsS3 awsS3) {
-        if (!amazonS3.doesObjectExist(bucket, awsS3.getKey())) {
-            throw new AmazonS3Exception("Object " +awsS3.getKey()+ " does not exist!");
+    public void remove(AwsS3ReqDto awsS3ReqDto) {
+        if (!amazonS3.doesObjectExist(bucket, awsS3ReqDto.getKey())) {
+            throw new AmazonS3Exception("Object " + awsS3ReqDto.getKey()+ " does not exist!");
         }
-        amazonS3.deleteObject(bucket, awsS3.getKey());
+        amazonS3.deleteObject(bucket, awsS3ReqDto.getKey());
     }
 
 }

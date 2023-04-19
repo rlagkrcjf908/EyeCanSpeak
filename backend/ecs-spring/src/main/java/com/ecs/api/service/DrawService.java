@@ -1,13 +1,13 @@
 package com.ecs.api.service;
 
-import com.ecs.api.dto.req.AwsS3;
-import com.ecs.api.dto.req.DrawPostReq;
+import com.ecs.api.dto.req.AwsS3ReqDto;
+import com.ecs.api.dto.req.DrawReqDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
 public interface DrawService {
-    AwsS3 upload(DrawPostReq drawPostReq, MultipartFile multipartFile, String upload) throws IOException;
+    AwsS3ReqDto upload(DrawReqDto drawReqDto, MultipartFile multipartFile) throws IOException;
 
-    void remove(AwsS3 awsS3);
+    void remove(AwsS3ReqDto awsS3ReqDto);
 }

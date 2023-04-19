@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DrawPostReq {
+public class DrawReqDto {
     @JsonProperty("usersNo")
     int usersNo;
 
