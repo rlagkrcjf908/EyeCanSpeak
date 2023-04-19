@@ -54,10 +54,10 @@ public class DrawServiceImpl implements DrawService{
         removeFile(file);
 
         Draw draw = new Draw();
-        Optional<Users> user = Optional.ofNullable(userRepository.findByUsersNo(drawReqDto.getUsersNo()));
+        Optional<Users> user = Optional.of(userRepository.findByUsersNo(drawReqDto.getUsersNo()));
         Optional<Subjects> subjects = Optional.ofNullable(subjectRepository.findBySubjectsNM(drawReqDto.getSubjectNM()));
         draw.setDrawPostTF(drawReqDto.isDrawPostTF());
-        draw.setUsersNo(user.get());
+        if(user.isPresent())draw.setUsersNo(user.get());
         draw.setCategoryNo(subjects.get().getCategoryNo());
         draw.setDrawDrawing(path);
         drawReopsitory.save(draw);
