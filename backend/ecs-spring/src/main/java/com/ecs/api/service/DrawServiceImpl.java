@@ -5,7 +5,15 @@ import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.ecs.api.dto.req.AwsS3;
+import com.ecs.api.dto.req.DrawPostReq;
+import com.ecs.api.entity.Draw;
+import com.ecs.api.entity.Subjects;
+import com.ecs.api.entity.Users;
+import com.ecs.api.repository.DrawRepository;
+import com.ecs.api.repository.SubjectRepository;
+import com.ecs.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,26 +29,36 @@ import java.util.UUID;
 public class DrawServiceImpl implements DrawService{
 
     private final AmazonS3 amazonS3;
-
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    private DrawRepository drawReopsitory;
+    @Autowired
+    private SubjectRepository subjectRepository;
+
     @Override
-    public AwsS3 upload(MultipartFile multipartFile, String dirName) throws IOException {
-        System.out.println("service "+ multipartFile);
-        System.out.println("service "+ dirName);
-        File file = convertMultipartFileToFile(multipartFile);
-        System.out.println("file나온거"+file);
-        return upload(file,dirName);
+    public AwsS3 upload(DrawPostReq drawPostReq,MultipartFile multipartFile, String dirName) throws IOException {
+
+        File file = convertMultipartFileToFile(multipartFile)
+                .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File convert fail"));
+        return upload(drawPostReq,file,dirName);
     }
-    private AwsS3 upload(File file, String dirName) {
+    private AwsS3 upload(DrawPostReq drawPostReq,File file, String dirName) {
         String key = randomFileName(file, dirName);
-        System.out.println("upload "+file);
-        System.out.println("random key "+ key);
         String path = putS3(file, key);
-        System.out.println(key+" upload "+ path);
         removeFile(file);
 
+        Draw draw = new Draw();
+        Users user = userRepository.findByUsersNo(drawPostReq.getUsersNo());
+        Subjects subjects = subjectRepository.findBySubjectsNM(drawPostReq.getSubjectNM());
+        draw.setDrawPostTF(drawPostReq.isDrawPostTF());
+        draw.setUsersNo(user);
+        draw.setCategoryNo(subjects.getCategoryNo());
+        draw.setDrawDrawing(path);
+        drawReopsitory.save(draw);
         return AwsS3
                 .builder()
                 .key(key)
@@ -51,18 +70,13 @@ public class DrawServiceImpl implements DrawService{
     }
 
     private String putS3(File uploadFile, String fileName) {
-        System.out.println(bucket);
-        System.out.println(uploadFile);
-        System.out.println(fileName);
-        System.out.println(amazonS3.getRegionName());
+
         amazonS3.putObject(new PutObjectRequest(bucket, fileName, uploadFile)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
-        System.out.println("여기는 진행했고?");
         return getS3(bucket, fileName);
     }
 
     private String getS3(String bucket, String fileName) {
-        System.out.println("나 여기 왔니?");
         return amazonS3.getUrl(bucket, fileName).toString();
     }
 
@@ -70,19 +84,16 @@ public class DrawServiceImpl implements DrawService{
         file.delete();
     }
 
-    public File convertMultipartFileToFile(MultipartFile multipartFile) throws IOException {
+    public Optional<File> convertMultipartFileToFile(MultipartFile multipartFile) throws IOException {
         File file = new File(System.getProperty("user.dir") + "/" + multipartFile.getOriginalFilename());
-        System.out.println("convert "+ file);
-        System.out.println(file.createNewFile());
+
         if (file.createNewFile()) {
             try (FileOutputStream fos = new FileOutputStream(file)){
                 fos.write(multipartFile.getBytes());
-                System.out.println("fos "+ fos);
             }
-            return file;
-        }else {
-            return file;
+            return Optional.of(file);
         }
+        return Optional.empty();
     }
     @Override
     public void remove(AwsS3 awsS3) {
