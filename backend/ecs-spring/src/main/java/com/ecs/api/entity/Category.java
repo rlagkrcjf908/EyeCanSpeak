@@ -21,9 +21,9 @@ public class Category {
     @Column(name = "CATEGORY_NM", nullable = false)
     private String categoryNM;
 
-    @ManyToOne
-    @JoinColumn(name = "DRAW_NO")
-    private Draw drawNo;
+    @OneToMany(mappedBy = "categoryNo",cascade = CascadeType.REMOVE)
+    private List<Draw> draws = new ArrayList<>();
+
 
     @OneToMany(mappedBy = "categoryNo",cascade = CascadeType.REMOVE)
     private List<Subjects> subjects = new ArrayList<>();

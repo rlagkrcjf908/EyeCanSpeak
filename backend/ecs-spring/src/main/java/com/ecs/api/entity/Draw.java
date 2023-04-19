@@ -2,6 +2,7 @@ package com.ecs.api.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "Drawing")
+@Table(name = "Draw")
 @Getter
 @Setter
 public class Draw {
@@ -24,8 +25,14 @@ public class Draw {
     @Column(name="DRAW_DRAWING", nullable = false)
     private String drawDrawing;
 
+    @CreatedDate
+    @Column(name="DRAW_CREATE_DATE")
+    private LocalDateTime drawCreateDate;
+
     @LastModifiedDate
-    private LocalDateTime DRAW_DATE;
+    @Column(name="DRAW_RECENT_DATE")
+    private LocalDateTime drawRecentDate;
+
     @Column(name="DRAW_POST_TF", nullable = false)
     boolean drawPostTF;
 
@@ -33,8 +40,9 @@ public class Draw {
     @JoinColumn(name = "USERS_NO")
     private Users usersNo;
 
-    @OneToMany(mappedBy = "drawNo",cascade = CascadeType.REMOVE)
-    private List<Category> categories = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "CATEGORY_NO")
+    private Category categoryNo;
 
 
     @OneToMany(mappedBy = "drawNo",cascade = CascadeType.REMOVE)
