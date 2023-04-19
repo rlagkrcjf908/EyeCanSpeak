@@ -54,8 +54,8 @@ public class DrawServiceImpl implements DrawService{
         removeFile(file);
 
         Draw draw = new Draw();
-        Users user = userRepository.findByUsersNo(drawReqDto.getUsersNo());
-        Subjects subjects = subjectRepository.findBySubjectsNM(drawReqDto.getSubjectNM());
+        Users user = userRepository.findByUsersNo(drawReqDto.getUsersNo()).orElseThrow(()-> new IllegalArgumentException("no such data"));
+        Subjects subjects = subjectRepository.findBySubjectsNM(drawReqDto.getSubjectNM()).orElse(null);
         draw.setDrawPostTF(drawReqDto.isDrawPostTF());
         draw.setUsersNo(user);
         draw.setCategoryNo(subjects.getCategoryNo());
