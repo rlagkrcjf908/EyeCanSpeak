@@ -1,0 +1,18 @@
+.container {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.item {
+  margin: 0 20px;
+  width: 150px;
+  height: 70px;
+  border-radius: 30px;
+  font-size: 20px;
+  background: none;
+}
+.sortBtn {
+  background: none;
+  font-size: 20px;
+  margin: 0 20px;
+}
