@@ -1,5 +1,5 @@
 import Content from "../components/main/content"
-import LoginButton from "../components/main/loginButton"
+import KakaoLogin from "../components/main/kakaoLogin"
 import Title from "../components/main/title"
 
 export default function Main() {
@@ -7,7 +7,7 @@ export default function Main() {
     <>
       <Title></Title>
       <Content></Content>
-      <LoginButton></LoginButton>
+      <KakaoLogin></KakaoLogin>
     </>
   )
 }

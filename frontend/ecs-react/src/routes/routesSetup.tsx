@@ -6,6 +6,7 @@ import Main from "../pages/main"
 import MyPage from "../pages/myPage"
 import SelectMain from "../pages/selectMain"
 import Writing from "../pages/writing"
+import KakaoRedirect from "../pages/kakaoRedirect"
 export default function routesSetup() {
   return (
     <Routes>
@@ -17,6 +18,7 @@ export default function routesSetup() {
         <Route path='/board' element={<Board />} />
         <Route path='/myPage' element={<MyPage />} />
       </Route>
+      <Route path='/kakao/redirect' element={<KakaoRedirect />} />
     </Routes>
   )
 }
