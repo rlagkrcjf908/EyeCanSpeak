@@ -1,8 +1,10 @@
 import { HangulImeInputWrapper } from "mole-virtual-keyboard"
 import { useEffect, useRef, useState } from "react"
-// import style from "../../styles/writing/writing.module.css"
+import { useRecoilState } from "recoil"
+import { textState } from "../../recoil/atoms/writing"
+import { saveWord } from "../../services/WritingApi"
 import style from "../../styles/writing/keyboard.module.css"
-import * as hangul from "hangul-js"
+import RecommendWord from "./recommendWord"
 
 let inputWrapper: HangulImeInputWrapper | undefined = undefined
 
@@ -10,11 +12,28 @@ export default function Key() {
   const inputRef = useRef<HTMLInputElement>(null)
   const [isCapital, setIsCapital] = useState(false)
   const [isKorean, setIsKorean] = useState(true)
-
+  const [text, setText] = useRecoilState(textState)
   useEffect(() => {
     if (!inputRef.current) return
     inputWrapper = new HangulImeInputWrapper(inputRef.current)
   }, [])
+  const handleSaveWord = async () => {
+    try {
+      await saveWord(text)
+      setText("")
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const deleteInputValue = () => {
+    setText("")
+  }
+  const onChange = () => {
+    const newText = inputRef.current?.value
+    if (newText) {
+      setText(newText)
+    }
+  }
 
   const handleClick = (event: React.MouseEvent<HTMLLIElement>) => {
     const key = event.currentTarget.textContent
@@ -25,8 +44,6 @@ export default function Key() {
         inputWrapper?.insert("     ")
       } else if (key === "CAPS") {
         setIsCapital((prev) => !prev)
-      } else if (key === "ENTER") {
-        inputWrapper?.insert("\n")
       } else if (key === "SHIFT") {
         setIsCapital((prev) => !prev)
       } else if (key === "space") {
@@ -37,7 +54,7 @@ export default function Key() {
         inputWrapper?.insert(key)
       }
     }
-    console.log(key)
+    onChange()
   }
 
   return (
@@ -49,8 +66,11 @@ export default function Key() {
           onSelect={() => {
             inputWrapper?.checkChangedSelect()
           }}
+          value={text}
+          onChange={onChange}
         />
       </div>
+      <RecommendWord />
       {isKorean ? (
         // 한글키보드
         <div className={style.keyboard}>
@@ -179,7 +199,11 @@ export default function Key() {
             <li onClick={handleClick} className={style.pinky}>
               {isCapital ? '"' : "'"}
             </li>
-            <li onClick={handleClick} className={style.pinky} id={style.enter}>
+            <li
+              onClick={handleSaveWord}
+              className={style.pinky}
+              id={style.enter}
+            >
               ENTER
             </li>
           </ul>
@@ -236,17 +260,12 @@ export default function Key() {
             <li onClick={handleClick} id={style.lang}>
               한/영
             </li>
-            <li onClick={handleClick} className={style.ring} id='◀'>
-              ◀
-            </li>
-            <li onClick={handleClick} className={style.pinky} id='▲'>
-              ▲
-            </li>
-            <li onClick={handleClick} className={style.pinky} id='▼'>
-              ▼
-            </li>
-            <li onClick={handleClick} className={style.pinky} id='▶'>
-              ▶
+            <li
+              onClick={deleteInputValue}
+              className={style.pinky}
+              id={style.del}
+            >
+              지우기
             </li>
           </ul>
         </div>
@@ -378,7 +397,11 @@ export default function Key() {
             <li onClick={handleClick} className={style.pinky}>
               {isCapital ? '"' : "'"}
             </li>
-            <li onClick={handleClick} className={style.pinky} id={style.enter}>
+            <li
+              onClick={handleSaveWord}
+              className={style.pinky}
+              id={style.enter}
+            >
               ENTER
             </li>
           </ul>
@@ -435,52 +458,16 @@ export default function Key() {
             <li onClick={handleClick} id={style.lang}>
               한/영
             </li>
-            <li onClick={handleClick} className={style.ring} id='◀'>
-              ◀
-            </li>
-            <li onClick={handleClick} className={style.pinky} id='▲'>
-              ▲
-            </li>
-            <li onClick={handleClick} className={style.pinky} id='▼'>
-              ▼
-            </li>
-            <li onClick={handleClick} className={style.pinky} id='▶'>
-              ▶
+            <li
+              onClick={deleteInputValue}
+              className={style.pinky}
+              id={style.del}
+            >
+              지우기
             </li>
           </ul>
         </div>
       )}
-
-      {/* <div>
-        {"ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎㅛㅕㅑㅐㅔㅗㅓㅏㅣㅡabcdefg"
-          .split("")
-          .map((val, idx) => {
-            return (
-              <button
-                key={idx}
-                onClick={() => {
-                  inputWrapper?.insert(val)
-                }}
-              >
-                {val}
-              </button>
-            )
-          })}
-        <button
-          onClick={() => {
-            inputWrapper?.insert(" ")
-          }}
-        >
-          space
-        </button>
-        <button
-          onClick={() => {
-            inputWrapper?.backspace()
-          }}
-        >
-          backspace
-        </button>
-      </div> */}
     </div>
   )
 }

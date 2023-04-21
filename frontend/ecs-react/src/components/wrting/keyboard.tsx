@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 import { useRecoilState } from "recoil"
 import { textState } from "../../recoil/atoms/writing"
 import style from "../../styles/writing/keyboard.module.css"
@@ -210,18 +210,6 @@ export default function Keyboard() {
           </li>
           <li onClick={handleClick} id={style.lang}>
             한/영
-          </li>
-          <li onClick={handleClick} className={style.ring} id='◀'>
-            ◀
-          </li>
-          <li onClick={handleClick} className={style.pinky} id='▲'>
-            ▲
-          </li>
-          <li onClick={handleClick} className={style.pinky} id='▼'>
-            ▼
-          </li>
-          <li onClick={handleClick} className={style.pinky} id='▶'>
-            ▶
           </li>
         </ul>
       </div>
