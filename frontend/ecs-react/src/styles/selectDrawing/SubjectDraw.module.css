@@ -4,36 +4,11 @@
   box-sizing: border-box;
 }
 
-/* html {
-  font-size: 18px;
-  line-height: 1.5;
-  font-weight: 300;
-  color: #333;
-  font-family: "Nunito Sans", sans-serif;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  background-color: #ecf0f9;
-  background-attachment: fixed;
-} */
-
-/* .content {
-  display: flex;
-  margin: 0 auto;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  max-width: 1000px;
-} */
-
 .card {
   color: inherit;
   cursor: pointer;
-  width: 450px;
-  height: 500px;
+  width: 500px;
+  height: 600px;
   margin: auto;
   perspective: 1000px;
   position: relative;

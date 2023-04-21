@@ -1,16 +1,16 @@
 import { Link } from "react-router-dom"
-import styles from "../../styles/home/header.module.css"
+import style from "../../styles/home/header.module.css"
 
 export default function Navbar() {
   return (
-    <div className={styles.header}>
-      <div className={styles.logo}>
-        <Link to='/' className={styles.logoItem}>
+    <div className={style.header}>
+      <div className={style.logo}>
+        <Link to='/' className={style.logoItem}>
           ECS
         </Link>
       </div>
 
-      <div className={styles.menu}>
+      <div className={style.menu}>
         <Link to='/writing' data-hover='글쓰기'>
           <span>글쓰기</span>
         </Link>

@@ -4,6 +4,7 @@ import Board from "../pages/board"
 import Drawing from "../pages/drawing"
 import Main from "../pages/main"
 import MyPage from "../pages/myPage"
+import SelectDraw from "../pages/selectDraw"
 import SelectMain from "../pages/selectMain"
 import Writing from "../pages/writing"
 import KakaoRedirect from "../pages/kakaoRedirect"
@@ -14,6 +15,7 @@ export default function routesSetup() {
       <Route element={<Layout />}>
         <Route path='/selectMain' element={<SelectMain />} />
         <Route path='/writing' element={<Writing />} />
+        <Route path='/selectDraw' element={<SelectDraw />} />
         <Route path='/drawing' element={<Drawing />} />
         <Route path='/board' element={<Board />} />
         <Route path='/myPage' element={<MyPage />} />
