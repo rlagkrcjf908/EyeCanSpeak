@@ -23,6 +23,7 @@ public class DrawController {
 
     private final DrawService drawService;
     //그림 주제 선택----------------------------------------------------------------------
+    // 카테고리 불러오기
     @GetMapping("/category")
     public ResponseEntity<List<CategoryAllResDto>> getAllCategory(){
         try {
@@ -31,9 +32,10 @@ public class DrawController {
             return ResponseEntity.status(200).body(CategoryAllResDto.of(categories));
         }catch (Exception e){
             e.printStackTrace();
-            return ResponseEntity.status(400).body(null);
+            return ResponseEntity.badRequest().build();
         }
     }
+    // 주제 불러오기
     @GetMapping("/subject/{categoryNo}")
     public ResponseEntity<List<SubjectResDto>> getSubjects(@PathVariable("categoryNo") int categoryNo){
         try{
@@ -42,7 +44,7 @@ public class DrawController {
         }
         catch (Exception e){
             e.printStackTrace();
-            return ResponseEntity.status(400).body(null);
+            return ResponseEntity.badRequest().build();
         }
 
 
@@ -66,7 +68,22 @@ public class DrawController {
         }
 
     }
+    // 이미지 수정
+    @PutMapping(value="/store/{draw_no}",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<?extends BaseResDto> update(@PathVariable("draw_no")int drawNo,@RequestPart(value = "data") DrawReqDto drawReqDto, @RequestPart(value="File")MultipartFile multipartFile){
+        try{
+            AwsS3ReqDto awsS3ReqDto = drawService.update(drawNo,drawReqDto,multipartFile);
+            if(awsS3ReqDto != null) {
+                return ResponseEntity.status(200).body(BaseResDto.of(200, "Success"));
+            }
+            return ResponseEntity.status(400).body(BaseResDto.of(400, "Fail"));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(BaseResDto.of(400, "Fail"));
+        }
+    }
 
+    // 이미지 삭제
     @DeleteMapping()
     public ResponseEntity<?extends BaseResDto> remove(AwsS3ReqDto awsS3ReqDto){
         try{

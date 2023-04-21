@@ -59,7 +59,10 @@ public class DrawServiceImpl implements DrawService{
         return subjects;
     }
 
-    //--------------------------------------------------------------------------------------------------
+
+
+    //그림 그리기----------------------------------------------------------------------------------------
+    // 그림 저장
     @Override
     public AwsS3ReqDto upload(DrawReqDto drawReqDto, MultipartFile multipartFile) throws IOException {
 
@@ -78,6 +81,34 @@ public class DrawServiceImpl implements DrawService{
         draw.setDrawPostTF(drawReqDto.isDrawPostTF());
         draw.setUsersNo(user);
         draw.setCategoryNo(subjects.getCategoryNo());
+
+        // key 값으로 삭제인지 path로 삭제인지 다시 확인할 것
+        draw.setDrawDrawing(path);
+        drawReopsitory.save(draw);
+        return AwsS3ReqDto
+                .builder()
+                .key(key)
+                .path(path)
+                .build();
+    }
+    // 그림 수정
+    @Override
+    public AwsS3ReqDto update(int drawNo,DrawReqDto drawReqDto, MultipartFile multipartFile) throws IOException {
+
+        File file = convertMultipartFileToFile(multipartFile)
+                .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File convert fail"));
+        String key = randomFileName(file);
+        String path = putS3(file, key);
+        removeFile(file);
+
+        Draw draw = drawReopsitory.findById(drawNo).orElseThrow(()-> new IllegalArgumentException("no such data"));
+        Users user = userRepository.findByUsersNo(drawReqDto.getUsersNo()).orElseThrow(()-> new IllegalArgumentException("no such data"));
+        Subjects subjects = subjectRepository.findBySubjectsNM(drawReqDto.getSubjectNM()).orElse(null);
+        draw.setDrawPostTF(drawReqDto.isDrawPostTF());
+        draw.setUsersNo(user);
+        draw.setCategoryNo(subjects.getCategoryNo());
+
+        // key 값으로 삭제인지 path로 삭제인지 다시 확인할 것
         draw.setDrawDrawing(path);
         drawReopsitory.save(draw);
         return AwsS3ReqDto
