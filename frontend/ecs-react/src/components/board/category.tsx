@@ -1,46 +1,31 @@
-import { useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import style from "../../styles/board/category.module.css"
+import { getCategory } from "../../services/commonApi"
 
-export default function Category() {
-  const [subIdx, setSubIdx] = useState(0)
-  const subList: string[] = ["주제1", "주제2", "주제3", "주제4"]
+export default function Category({ changeCategory }: { changeCategory: any }) {
+  const [categoryList, setCategoryList] = useState<string[]>([])
 
+  const setCategory = useCallback(async () => {
+    const response = await getCategory()
+    setCategoryList(() => [response.data.draw_category])
+  }, [])
+
+  useEffect(() => {
+    setCategory()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   return (
     <div className={style.container}>
-      <button
-        className={style.item}
-        onClick={() => {
-          setSubIdx(0)
-        }}
-      >
-        {subList[0]}
-      </button>
-      <button
-        className={style.item}
-        onClick={() => {
-          setSubIdx(1)
-        }}
-      >
-        {subList[1]}
-      </button>
-      <button
-        className={style.item}
-        onClick={() => {
-          setSubIdx(2)
-        }}
-      >
-        {subList[2]}
-      </button>
-      <button
-        className={style.item}
-        onClick={() => {
-          setSubIdx(3)
-        }}
-      >
-        {subList[3]}
-      </button>
-      <button className={style.sortBtn}>최신순</button>
-      <button className={style.sortBtn}>인기순</button>
+      {categoryList.map((item, index) => (
+        <button
+          className={style.item}
+          onClick={() => {
+            changeCategory({ index })
+          }}
+        >
+          {categoryList[index]}
+        </button>
+      ))}
     </div>
   )
 }

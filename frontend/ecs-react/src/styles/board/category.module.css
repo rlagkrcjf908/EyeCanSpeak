@@ -4,6 +4,7 @@
 }
 
 .item {
+  cursor: pointer;
   margin: 0 20px;
   width: 150px;
   height: 70px;
@@ -12,6 +13,7 @@
   background: none;
 }
 .sortBtn {
+  cursor: pointer;
   background: none;
   font-size: 20px;
   margin: 0 20px;
