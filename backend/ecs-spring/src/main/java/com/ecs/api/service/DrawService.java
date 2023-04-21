@@ -12,7 +12,8 @@ import java.util.List;
 public interface DrawService {
     AwsS3ReqDto upload(DrawReqDto drawReqDto, MultipartFile multipartFile) throws IOException;
 
-    void remove(AwsS3ReqDto awsS3ReqDto);
+    // 테스트용 S3 파일삭제
+    void remove(int drawNo);
 
     List<Category> getAllCategory();
 

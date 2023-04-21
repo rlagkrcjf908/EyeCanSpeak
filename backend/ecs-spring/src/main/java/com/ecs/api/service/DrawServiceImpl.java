@@ -59,10 +59,7 @@ public class DrawServiceImpl implements DrawService{
         return subjects;
     }
 
-
-
-    //그림 그리기----------------------------------------------------------------------------------------
-    // 그림 저장
+    //--------------------------------------------------------------------------------------------------
     @Override
     public AwsS3ReqDto upload(DrawReqDto drawReqDto, MultipartFile multipartFile) throws IOException {
 
@@ -82,9 +79,11 @@ public class DrawServiceImpl implements DrawService{
         draw.setUsersNo(user);
         draw.setCategoryNo(subjects.getCategoryNo());
 
+
         // key 값으로 삭제인지 path로 삭제인지 다시 확인할 것
-        draw.setDrawDrawing(path);
+        draw.setDrawDrawing(key);
         drawReopsitory.save(draw);
+
         return AwsS3ReqDto
                 .builder()
                 .key(key)
@@ -95,13 +94,14 @@ public class DrawServiceImpl implements DrawService{
     @Override
     public AwsS3ReqDto update(int drawNo,DrawReqDto drawReqDto, MultipartFile multipartFile) throws IOException {
 
+        Draw draw = drawReopsitory.findById(drawNo).orElseThrow(()-> new IllegalArgumentException("no such data"));
+
         File file = convertMultipartFileToFile(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File convert fail"));
-        String key = randomFileName(file);
-        String path = putS3(file, key);
+
+        String path = putS3(file, draw.getDrawDrawing());
         removeFile(file);
 
-        Draw draw = drawReopsitory.findById(drawNo).orElseThrow(()-> new IllegalArgumentException("no such data"));
         Users user = userRepository.findByUsersNo(drawReqDto.getUsersNo()).orElseThrow(()-> new IllegalArgumentException("no such data"));
         Subjects subjects = subjectRepository.findBySubjectsNM(drawReqDto.getSubjectNM()).orElse(null);
         draw.setDrawPostTF(drawReqDto.isDrawPostTF());
@@ -109,11 +109,11 @@ public class DrawServiceImpl implements DrawService{
         draw.setCategoryNo(subjects.getCategoryNo());
 
         // key 값으로 삭제인지 path로 삭제인지 다시 확인할 것
-        draw.setDrawDrawing(path);
+        draw.setDrawDrawing(draw.getDrawDrawing());
         drawReopsitory.save(draw);
         return AwsS3ReqDto
                 .builder()
-                .key(key)
+                .key(draw.getDrawDrawing())
                 .path(path)
                 .build();
     }
@@ -147,12 +147,15 @@ public class DrawServiceImpl implements DrawService{
         }
         return Optional.empty();
     }
+    // 테스트용 S3 파일삭제
     @Override
-    public void remove(AwsS3ReqDto awsS3ReqDto) {
-        if (!amazonS3.doesObjectExist(bucket, awsS3ReqDto.getKey())) {
-            throw new AmazonS3Exception("Object " + awsS3ReqDto.getKey()+ " does not exist!");
+    public void remove(int drawNo) {
+        Draw draw = drawReopsitory.findById(drawNo).orElseThrow(()->new IllegalArgumentException("no such data"));
+        if (!amazonS3.doesObjectExist(bucket, draw.getDrawDrawing())) {
+            throw new AmazonS3Exception("Object " + draw.getDrawDrawing()+ " does not exist!");
         }
-        amazonS3.deleteObject(bucket, awsS3ReqDto.getKey());
+        amazonS3.deleteObject(bucket, draw.getDrawDrawing());
+        drawReopsitory.delete(draw);
     }
 
 

@@ -85,9 +85,9 @@ public class DrawController {
 
     // 이미지 삭제
     @DeleteMapping()
-    public ResponseEntity<?extends BaseResDto> remove(AwsS3ReqDto awsS3ReqDto){
+    public ResponseEntity<?extends BaseResDto> remove(@RequestParam("draw_no")int drawNo){
         try{
-            drawService.remove(awsS3ReqDto);
+            drawService.remove(drawNo);
             return ResponseEntity.status(200).body(BaseResDto.of(200, "Success"));
 
         }
