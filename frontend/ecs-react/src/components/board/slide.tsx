@@ -164,9 +164,9 @@ export default function Slide({
                           <img src={unlikeIco} alt='' width={50} />
                         </button>
                       )}
+                      <div className='slide-painter'> {item.user_nm}</div>
+                      <div className='slide-category'></div>
                     </div>
-                    <div className='slide-painter'> {item.draw_no}</div>
-                    <div className='slide-category'></div>
                   </div>
                 )
               )}

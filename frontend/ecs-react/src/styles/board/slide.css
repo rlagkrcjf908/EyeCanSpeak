@@ -33,10 +33,24 @@
 }
 
 .slide-like {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  /* height: 100%; */
+  padding-bottom: 0px;
   cursor: pointer;
-  float: right;
+  /* float: right; */
   padding: 10px;
   background: none;
+}
+
+.slide-like:hover {
+  transform: scale(1.1);
+}
+
+.slide-painter {
+  font-size: 20px;
+  padding: 10px;
 }
 
 .slide-buttons {
