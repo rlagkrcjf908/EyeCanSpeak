@@ -53,7 +53,6 @@ export default function SelectSubjectDraw() {
 
       showSubject()
       setSubjects(() => [...item])
-      getRandomSubject()
     } catch (error: any) {
       console.log(error)
     }
@@ -71,6 +70,12 @@ export default function SelectSubjectDraw() {
       console.log(error)
     }
   }, [setCategory])
+
+  useEffect(() => {
+    if (subjects.length > 0) {
+      getRandomSubject()
+    }
+  }, [subjects])
 
   useEffect(() => {
     loadCategory()
