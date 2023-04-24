@@ -1,11 +1,5 @@
 import { useCallback, useEffect, useState } from "react"
-import { useRecoilState } from "recoil"
 import Subject from "../../assets/image/SubjectDraw.jpg"
-import {
-  categoryList,
-  subjectList,
-  subjectState,
-} from "../../recoil/atoms/selectSubject"
 import { getCategory } from "../../services/commonApi"
 import { getSubject } from "../../services/selectSubject"
 import style from "../../styles/selectDrawing/SubjectDraw.module.css"
@@ -14,44 +8,61 @@ import backImg from "../../assets/image/left.png"
 import { Link } from "react-router-dom"
 
 export default function SelectSubjectDraw() {
-  const [subjects, setSubjects] = useRecoilState(subjectList)
-  const [subject, setSubject] = useRecoilState(subjectState)
-  const [category, setCategory] = useRecoilState(categoryList)
+  interface categoryTypes {
+    categoryNo: number
+    categoryNM: string
+  }
+  interface subjectTypes {
+    subjectNo: number
+    subjectNM: string
+  }
+  // 서브젝트 리스트
+  const [subjects, setSubjects] = useState<subjectTypes[]>([])
+
+  // 랜덤으로 나온 서브젝트
+  const [subject, setSubject] = useState<string>("")
+
+  // 카테고리
+  const [category, setCategory] = useState<categoryTypes[]>([])
+
+  // isSelectCategory 가 true면 랜덤 서브젝트를 보여줌
   const [isSelectCategory, SetIsSelectCategory] = useState(false)
 
   const showSubject = () => {
     SetIsSelectCategory((prev) => !prev)
   }
+
   // 랜덤으로 subject선택
   const getRandomSubject = () => {
     const randomIndex = Math.floor(Math.random() * subjects.length)
     const randomSubject = subjects[randomIndex]
-    // console.log("ChoiceSubjects:", subjects)
-    // console.log("randomSubject", randomSubject)
+    if (randomSubject.subjectNM === subject) {
+      getRandomSubject()
+      return
+    }
     setSubject(randomSubject.subjectNM)
+    console.log(randomSubject.subjectNM)
   }
-  // Category 선택하고 Category안의 subject 부르기
-  const selectCategory = async (category: number) => {
-    showSubject()
-    console.log("selectCategory:", category)
-    try {
-      const response = await getSubject(category)
-      const item = response.data
-      setSubjects(item)
-      console.log("GETsubjects:", subjects)
 
-      if (item) {
-        getRandomSubject()
-      }
+  // Category 선택하고 Category안의 subject 부르기
+
+  const selectCategory = async (categoryNum: number) => {
+    try {
+      const response = await getSubject(categoryNum)
+      const item = response.data
+
+      showSubject()
+      setSubjects(() => [...item])
+      getRandomSubject()
     } catch (error: any) {
       console.log(error)
     }
   }
+
   //Category 부르기
   const loadCategory = useCallback(async () => {
     try {
       const response = await getCategory()
-      if (!response) return
 
       const item = response.data
 
@@ -63,7 +74,7 @@ export default function SelectSubjectDraw() {
 
   useEffect(() => {
     loadCategory()
-  }, [loadCategory])
+  }, [])
 
   return (
     <div className={style.card}>
@@ -80,8 +91,8 @@ export default function SelectSubjectDraw() {
         >
           {/* subject고르기 */}
           <div className={style.subjectItem}>
-            <p>{subject}</p>
-            <Link to='/drawing' className={style.draw}>
+            <p>{subject && subject}</p>
+            <Link to={`/drawing/${subject}`} className={style.draw}>
               그리기
             </Link>
             <div className={style.buttonBox}>

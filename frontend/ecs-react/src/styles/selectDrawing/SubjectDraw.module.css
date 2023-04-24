@@ -147,6 +147,7 @@
   height: 40%;
   font-size: 2rem;
 }
+
 .draw {
   width: 80%;
   height: 20%;
@@ -156,6 +157,11 @@
   font-size: 1.5rem;
   margin: 20px;
   cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
 }
 .draw:hover {
   background-color: rgb(123, 180, 255);

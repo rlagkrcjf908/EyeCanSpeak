@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from "react"
 import { useRecoilState } from "recoil"
 import { recommendWord } from "../../recoil/atoms/writing"
-import { getWords } from "../../services/WritingApi"
+import { getWords } from "../../services/writingApi"
 import style from "../../styles/writing/writing.module.css"
 export default function RecommendWord() {
   const [words, setWords] = useRecoilState(recommendWord)
