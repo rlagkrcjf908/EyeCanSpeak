@@ -117,6 +117,14 @@ public class DrawServiceImpl implements DrawService{
                 .path(path)
                 .build();
     }
+
+    @Override
+    public String getDraw(int drawNo) {
+        Draw draw = drawReopsitory.findById(drawNo).orElseThrow(()-> new IllegalArgumentException("no such data"));
+        return getS3(bucket,draw.getDrawDrawing());
+
+    }
+
     private String randomFileName(File file) {
         return dirName + "/" + UUID.randomUUID() + file.getName();
     }

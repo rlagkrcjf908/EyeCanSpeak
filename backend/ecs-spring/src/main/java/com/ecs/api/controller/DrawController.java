@@ -96,4 +96,17 @@ public class DrawController {
         }
 
     }
+
+    // 이미지 불러오기
+    @GetMapping("/{draw_No}")
+    public ResponseEntity<String> getDraw(@PathVariable("draw_No") int drawNo){
+        try{
+            String Image = drawService.getDraw(drawNo);
+            return ResponseEntity.status(200).body(Image);
+
+        }
+        catch (Exception e){
+            return ResponseEntity.status(400).body("Fail");
+        }
+    }
 }
