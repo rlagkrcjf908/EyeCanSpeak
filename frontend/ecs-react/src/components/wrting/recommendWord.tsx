@@ -1,12 +1,9 @@
 import { useCallback, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
 import { useRecoilState } from "recoil"
 import { recommendWord } from "../../recoil/atoms/writing"
-import { getWords } from "../../services/WritingApi"
+import { getWords } from "../../services/writingApi"
 import style from "../../styles/writing/writing.module.css"
 export default function RecommendWord() {
-  const navigate = useNavigate()
-
   const [words, setWords] = useRecoilState(recommendWord)
 
   const loadWords = useCallback(async () => {
@@ -18,12 +15,9 @@ export default function RecommendWord() {
 
       setWords(() => [...item])
     } catch (error: any) {
-      if (error.response.status === 404) {
-        return
-      }
-      navigate("/404")
+      console.log(error)
     }
-  }, [navigate, setWords])
+  }, [setWords])
 
   useEffect(() => {
     loadWords()

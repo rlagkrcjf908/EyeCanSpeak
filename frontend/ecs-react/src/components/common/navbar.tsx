@@ -14,7 +14,7 @@ export default function Navbar() {
         <Link to='/writing' data-hover='글쓰기'>
           <span>글쓰기</span>
         </Link>
-        <Link to='/drawing' data-hover='그림그리기'>
+        <Link to='/selectDraw' data-hover='그림그리기'>
           <span>그림그리기</span>
         </Link>
         <Link to='/board' data-hover='게시판'>

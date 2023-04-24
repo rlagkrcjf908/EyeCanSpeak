@@ -2,7 +2,7 @@ import { HangulImeInputWrapper } from "mole-virtual-keyboard"
 import { useEffect, useRef, useState } from "react"
 import { useRecoilState } from "recoil"
 import { textState } from "../../recoil/atoms/writing"
-import { saveWord } from "../../services/WritingApi"
+import { saveWord } from "../../services/writingApi"
 import style from "../../styles/writing/keyboard.module.css"
 import RecommendWord from "./recommendWord"
 
