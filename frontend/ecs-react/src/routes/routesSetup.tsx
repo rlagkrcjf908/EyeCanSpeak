@@ -8,6 +8,7 @@ import SelectDraw from "../pages/selectDraw"
 import SelectMain from "../pages/selectMain"
 import Writing from "../pages/writing"
 import KakaoRedirect from "../pages/kakaoRedirect"
+import EditDraw from "../pages/editDraw"
 export default function routesSetup() {
   return (
     <Routes>
@@ -16,9 +17,10 @@ export default function routesSetup() {
         <Route path='/selectMain' element={<SelectMain />} />
         <Route path='/writing' element={<Writing />} />
         <Route path='/selectDraw' element={<SelectDraw />} />
-        <Route path='/drawing' element={<Drawing />} />
+        <Route path='/drawing/:subject_nm' element={<Drawing />} />
         <Route path='/board' element={<Board />} />
         <Route path='/myPage' element={<MyPage />} />
+        <Route path='/editDraw/:draw_no' element={<EditDraw />} />
       </Route>
       <Route path='/kakao/redirect' element={<KakaoRedirect />} />
     </Routes>
