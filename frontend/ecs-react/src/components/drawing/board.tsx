@@ -3,6 +3,8 @@ import style from "../../styles/drawing/board.module.css"
 import { useRecoilState } from "recoil"
 import { penColor, penSize } from "../../recoil/atoms/drawingState"
 import Palette from "./palette"
+import { saveDrawing } from "../../services/drawingApi"
+import { useParams } from "react-router"
 
 interface CanvasProps {
   width: number
@@ -13,11 +15,16 @@ interface Coordinate {
   y: number
 }
 
-function Board({ width, height }: CanvasProps) {
+function Board(
+  { isEdit }: { isEdit: boolean },
+  { width, height }: CanvasProps
+) {
+  console.log(isEdit)
   const [color, setColor] = useRecoilState(penColor)
   const [size, setSize] = useRecoilState(penSize)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [start, setStart] = useState(true)
+  const params = useParams()
 
   const [mousePosition, setMousePosition] = useState<Coordinate | undefined>(
     undefined
@@ -140,14 +147,17 @@ function Board({ width, height }: CanvasProps) {
     )
   }
   //------------------------------------------------------
-  const saveImage = () => {
+  const saveDraw = async () => {
     const canvas: any = document.getElementById("canvas")
     console.log(canvas)
     const dataURL = canvas.toDataURL("image/jpeg")
-    const link = document.createElement("a")
-    link.href = dataURL
-    link.download = "내가그린기린그림"
-    link.click()
+
+    const formData = new FormData()
+
+    formData.append("multipartFiles", dataURL)
+    const subject_nm: any = params.subject_nm
+    const response = await saveDrawing(subject_nm, formData)
+    if (response.status === 400) console.log("저장 실패")
   }
   return (
     <div className={style.container}>
@@ -161,7 +171,7 @@ function Board({ width, height }: CanvasProps) {
       </div>
       <div>
         <Palette />
-        <button className={style.saveBtn} onClick={saveImage}>
+        <button className={style.saveBtn} onClick={saveDraw}>
           저장
         </button>
       </div>

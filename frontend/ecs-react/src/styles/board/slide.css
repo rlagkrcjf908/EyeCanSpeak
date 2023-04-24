@@ -1,0 +1,74 @@
+.slide-col-12 {
+  margin: 60px auto 0 auto;
+  width: 1500px;
+}
+.slick .slide-item .slide-bg {
+  width: 700px;
+  height: 490px;
+  background-position: center;
+  background-size: cover;
+  transition: 0.3s;
+  margin: 0 -24px;
+  opacity: 0.3;
+  -webkit-transform: scale3d(0.8, 0.8, 1);
+  transform: scale3d(0.8, 0.8, 1);
+  transition: all 0.3s ease-in-out;
+}
+.slick .slick-list {
+  padding: 20px 0 !important;
+  /* padding-top:20px!important;
+	padding-bottom:20px!important; */
+}
+
+.slick .slick-center .slide-bg {
+  position: relative;
+  z-index: 999;
+  opacity: 1;
+  -webkit-transform: scale3d(1, 1, 1);
+  transform: scale3d(1, 1, 1);
+}
+.slick-slide {
+  cursor: pointer;
+  outline: none;
+}
+
+.slide-like {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  /* height: 100%; */
+  padding-bottom: 0px;
+  cursor: pointer;
+  /* float: right; */
+  padding: 10px;
+  background: none;
+}
+
+.slide-like:hover {
+  transform: scale(1.1);
+}
+
+.slide-painter {
+  font-size: 20px;
+  padding: 10px;
+}
+
+.slide-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+.prev-button,
+.next-button {
+  background-color: rgb(219, 238, 255);
+  cursor: pointer;
+  width: 100px;
+  height: 500px;
+}
+.prev-button {
+  position: absolute;
+  left: 50px;
+}
+.next-button {
+  position: absolute;
+  right: 50px;
+}
