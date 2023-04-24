@@ -20,4 +20,6 @@ public interface DrawService {
     List<Subjects> getSubjects(int categoryNo);
 
     AwsS3ReqDto update(int drawNo,DrawReqDto drawReqDto, MultipartFile multipartFile) throws IOException;
+
+    String getDraw(int drawNo);
 }
