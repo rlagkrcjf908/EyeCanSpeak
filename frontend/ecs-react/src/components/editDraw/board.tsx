@@ -16,8 +16,15 @@ interface Coordinate {
 }
 
 function Board({ width, height }: CanvasProps) {
-  const [color, setColor] = useRecoilState(penColor)
-  const [size, setSize] = useRecoilState(penSize)
+  const [color, setColor] = useState("black")
+  const [size, setSize] = useState(2)
+  const changeColor = (color: string) => {
+    setColor(color)
+  }
+  const changeSize = (size: number) => {
+    setSize(size)
+  }
+
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [start, setStart] = useState(true)
   const params = useParams()
@@ -166,7 +173,7 @@ function Board({ width, height }: CanvasProps) {
         ></canvas>
       </div>
       <div>
-        <Palette />
+        <Palette changeColor={changeColor} changeSize={changeSize} />{" "}
         <button className={style.saveBtn} onClick={saveDraw}>
           저장
         </button>

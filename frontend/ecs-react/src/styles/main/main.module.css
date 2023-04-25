@@ -4,6 +4,7 @@
   margin-top: 30px;
 }
 .btn {
+  cursor: pointer;
   border-radius: 12px;
   background-color: rgb(199, 223, 247);
   font-size: 30px;
