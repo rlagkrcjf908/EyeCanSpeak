@@ -1,14 +1,21 @@
-import button from "../../assets/image/kakao_button.png"
-import { KAKAO_AUTH_URL } from "../../config/SocialOAuth"
-export default function LoginButton() {
-  return (
-    <div
-      style={{ textAlign: "center", marginTop: "30px" }}
-      onClick={() => {
-        window.location.href = KAKAO_AUTH_URL
-      }}
-    >
-      <img src={button} alt='' style={{ cursor: "pointer" }}></img>
-    </div>
-  )
+import { useLocation, useNavigate } from "react-router-dom"
+import { isLog } from "../../recoil/atoms/userState"
+import { useRecoilState, useSetRecoilState } from "recoil"
+import { useEffect } from "react"
+
+export default function KaKaoLogin() {
+  const setIsLog = useSetRecoilState(isLog)
+  const location = useLocation()
+  useEffect(() => {
+    const access_token: string = location.search.split(/[=,&]/)[1]
+    const refresh_token: string = location.search.split(/[=,&]/)[3]
+
+    if (access_token !== undefined && refresh_token !== undefined) {
+      setIsLog(true)
+      localStorage.setItem("access_token", access_token)
+      localStorage.setItem("refresh_token", refresh_token)
+    }
+  }, [])
+
+  return <></>
 }
