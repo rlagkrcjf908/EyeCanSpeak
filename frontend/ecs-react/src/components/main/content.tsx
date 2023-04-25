@@ -2,17 +2,13 @@ import { useEffect, useState } from "react"
 import style from "../../styles/main/content.module.css"
 export default function Content() {
   let slideIndex: number = 0
-  let start = true
-  useEffect(() => {
-    if (start === false) return
-    showSlides()
-  }, [])
+  let timer: any
 
   function showSlides(): void {
-    start = false
-    const slides: any = document.getElementsByClassName(`${style["mySlides"]}`)
+    const temp = document.getElementsByClassName(`${style["mySlides"]}`)
+    const slides = Array.prototype.slice.call(temp)
     for (let i = 0; i < slides.length; i++) {
-      ;(slides[i] as HTMLElement).style.display = "none"
+      slides[i].style.display = "none"
     }
 
     slideIndex++
@@ -20,9 +16,18 @@ export default function Content() {
     if (slideIndex > slides.length) {
       slideIndex = 1
     }
-    slides[slideIndex - 1].style.display = "block"
-    setTimeout(showSlides, 3000) // Change image every 2 seconds}
+    if (slides[slideIndex - 1] !== undefined)
+      slides[slideIndex - 1].style.display = "block"
+    timer = setTimeout(showSlides, 3000)
   }
+
+  useEffect(() => {
+    showSlides()
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [])
+
   return (
     <>
       <div className={style.container}>

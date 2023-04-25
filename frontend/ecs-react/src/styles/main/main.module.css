@@ -1,0 +1,12 @@
+.btnBox {
+  text-align: center;
+
+  margin-top: 30px;
+}
+.btn {
+  border-radius: 12px;
+  background-color: rgb(199, 223, 247);
+  font-size: 30px;
+  width: 600px;
+  height: 100px;
+}
