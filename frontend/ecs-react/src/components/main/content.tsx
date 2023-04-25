@@ -16,8 +16,7 @@ export default function Content() {
     if (slideIndex > slides.length) {
       slideIndex = 1
     }
-    if (slides[slideIndex - 1] !== undefined)
-      slides[slideIndex - 1].style.display = "block"
+    slides[slideIndex - 1].style.display = "block"
     timer = setTimeout(showSlides, 3000)
   }
 
