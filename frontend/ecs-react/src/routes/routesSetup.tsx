@@ -16,7 +16,8 @@ export default function routesSetup() {
       <Route element={<Layout />}>
         <Route path='/selectMain' element={<SelectMain />} />
         <Route path='/writing' element={<Writing />} />
-        <Route path='/selectDraw' element={<SelectDraw />} />
+        <Route path='/selectDraw' element={<SelectDraw />} />-
+        <Route path='/drawing' element={<Drawing />} />
         <Route path='/drawing/:subject_nm' element={<Drawing />} />
         <Route path='/board' element={<Board />} />
         <Route path='/myPage' element={<MyPage />} />
