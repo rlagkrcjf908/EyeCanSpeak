@@ -15,6 +15,10 @@ public class PrincipalDetails implements OAuth2User, UserDetails {
     private Users users;
     private Map<String, Object> attributes;
 
+    public PrincipalDetails(Users users){
+        this.users=users;
+    }
+
     public PrincipalDetails(Users users, Map<String, Object> attributes){
         this.users=users;
         this.attributes=attributes;
@@ -22,7 +26,7 @@ public class PrincipalDetails implements OAuth2User, UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return users.getUsersId(); // email
     }
 
     @Override
@@ -30,21 +34,33 @@ public class PrincipalDetails implements OAuth2User, UserDetails {
         return users.getUsersName();
     }
 
+    /* 계정 만료 여부
+    * true: 만료 x
+    * false: 만료 o */
     @Override
     public boolean isAccountNonExpired() { // true = expire x
         return true;
     }
 
+    /* 계정 잠김 여부
+     * true: 잠금 x
+     * false: 잠금 o */
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    /* 비밀번호 만료 여부
+     * true: 만료 x
+     * false: 만료 o */
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    /* 계정 활성화 여부
+     * true: 활성화 o
+     * false: 활성화 x */
     @Override
     public boolean isEnabled() {
         return true;
@@ -55,6 +71,7 @@ public class PrincipalDetails implements OAuth2User, UserDetails {
         return attributes;
     }
 
+    /* 해당 User의 권한을 반환 */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collect= new ArrayList<>();
