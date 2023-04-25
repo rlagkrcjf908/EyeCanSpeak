@@ -8,7 +8,7 @@
 }
 .board {
   background-color: white;
-  border-radius: 12px;
+  border-radius: 10px;
   border: 4px solid rgb(95, 95, 95);
   width: 1012px;
   height: 712px;

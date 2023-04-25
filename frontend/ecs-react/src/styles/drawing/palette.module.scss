@@ -2,14 +2,13 @@
 $color: #555;
 
 .container {
-  display: grid;
+  text-align: center;
   width: 500px;
   display: grid;
-  // grid-template-rows: repeat(2, 150px);
-  grid-template-columns: repeat(2, 2fr);
-  // grid-auto-rows: auto;
+  grid-template-columns: repeat(3, 2fr);
 }
 .item {
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,26 +32,15 @@ $color: #555;
     z-index: -1;
   }
   $colors: (
-    tomato,
-    orange,
+    rgb(255, 34, 34),
+    rgb(255, 98, 185),
+    rgb(255, 136, 0),
+    gold,
     limegreen,
     dodgerblue,
-    hotpink,
-    darkgray,
-    crimson,
-    orangered,
-    lawngreen,
-    aqua,
-    royalblue,
-    wheat,
-    brown,
-    gray,
-    salmon,
-    deeppink,
-    gold,
-    springgreen,
-    slateblue,
-    darkslategray
+    rgb(156, 0, 135),
+    rgb(0, 0, 0),
+    rgb(255, 255, 255)
   );
   @each $color in $colors {
     $index: index($colors, $color);
@@ -69,7 +57,25 @@ $color: #555;
     top: 16px;
     left: 16px;
     border-radius: 100px;
-    // opacity: .3;
+    opacity: 0.5;
     z-index: -1;
   }
+}
+.penText {
+  font-size: 20px;
+  margin: 20px;
+}
+.pens {
+  width: 100%;
+  margin: 20px 0;
+}
+.pen {
+  cursor: pointer;
+  margin: 0 20px;
+  display: inline;
+  padding: 10px 40px;
+  border: 4px solid $color;
+  border-radius: 10px;
+  background-color: white;
+  font-size: 15px;
 }
