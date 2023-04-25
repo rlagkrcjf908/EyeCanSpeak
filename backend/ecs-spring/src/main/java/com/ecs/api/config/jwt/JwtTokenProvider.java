@@ -57,13 +57,11 @@ public class JwtTokenProvider {
         if(jwtTokenRepository.existsByUsersNo(users.getUsersNo())){
             jwtToken=jwtTokenRepository.findByUsersNo(users.getUsersNo()).orElseThrow(()->new IllegalArgumentException("token 없음"));
             jwtToken.setTokenRefresh(refreshToken);
-            System.out.println("update");
         }else{
             jwtToken=JwtToken.builder()
                     .tokenRefresh(refreshToken)
                     .usersNo(users.getUsersNo())
                     .build();
-            System.out.println("init");
         }
         jwtTokenRepository.save(jwtToken);
         return refreshToken;
