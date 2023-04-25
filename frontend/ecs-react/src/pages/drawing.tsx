@@ -17,7 +17,7 @@ export default function Drawing() {
   window.addEventListener("beforeunload", listener)
   return (
     <>
-      <Board isEdit={false} />
+      <Board />
     </>
   )
 }

@@ -1,10 +1,9 @@
-import { useState } from "react"
-import Board from "../components/drawing/board"
+import Board from "../components/editDraw/board"
 
 export default function EditDraw() {
   return (
     <>
-      <Board isEdit={true}></Board>
+      <Board></Board>
     </>
   )
 }

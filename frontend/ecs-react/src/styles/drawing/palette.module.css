@@ -1,38 +1,48 @@
-.palette {
-  width: 400px;
+.container {
+  display: flex;
+  text-align: center;
+  width: 500px;
   height: 620px;
+  margin: 30px 0;
 }
 .colorBtn {
   cursor: pointer;
-  border: none;
-  margin: 5px 25px;
+  margin: 10px 15px;
   height: 140px;
-  width: 140px;
-  border-radius: 140px;
+  width: 200px;
+  border-radius: 50px;
 }
 
 .red {
   background-color: #ff0000;
+  box-shadow: 0px 10px 0px 0px #d60000;
 }
 .orange {
   background-color: #ff9900;
+  box-shadow: 0px 10px 0px 0px #e48900;
 }
 .yellow {
   background-color: #fef400;
+  box-shadow: 0px 10px 0px 0px #e6de00;
 }
 .green {
-  background-color: #01eb18;
+  background-color: #1fdd32;
+  box-shadow: 0px 10px 0px 0px #1acc2f;
 }
 .blue {
   background-color: #037fda;
+  box-shadow: 0px 10px 0px 0px #0371c0;
 }
 .purple {
   background-color: #bf00cf;
+  box-shadow: 0px 10px 0px 0px #ab00bb;
 }
 .black {
-  background-color: rgb(0, 0, 0);
+  background-color: #000000;
+  box-shadow: 0px 10px 0px 0px #3a3a3a;
 }
 .white {
-  border: 1px solid black;
+  border: 1px solid rgb(165, 165, 165);
   background-color: #ffffff;
+  box-shadow: 0px 10px 0px 0px #dbdbdb;
 }

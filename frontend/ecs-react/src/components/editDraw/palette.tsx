@@ -1,63 +1,73 @@
 import style from "../../styles/drawing/palette.module.css"
-export default function Palette({
-  changeColor,
-  changeSize,
-}: {
-  changeColor: any
-  changeSize: any
-}) {
+import { useRecoilState } from "recoil"
+import { penColor, penSize } from "../../recoil/atoms/drawingState"
+export default function Palette() {
+  const [color, setColor] = useRecoilState(penColor)
+  const [size, setSize] = useRecoilState(penSize)
+
   return (
-    <div className={style.container}>
-      <div className={style.penSize}>
+    <div className={style.palette}>
+      <div>
         <button
           className={`${style.colorBtn} ${style.red}`}
           onClick={(e: any) => {
-            changeColor("#ff0000")
+            setColor("#ff0000")
+            setSize(2)
           }}
         ></button>
         <button
           className={`${style.colorBtn} ${style.orange}`}
           onClick={() => {
-            changeColor("#ff9900")
+            setColor("#ff9900")
+            setSize(2)
           }}
         ></button>
-
+      </div>
+      <div>
         <button
           className={`${style.colorBtn} ${style.yellow}`}
           onClick={() => {
-            changeColor("#fef400")
+            setColor("#fef400")
+            setSize(2)
           }}
         ></button>
         <button
           className={`${style.colorBtn} ${style.green}`}
           onClick={() => {
-            changeColor("#01eb18")
+            setColor("#01eb18")
+            setSize(2)
           }}
         ></button>
-
+      </div>
+      <div>
         <button
           className={`${style.colorBtn} ${style.blue}`}
           onClick={() => {
-            changeColor("#037fda")
+            setColor("#037fda")
+            setSize(2)
           }}
         ></button>
         <button
           className={`${style.colorBtn} ${style.purple}`}
           onClick={() => {
-            changeColor("#bf00cf")
+            setColor("#bf00cf")
+            setSize(2)
           }}
         ></button>
-
+      </div>
+      <div>
         <button
           className={`${style.colorBtn} ${style.black}`}
           onClick={() => {
-            changeColor("black")
+            setColor("black")
+            setSize(2)
           }}
         ></button>
         <button
           className={`${style.colorBtn} ${style.white}`}
           onClick={() => {
-            changeColor("white")
+            setColor("white")
+            setSize(20)
           }}
         ></button>
       </div>

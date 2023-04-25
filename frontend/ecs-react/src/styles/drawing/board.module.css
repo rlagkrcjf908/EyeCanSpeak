@@ -9,8 +9,8 @@
 .board {
   background-color: white;
   border: 1px solid black;
-  width: 1000px;
-  height: 700px;
+  width: 1002px;
+  height: 702px;
   margin-right: 100px;
 }
 .canvas {
@@ -18,11 +18,14 @@
   height: 100%;
 }
 .saveBtn {
+  text-align: center;
+  margin: 20px auto 0 auto;
+  border: 1px solid black;
+  background: none;
   cursor: pointer;
   border-radius: 20px;
-  border: none;
-  margin-top: 20px;
-  width: 100%;
+  /* margin-top: 20px; */
+  width: 450px;
   height: 70px;
   font-size: 30px;
 }
