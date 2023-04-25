@@ -7,5 +7,5 @@ export const textState = atom({
 
 export const recommendWord = atom<string[]>({
   key: "recommendWord",
-  default: [],
+  default: ["This", "is", "test", "word"],
 })
