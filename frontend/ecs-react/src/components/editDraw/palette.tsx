@@ -1,4 +1,4 @@
-import style from "../../styles/drawing/palette.module.css"
+import style from "../../styles/drawing/palette.module.scss"
 import { useRecoilState } from "recoil"
 import { penColor, penSize } from "../../recoil/atoms/drawingState"
 export default function Palette() {
