@@ -1,7 +1,13 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import style from "../../styles/home/header.module.css"
 
 export default function Navbar() {
+  const navigate = useNavigate()
+  const logout = () => {
+    localStorage.removeItem("access_token")
+    localStorage.removeItem("refresh_token")
+    navigate("/")
+  }
   return (
     <div className={style.header}>
       <div className={style.logo}>
@@ -23,7 +29,7 @@ export default function Navbar() {
         <Link to='/myPage' data-hover='마이페이지'>
           <span>마이페이지</span>
         </Link>
-        <span>로그아웃</span>
+        <span onClick={logout}>로그아웃</span>
       </div>
     </div>
   )
