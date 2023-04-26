@@ -134,14 +134,9 @@ public class DrawController {
 
     @PostMapping("/like")
     public ResponseEntity<?extends BaseResDto> Likes(@RequestParam("user_no")int userNo,@RequestBody LikeReqDto likeReqDto){
-        Users users = userRepository.findByUsersNo(userNo).orElseThrow(()->new IllegalArgumentException("no such data"));
-        Draw draw = drawRepository.findDrawsByDrawNo(likeReqDto.getDrawNo()).orElseThrow(()->new IllegalArgumentException("no such data"));
-        Likes likes = likesRepository.findByUsersNoAndDrawNo(users,draw);
-
+        
         try {
-            if (likes != null) {
-                return ResponseEntity.status(400).body(BaseResDto.of(400, "already exist"));
-            }
+
                 drawService.likes(userNo, likeReqDto);
                 return ResponseEntity.status(200).body(BaseResDto.of(200, "Success"));
             }
