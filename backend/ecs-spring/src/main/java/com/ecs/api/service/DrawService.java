@@ -2,6 +2,7 @@ package com.ecs.api.service;
 
 import com.ecs.api.dto.req.AwsS3ReqDto;
 import com.ecs.api.dto.req.DrawReqDto;
+import com.ecs.api.dto.res.DrawResDto;
 import com.ecs.api.entity.Category;
 import com.ecs.api.entity.Subjects;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,4 +23,6 @@ public interface DrawService {
     AwsS3ReqDto update(int drawNo,DrawReqDto drawReqDto, MultipartFile multipartFile) throws IOException;
 
     String getDraw(int drawNo);
+
+    List<DrawResDto> getList(int userNo,int categoryNo, boolean like, boolean date);
 }
