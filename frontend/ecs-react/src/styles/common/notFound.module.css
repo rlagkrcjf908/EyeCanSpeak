@@ -6,26 +6,26 @@
   justify-content: center;
   overflow: hidden;
 }
-svg {
+.svg {
   width: 30%;
   animation: rotate infinite linear;
   mix-blend-mode: multiply;
   margin: 0 -8%;
 }
-svg:nth-child(1) {
+.svg:nth-child(1) {
   fill: tomato;
   animation-duration: 4s;
 }
-svg:nth-child(2) {
+.svg:nth-child(2) {
   fill: gold;
   animation-duration: 2s;
   animation-direction: reverse;
 }
-svg:nth-child(3) {
+.svg:nth-child(3) {
   fill: lime;
   animation-duration: 6s;
 }
-svg:nth-child(4) {
+.svg:nth-child(4) {
   fill: turquoise;
   animation-duration: 3s;
   animation-direction: reverse;
@@ -35,7 +35,7 @@ svg:nth-child(4) {
     transform: rotate(360deg);
   }
 }
-h1 {
+.container h1 {
   position: absolute;
   width: fit-content;
   height: fit-content;
@@ -54,7 +54,7 @@ h1 {
   padding-left: 0.5em;
   cursor: default;
 }
-p {
+.container p {
   position: absolute;
   width: fit-content;
   height: fit-content;
@@ -68,7 +68,7 @@ p {
   bottom: 180px;
   cursor: default;
 }
-a {
+.container a {
   position: absolute;
   width: fit-content;
   height: fit-content;
@@ -86,7 +86,7 @@ a {
   padding: 20px 80px;
   transition: all 1s ease-in-out;
 }
-a:hover {
+.container a:hover {
   background-color: rgb(236, 246, 255);
   color: black;
   transform: scale(1.3);
