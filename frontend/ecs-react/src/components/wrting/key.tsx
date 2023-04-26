@@ -1,22 +1,49 @@
 import { HangulImeInputWrapper } from "mole-virtual-keyboard"
 import { useEffect, useRef, useState } from "react"
-import { useRecoilState } from "recoil"
-import { textState } from "../../recoil/atoms/writing"
-import { saveWord } from "../../services/writingApi"
+import { useRecoilState, useSetRecoilState } from "recoil"
+import {
+  recommendWord,
+  searchWord,
+  textState,
+} from "../../recoil/atoms/writing"
+import { getWords, saveWord } from "../../services/writingApi"
 import style from "../../styles/writing/keyboard.module.css"
 import RecommendWord from "./recommendWord"
 
 let inputWrapper: HangulImeInputWrapper | undefined = undefined
 
 export default function Key() {
+  // 추천단어 리스트
+  const setWords = useSetRecoilState(recommendWord)
+  // 추천 단어 검색에 사용할 단어
+  const [word, setWord] = useRecoilState(searchWord)
+
   const inputRef = useRef<HTMLInputElement>(null)
+  // 대소문자
   const [isCapital, setIsCapital] = useState(false)
+  // 한글키보드/영어키보드
   const [isKorean, setIsKorean] = useState(true)
   const [text, setText] = useRecoilState(textState)
+
   useEffect(() => {
     if (!inputRef.current) return
     inputWrapper = new HangulImeInputWrapper(inputRef.current)
   }, [])
+
+  // 추천단어 받아오기
+  const loadWords = async () => {
+    try {
+      const response = await getWords(word)
+
+      const item = response.data
+      console.log(response)
+      setWords(item)
+    } catch (error: any) {
+      console.log(error)
+    }
+  }
+
+  // 글 저장
   const handleSaveWord = async () => {
     try {
       await saveWord(text)
@@ -25,9 +52,13 @@ export default function Key() {
       console.log(error)
     }
   }
+
+  // 글 모두 지우기
   const deleteInputValue = () => {
     setText("")
   }
+
+  // input 박스에 쓴 내용 반영
   const onChange = () => {
     const newText = inputRef.current?.value
     if (newText) {
@@ -35,6 +66,20 @@ export default function Key() {
     }
   }
 
+  useEffect(() => {
+    if (!text) return
+    const textList = text.split(" ")
+    const lastText = textList[textList.length - 1]
+    if (lastText === "") return
+    setWord(lastText)
+  }, [text])
+
+  useEffect(() => {
+    if (!text) return
+
+    loadWords()
+  }, [word])
+  // 누른 키에 따라 다른 함수 실행
   const handleClick = (event: React.MouseEvent<HTMLLIElement>) => {
     const key = event.currentTarget.textContent
     if (key) {
@@ -60,6 +105,7 @@ export default function Key() {
   return (
     <div className={style.section}>
       <div>
+        {/* input */}
         <input
           ref={inputRef}
           type='text'
@@ -70,6 +116,7 @@ export default function Key() {
           onChange={onChange}
         />
       </div>
+      {/* 추천단어 */}
       <RecommendWord />
       {isKorean ? (
         // 한글키보드

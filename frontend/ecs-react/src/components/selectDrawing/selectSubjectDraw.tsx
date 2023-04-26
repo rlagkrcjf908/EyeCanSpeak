@@ -71,18 +71,21 @@ export default function SelectSubjectDraw() {
     }
   }, [setCategory])
 
+  // category 변경되면 랜덤으로 subject하나 고르는 함수 호출
   useEffect(() => {
     if (subjects.length > 0) {
       getRandomSubject()
     }
   }, [subjects])
 
+  // 렌더링 시 카테고리 가져오기
   useEffect(() => {
     loadCategory()
   }, [])
 
   return (
     <div className={style.card}>
+      {/* 카드 앞면 */}
       <div
         className={style.front}
         style={{ backgroundImage: `url(${Subject})` }}
@@ -101,7 +104,9 @@ export default function SelectSubjectDraw() {
               그리기
             </Link>
             <div className={style.buttonBox}>
+              {/* 뒤로가기버튼 카테고리 선택 */}
               <img onClick={showSubject} src={backImg} alt='back' />
+              {/* 새로고침 버튼 새 subject 가져오기 */}
               <img onClick={getRandomSubject} src={resetImg} alt='reset' />
             </div>
           </div>
