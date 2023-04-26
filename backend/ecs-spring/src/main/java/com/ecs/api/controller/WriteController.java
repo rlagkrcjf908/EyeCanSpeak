@@ -2,10 +2,13 @@ package com.ecs.api.controller;
 
 import com.ecs.api.dto.req.WriteReqDto;
 import com.ecs.api.dto.res.BaseResDto;
+import com.ecs.api.dto.res.WriteResDto;
 import com.ecs.api.service.WriteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,4 +26,10 @@ public class WriteController {
         }
 
     }
+    @PostMapping("/history")
+    public ResponseEntity<WriteResDto> getWriteHistory(@RequestParam("user_no")int userNo, @RequestBody WriteReqDto writeReqDto){
+            WriteResDto writeResDto = writeService.getWriteHistory(userNo,writeReqDto);
+            return ResponseEntity.status(200).body(writeResDto);
+    }
+
 }
