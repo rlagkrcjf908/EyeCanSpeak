@@ -41,7 +41,7 @@ public class Users {
     private LocalDateTime usersRecentDate;
 
     @OneToMany(mappedBy = "usersNo", cascade = CascadeType.REMOVE)
-    private List<Write> writes= new ArrayList<>();
+    private List<Writes> writes= new ArrayList<>();
 
     @OneToMany(mappedBy = "usersNo", cascade = CascadeType.REMOVE)
     private List<Draw> draws= new ArrayList<>();
