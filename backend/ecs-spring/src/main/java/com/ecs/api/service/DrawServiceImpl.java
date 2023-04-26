@@ -6,14 +6,10 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.ecs.api.dto.req.AwsS3ReqDto;
 import com.ecs.api.dto.req.DrawReqDto;
-import com.ecs.api.entity.Category;
-import com.ecs.api.entity.Draw;
-import com.ecs.api.entity.Subjects;
-import com.ecs.api.entity.Users;
-import com.ecs.api.repository.CategoryRepository;
-import com.ecs.api.repository.DrawRepository;
-import com.ecs.api.repository.SubjectRepository;
-import com.ecs.api.repository.UserRepository;
+import com.ecs.api.dto.res.DrawGetResDto;
+import com.ecs.api.dto.res.DrawResDto;
+import com.ecs.api.entity.*;
+import com.ecs.api.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -42,7 +39,8 @@ public class DrawServiceImpl implements DrawService{
 
     private final SubjectRepository subjectRepository;
     private final CategoryRepository categoryRepository;
-
+    private final DrawRepositorySupport drawRepositorySupport;
+    private final LikesRepository likesRepository;
 
     //그림 주제 선택--------------------------------------------------------------------------------------
     @Override
@@ -117,13 +115,14 @@ public class DrawServiceImpl implements DrawService{
                 .path(path)
                 .build();
     }
-
+    // 그림 불러오기
     @Override
     public String getDraw(int drawNo) {
         Draw draw = drawReopsitory.findById(drawNo).orElseThrow(()-> new IllegalArgumentException("no such data"));
         return getS3(bucket,draw.getDrawDrawing());
 
     }
+
 
     private String randomFileName(File file) {
         return dirName + "/" + UUID.randomUUID() + file.getName();
@@ -165,6 +164,36 @@ public class DrawServiceImpl implements DrawService{
         amazonS3.deleteObject(bucket, draw.getDrawDrawing());
         drawReopsitory.delete(draw);
     }
+    // 작품 공유 --------------------------------------------------------------------------------------------------
+    @Override
+    public List<DrawResDto> getList(int userNo,int categoryNo, boolean like, boolean date) {
+        Users user = userRepository.findByUsersNo(userNo).orElseThrow(()->new IllegalArgumentException("no such data"));
+        Category category = categoryRepository.findById(categoryNo).orElseThrow(()->new IllegalArgumentException("no such data"));
+        List<DrawGetResDto> draws = drawRepositorySupport.findAll(like,date);
+        return initDrawList(user,category,draws);
+    }
 
+    public List<DrawResDto> initDrawList(Users user,Category category,List<DrawGetResDto> draws) {
+        List<DrawResDto> getDraws = new ArrayList<>();
+        for (int i = 0; i < draws.size(); i++) {
+            DrawGetResDto drawdto = draws.get(i);
+            Draw dentity = drawReopsitory.findById(drawdto.getDrawNo()).orElseThrow(()->new IllegalArgumentException("no such data"));
+            Likes likes = likesRepository.findByUsersNoAndDrawNo(user, dentity);
+
+            DrawResDto dto = new DrawResDto();
+            dto.setDrawDrawing(drawdto.getDrawDrawing());
+            dto.setDrawNo(drawdto.getDrawNo());
+            dto.setDrawDate(drawdto.getDrawRecentDate());
+            dto.setCount(drawdto.getCount());
+            if (likes == null) dto.setLike(false);
+            dto.setLike(true);
+
+            dto.setUserNM(dentity.getUsersNo().getUsersNickName());
+            dto.setCategoryNM(category.getCategoryNM());
+
+            getDraws.add(dto);
+        }
+        return getDraws;
+    }
 
 }
