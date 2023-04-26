@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.ecs.api.dto.req.AwsS3ReqDto;
 import com.ecs.api.dto.req.DrawReqDto;
+import com.ecs.api.dto.req.LikeReqDto;
 import com.ecs.api.dto.res.DrawGetResDto;
 import com.ecs.api.dto.res.DrawResDto;
 import com.ecs.api.entity.*;
@@ -173,6 +174,7 @@ public class DrawServiceImpl implements DrawService{
         return initDrawList(user,category,draws);
     }
 
+
     public List<DrawResDto> initDrawList(Users user,Category category,List<DrawGetResDto> draws) {
         List<DrawResDto> getDraws = new ArrayList<>();
         for (int i = 0; i < draws.size(); i++) {
@@ -194,6 +196,26 @@ public class DrawServiceImpl implements DrawService{
             getDraws.add(dto);
         }
         return getDraws;
+    }
+
+    //좋아요 ---------------------------------------------------------------------------------------------------------
+
+    @Override
+    public void likes(int userNo, LikeReqDto likeReqDto) {
+        Likes likes = new Likes();
+        Users user = userRepository.findByUsersNo(userNo).orElseThrow(()->new IllegalArgumentException("no such data"));
+        Draw draw = drawReopsitory.findDrawsByDrawNo(likeReqDto.getDrawNo()).orElseThrow(()->new IllegalArgumentException("no such data"));
+        likes.setUsersNo(user);
+        likes.setDrawNo(draw);
+        likesRepository.save(likes);
+    }
+
+    @Override
+    public void dellikes(int userNo, LikeReqDto likeReqDto) {
+        Users users = userRepository.findByUsersNo(userNo).orElseThrow(()->new IllegalArgumentException("no such data"));
+        Draw draw = drawReopsitory.findDrawsByDrawNo(likeReqDto.getDrawNo()).orElseThrow(()->new IllegalArgumentException("no such data"));
+        Likes likes = likesRepository.findByUsersNoAndDrawNo(users,draw);
+        likesRepository.delete(likes);
     }
 
 }

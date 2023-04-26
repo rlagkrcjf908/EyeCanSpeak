@@ -2,6 +2,7 @@ package com.ecs.api.service;
 
 import com.ecs.api.dto.req.AwsS3ReqDto;
 import com.ecs.api.dto.req.DrawReqDto;
+import com.ecs.api.dto.req.LikeReqDto;
 import com.ecs.api.dto.res.DrawResDto;
 import com.ecs.api.entity.Category;
 import com.ecs.api.entity.Subjects;
@@ -25,4 +26,8 @@ public interface DrawService {
     String getDraw(int drawNo);
 
     List<DrawResDto> getList(int userNo,int categoryNo, boolean like, boolean date);
+
+    void likes(int userNo, LikeReqDto likeReqDto);
+
+    void dellikes(int userNo, LikeReqDto likeReqDto);
 }

@@ -11,6 +11,7 @@ import java.util.Optional;
 @Repository
 public interface DrawRepository extends JpaRepository<Draw,Integer> {
 
+    Optional<Draw> findDrawsByDrawNo(int drawNo);
     Optional<List<Draw>> findDrawsByCategoryNo(Category category);
 
 }

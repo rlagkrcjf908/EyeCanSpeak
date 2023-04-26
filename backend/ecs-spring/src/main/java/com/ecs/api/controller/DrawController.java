@@ -2,13 +2,15 @@ package com.ecs.api.controller;
 
 import com.ecs.api.dto.req.AwsS3ReqDto;
 import com.ecs.api.dto.req.DrawReqDto;
+import com.ecs.api.dto.req.LikeReqDto;
 import com.ecs.api.dto.res.BaseResDto;
 import com.ecs.api.dto.res.CategoryAllResDto;
 import com.ecs.api.dto.res.DrawResDto;
 import com.ecs.api.dto.res.SubjectResDto;
-import com.ecs.api.entity.Category;
-import com.ecs.api.entity.Subjects;
+import com.ecs.api.entity.*;
 import com.ecs.api.repository.DrawRepository;
+import com.ecs.api.repository.LikesRepository;
+import com.ecs.api.repository.UserRepository;
 import com.ecs.api.service.DrawService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -26,6 +28,8 @@ public class DrawController {
 
     private final DrawService drawService;
     private final DrawRepository drawRepository;
+    private final LikesRepository likesRepository;
+    private final UserRepository userRepository;
 
     //그림 주제 선택----------------------------------------------------------------------
     // 카테고리 불러오기
@@ -127,5 +131,36 @@ public class DrawController {
         }
     }
     // 좋아요---------------------------------------------------------------------------------------------------
+
+    @PostMapping("/like")
+    public ResponseEntity<?extends BaseResDto> Likes(@RequestParam("user_no")int userNo,@RequestBody LikeReqDto likeReqDto){
+        Users users = userRepository.findByUsersNo(userNo).orElseThrow(()->new IllegalArgumentException("no such data"));
+        Draw draw = drawRepository.findDrawsByDrawNo(likeReqDto.getDrawNo()).orElseThrow(()->new IllegalArgumentException("no such data"));
+        Likes likes = likesRepository.findByUsersNoAndDrawNo(users,draw);
+
+        try {
+            if (likes != null) {
+                return ResponseEntity.status(400).body(BaseResDto.of(400, "already exist"));
+            }
+                drawService.likes(userNo, likeReqDto);
+                return ResponseEntity.status(200).body(BaseResDto.of(200, "Success"));
+            }
+
+        catch (Exception e){
+            return ResponseEntity.status(400).body(BaseResDto.of(400, "Fail"));
+        }
+    }
+    @DeleteMapping("/like")
+    public ResponseEntity<?extends BaseResDto> delLikes(@RequestParam("user_no")int userNo,@RequestBody LikeReqDto likeReqDto){
+
+        try{
+
+            drawService.dellikes(userNo,likeReqDto);
+            return ResponseEntity.status(200).body(BaseResDto.of(200, "Success"));
+        }
+        catch (Exception e){
+            return ResponseEntity.status(400).body(BaseResDto.of(400, "Fail"));
+        }
+    }
 
 }
