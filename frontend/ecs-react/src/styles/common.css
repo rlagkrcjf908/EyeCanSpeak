@@ -1,6 +1,7 @@
 body {
   background-color: #eef8ff;
   overflow: hidden;
+  /* cursor: none; // 나중에 적용  */
 }
 @font-face {
   font-family: "ImcreSoojin";

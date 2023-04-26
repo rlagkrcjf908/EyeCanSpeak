@@ -5,19 +5,23 @@ import { HelmetProvider, Helmet } from "react-helmet-async"
 import { RecoilRoot } from "recoil"
 import "./styles/common.css"
 import "./App.css"
+import Mouse from "./components/common/mouse"
 
 function App() {
   return (
-    <RecoilRoot>
-      <HelmetProvider>
-        <Helmet>
-          <title>ECS</title>
-        </Helmet>
-      </HelmetProvider>
-      <BrowserRouter>
-        <RoutesSetup></RoutesSetup>
-      </BrowserRouter>
-    </RecoilRoot>
+    <>
+      <RecoilRoot>
+        <HelmetProvider>
+          <Helmet>
+            <title>ECS</title>
+          </Helmet>
+        </HelmetProvider>
+        <BrowserRouter>
+          <RoutesSetup></RoutesSetup>
+        </BrowserRouter>
+      </RecoilRoot>{" "}
+      <Mouse></Mouse>
+    </>
   )
 }
 
