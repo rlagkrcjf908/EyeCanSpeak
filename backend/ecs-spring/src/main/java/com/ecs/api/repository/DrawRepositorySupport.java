@@ -28,13 +28,7 @@ public class DrawRepositorySupport{
 
         OrderSpecifier[] orderSpecifiers = createOrderSpecifier(like, date);
 
-        List<DrawGetResDto> drawGetResDtos = jpaQueryFactory.select(Projections.bean(DrawGetResDto.class,qDraw.drawNo,qDraw.drawDrawing,qDraw.drawRecentDate.as("drawRecentDate"),qDraw.count().as("count")/*
-                        ExpressionUtils.as(
-                                JPAExpressions.select(qLikes.count())
-                                        .from(qLikes)
-                                        .where(qLikes.drawNo.drawNo.eq(subDraw.drawNo))
-                                        .groupBy(qLikes.drawNo.drawNo),"count")
-                        */))
+        List<DrawGetResDto> drawGetResDtos = jpaQueryFactory.select(Projections.bean(DrawGetResDto.class,qDraw.drawNo,qDraw.drawDrawing,qDraw.drawRecentDate.as("drawRecentDate"),qDraw.count().as("count")))
                 .from(qDraw)
                 .join(qLikes)
                 .on(qDraw.drawNo.eq(qLikes.drawNo.drawNo))
