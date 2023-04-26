@@ -1,4 +1,4 @@
-import style from "../styles/home/selectMain.module.css"
+import style from "../styles/common/selectMain.module.css"
 import drawing from "../assets/image/drawing.jpg"
 import writing from "../assets/image/writing.png"
 import { Link } from "react-router-dom"
