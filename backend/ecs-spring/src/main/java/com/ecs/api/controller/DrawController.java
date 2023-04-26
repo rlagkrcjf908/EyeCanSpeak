@@ -27,9 +27,7 @@ import java.util.List;
 public class DrawController {
 
     private final DrawService drawService;
-    private final DrawRepository drawRepository;
-    private final LikesRepository likesRepository;
-    private final UserRepository userRepository;
+
 
     //그림 주제 선택----------------------------------------------------------------------
     // 카테고리 불러오기
@@ -134,7 +132,7 @@ public class DrawController {
 
     @PostMapping("/like")
     public ResponseEntity<?extends BaseResDto> Likes(@RequestParam("user_no")int userNo,@RequestBody LikeReqDto likeReqDto){
-        
+
         try {
 
                 drawService.likes(userNo, likeReqDto);
