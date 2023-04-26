@@ -1,7 +1,12 @@
 import { atom } from "recoil"
 
-export const textState = atom({
+export const textState = atom<string>({
   key: "textState",
+  default: "",
+})
+
+export const searchWord = atom<string>({
+  key: "searchWord",
   default: "",
 })
 
