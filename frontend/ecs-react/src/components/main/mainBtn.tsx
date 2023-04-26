@@ -9,7 +9,7 @@ export default function MainBtn() {
       style={{ textAlign: "center", marginTop: "30px" }}
       onClick={() => {
         window.location.href =
-          "http://192.168.100.207:8080/api/oauth2/authorization/kakao"
+          "http://k8d204.ssafy.io/api/oauth2/authorization/kakao"
       }}
     >
       <img src={button} alt='' style={{ cursor: "pointer" }}></img>
