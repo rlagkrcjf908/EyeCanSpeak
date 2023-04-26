@@ -18,7 +18,6 @@ public class WriteServiceImpl implements WriteService{
     public void setWrite(int userNo, WriteReqDto writeReqDto) {
         Users users = userRepository.findByUsersNo(userNo).orElseThrow(()->new IllegalArgumentException("no such data"));;
         Writes writes = new Writes();
-        System.out.println(writeReqDto.getWriteContent());
         writes.setWriteContent(writeReqDto.getWriteContent());
         writes.setUsersNo(users);
         writeRepository.save(writes);
