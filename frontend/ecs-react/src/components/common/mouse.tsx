@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import style from "../../styles/common/mouse.module.css"
+import "../../styles/common/mouse.scss"
 
 export default function Mouse() {
   const [left, setLeft] = useState(0)
@@ -17,7 +17,7 @@ export default function Mouse() {
   }
 
   const move = (selected: number) => {
-    mouse = document.querySelector(`.${style["mouse"]}`)
+    mouse = document.querySelector(".mouse")
 
     const x = mouse.getBoundingClientRect().x
     const y = mouse.getBoundingClientRect().y
@@ -35,19 +35,42 @@ export default function Mouse() {
       if (x + 150 > window_width + 100) console.log("화면 안에서 이동해주세요")
       else setLeft((current) => current + 50)
     }
-
-    console.log(x + " " + y)
   }
   const mouseClickEvents = ["mousedown", "click", "mouseup"]
 
   function clickHandler() {
-    mouse = document.querySelector(`.${style["mouse"]}`)
+    mouse = document.querySelector(".mouse")
+    console.log(mouse)
     const x = mouse.getBoundingClientRect().x
     const y = mouse.getBoundingClientRect().y
     const element: any = document.elementFromPoint(x, y)
-    console.log(element)
+    const element2: any = document.querySelector(".fancy-button")
+
     mouseClickEvents.forEach((mouseEventType) =>
       element.dispatchEvent(
+        new MouseEvent(mouseEventType, {
+          view: window,
+          bubbles: true,
+          cancelable: true,
+          buttons: 1,
+        })
+      )
+    )
+
+    mouseClickEvents.forEach((mouseEventType) =>
+      element2.dispatchEvent(
+        new MouseEvent(mouseEventType, {
+          view: window,
+          bubbles: true,
+          cancelable: true,
+          buttons: 1,
+        })
+      )
+    )
+
+    mouse = document.querySelector(`.fancy-button`)
+    mouseClickEvents.forEach((mouseEventType) =>
+      mouse.dispatchEvent(
         new MouseEvent(mouseEventType, {
           view: window,
           bubbles: true,
@@ -59,17 +82,42 @@ export default function Mouse() {
   }
 
   useEffect(() => {
-    console.log(window.screen.availWidth + " " + window.screen.availHeight)
+    mouseEvent()
   }, [])
+
+  // ------------------------------------------------------------------------------
+  const mouseEvent = () => {
+    const fancyButtons = document.querySelectorAll(".fancy-button")
+    console.log(fancyButtons)
+
+    fancyButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        button.addEventListener(
+          "animationend",
+          () => {
+            console.log("click")
+            button.classList.remove("active")
+          },
+          { once: true }
+        )
+        button.classList.add("active")
+      })
+    })
+  }
+
   return (
     <>
-      <button
-        className={style.mouse}
+      <div
+        className='fancy-button'
         style={{
           transform: `translate(${left}px, ${top}px)`,
           transition: "all 0.2s",
         }}
-      ></button>
+      >
+        <div className='leftFrills frills'></div>
+        <button className='mouse'></button>
+        <div className='rightFrills frills'></div>
+      </div>
       <div>
         <button onClick={() => onClick(0)}>top</button>
       </div>
