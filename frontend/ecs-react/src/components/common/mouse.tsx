@@ -44,7 +44,7 @@ export default function Mouse() {
     const x = mouse.getBoundingClientRect().x
     const y = mouse.getBoundingClientRect().y
     const element: any = document.elementFromPoint(x, y)
-    const element2: any = document.querySelector(".fancy-button")
+    // const element2: any = document.querySelector(".fancy-button")
 
     mouseClickEvents.forEach((mouseEventType) =>
       element.dispatchEvent(
@@ -57,32 +57,32 @@ export default function Mouse() {
       )
     )
 
-    mouseClickEvents.forEach((mouseEventType) =>
-      element2.dispatchEvent(
-        new MouseEvent(mouseEventType, {
-          view: window,
-          bubbles: true,
-          cancelable: true,
-          buttons: 1,
-        })
-      )
-    )
+    // mouseClickEvents.forEach((mouseEventType) =>
+    //   element2.dispatchEvent(
+    //     new MouseEvent(mouseEventType, {
+    //       view: window,
+    //       bubbles: true,
+    //       cancelable: true,
+    //       buttons: 1,
+    //     })
+    //   )
+    // )
 
-    mouse = document.querySelector(`.fancy-button`)
-    mouseClickEvents.forEach((mouseEventType) =>
-      mouse.dispatchEvent(
-        new MouseEvent(mouseEventType, {
-          view: window,
-          bubbles: true,
-          cancelable: true,
-          buttons: 1,
-        })
-      )
-    )
+    // mouse = document.querySelector(`.fancy-button`)
+    // mouseClickEvents.forEach((mouseEventType) =>
+    //   mouse.dispatchEvent(
+    //     new MouseEvent(mouseEventType, {
+    //       view: window,
+    //       bubbles: true,
+    //       cancelable: true,
+    //       buttons: 1,
+    //     })
+    //   )
+    // )
   }
 
   useEffect(() => {
-    mouseEvent()
+    // mouseEvent()
   }, [])
 
   // ------------------------------------------------------------------------------
@@ -107,17 +107,23 @@ export default function Mouse() {
 
   return (
     <>
-      <div
+      {/* <div
         className='fancy-button'
         style={{
           transform: `translate(${left}px, ${top}px)`,
           transition: "all 0.2s",
         }}
-      >
-        <div className='leftFrills frills'></div>
-        <button className='mouse'></button>
-        <div className='rightFrills frills'></div>
-      </div>
+      > */}
+      {/* <div className='leftFrills frills'></div> */}
+      <button
+        className='mouse'
+        style={{
+          transform: `translate(${left}px, ${top}px)`,
+          transition: "all 0.2s",
+        }}
+      ></button>
+      {/* <div className='rightFrills frills'></div> */}
+      {/* </div> */}
       <div>
         <button onClick={() => onClick(0)}>top</button>
       </div>

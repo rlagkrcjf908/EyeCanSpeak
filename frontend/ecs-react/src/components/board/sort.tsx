@@ -2,7 +2,7 @@ import style from "../../styles/board/category.module.css"
 
 export default function Sort({ changeSort }: { changeSort: any }) {
   return (
-    <>
+    <div className={style.btns}>
       <button
         className={style.sortBtn1}
         onClick={() => {
@@ -19,6 +19,6 @@ export default function Sort({ changeSort }: { changeSort: any }) {
       >
         인기순
       </button>
-    </>
+    </div>
   )
 }
