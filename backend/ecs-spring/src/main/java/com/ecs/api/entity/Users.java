@@ -28,9 +28,6 @@ public class Users {
     @Column(name="USERS_ID")
     private String usersId;
 
-    @Column(name="USERS_NAME")
-    private String usersName;
-
     @Column(name="USERS_NICKNAME")
     private String usersNickName;
 

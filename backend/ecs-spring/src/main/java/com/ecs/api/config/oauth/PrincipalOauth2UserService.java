@@ -35,14 +35,12 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         if(user.isEmpty()){ // sign up
             users= Users.builder()
                     .usersId(attributes.getEmail())
-                    .usersName(attributes.getName())
                     .usersNickName(attributes.getNickname())
                     .build();
             userRepository.save(users);
         }else{
             users=user.get();
         }
-
         return new PrincipalDetails(users, attributes.getAttribute());
     }
 }
