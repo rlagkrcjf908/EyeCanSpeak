@@ -21,7 +21,7 @@ export default function Main() {
     if (token !== undefined) {
       console.log(token)
       console.log(parseJwt(token))
-      const obj = JSON.parse(parseJwt(token))
+      const obj = parseJwt(token)
       console.log(obj)
       setUserNo(obj.no)
       setUserName(obj.name)
