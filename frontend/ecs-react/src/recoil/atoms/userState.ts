@@ -7,7 +7,7 @@ export const isLog = atom<boolean>({
 
 export const userNo = atom<number>({
   key: "userNo",
-  default: 0,
+  default: -1,
 })
 
 export const userName = atom<string>({

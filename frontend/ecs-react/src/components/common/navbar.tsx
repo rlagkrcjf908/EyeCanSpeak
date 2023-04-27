@@ -1,11 +1,23 @@
 import { Link, useNavigate } from "react-router-dom"
 import style from "../../styles/common/navbar.module.css"
+import { Cookies } from "react-cookie"
+import { useSetRecoilState } from "recoil"
+import { isLog, userName, userNo } from "../../recoil/atoms/userState"
 
 export default function Navbar() {
   const navigate = useNavigate()
+  const cookies = new Cookies()
+  const setUserNo = useSetRecoilState(userNo)
+  const setUserName = useSetRecoilState(userName)
+  const setLog = useSetRecoilState(isLog)
+
   const logout = () => {
-    localStorage.removeItem("access_token")
-    localStorage.removeItem("refresh_token")
+    cookies.remove("accessToken")
+    cookies.remove("refreshToken")
+    setUserNo(-1)
+    setUserName("")
+    setLog(false)
+
     navigate("/")
   }
   return (
