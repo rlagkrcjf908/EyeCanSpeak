@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import isLogin from "../components/login/isLogin"
+import isLogin, { getCookie, parseJwt } from "../components/login/isLogin"
 import Content from "../components/main/content"
 import MainBtn from "../components/main/mainBtn"
 import Title from "../components/main/title"
@@ -11,14 +11,15 @@ export default function Main() {
   const navigate = useNavigate()
   const cookies = new Cookies()
   useEffect(() => {
-    console.log(cookies.get("accessToken"))
-    console.log("!!")
+    const token = cookies.get("accessToken")
+    if (token !== undefined) {
+      console.log(parseJwt(token))
+    }
   }, [])
   return (
     <>
       <Title></Title>
       <Content></Content>
-
       {/* {isLogin("accessToken") ? (
         <div className={style.btnBox}>
           <button
