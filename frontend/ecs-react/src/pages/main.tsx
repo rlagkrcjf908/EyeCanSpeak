@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import isLogin, { getCookie, parseJwt } from "../components/login/isLogin"
+import { parseJwt } from "../services/jwtDecode"
 import Content from "../components/main/content"
 import MainBtn from "../components/main/mainBtn"
 import Title from "../components/main/title"
