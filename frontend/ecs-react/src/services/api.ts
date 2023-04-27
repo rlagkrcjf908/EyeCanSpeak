@@ -15,6 +15,7 @@ const cookies = new Cookies()
 
 customAxios.interceptors.request.use(function (config) {
   let access_token = cookies.get("accessToken")
+  console.log(access_token)
   // let refresh_token = localStorage.getItem("refresh_token");
   if (!access_token) {
     // if (!access_token) {
