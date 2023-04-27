@@ -4,6 +4,7 @@ import com.ecs.api.config.jwt.JwtTokenProvider;
 import com.ecs.api.entity.Users;
 import com.ecs.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class CustomOAuthSuccessHandler implements AuthenticationSuccessHandler {
@@ -44,6 +46,7 @@ public class CustomOAuthSuccessHandler implements AuthenticationSuccessHandler {
 
         response.setHeader("AccessToken", jwtToken);
 
+        log.debug("redirect ");
         response.sendRedirect("https://k8d204.p.ssafy.io/");
     }
 }
