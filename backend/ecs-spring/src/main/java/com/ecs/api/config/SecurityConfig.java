@@ -65,7 +65,7 @@ public class SecurityConfig {
 //                "http://192.168.100.190:3000/"));
         corsConfiguration.addAllowedOrigin("*");
         corsConfiguration.addAllowedMethod("*");
-        corsConfiguration.setAllowedHeaders(List.of("Accept", "Accept-Language", "Authorization", "Content-Language", "Content-Type"));
+        corsConfiguration.addAllowedHeader("*");
         corsConfiguration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource=new UrlBasedCorsConfigurationSource();
