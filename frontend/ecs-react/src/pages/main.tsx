@@ -19,7 +19,10 @@ export default function Main() {
   useEffect(() => {
     const token = cookies.get("accessToken")
     if (token !== undefined) {
+      console.log(token)
+
       const obj = JSON.parse(parseJwt(token))
+      console.log(obj)
       setUserNo(obj.no)
       setUserName(obj.name)
       setLog(true)
