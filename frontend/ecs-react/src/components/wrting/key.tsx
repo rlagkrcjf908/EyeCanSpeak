@@ -35,7 +35,7 @@ export default function Key() {
     try {
       const response = await getWords(word)
 
-      const item = response.data
+      const item = response.data.writeContents
       console.log(response)
       setWords(item)
     } catch (error: any) {
@@ -70,7 +70,6 @@ export default function Key() {
     if (!text) return
     const textList = text.split(" ")
     const lastText = textList[textList.length - 1]
-    if (lastText === "") return
     setWord(lastText)
   }, [text])
 
@@ -114,6 +113,7 @@ export default function Key() {
           }}
           value={text}
           onChange={onChange}
+          maxLength={5}
         />
       </div>
       {/* 추천단어 */}
