@@ -24,16 +24,13 @@ export async function getList(subIdx: number, sort: boolean) {
     date = false
   }
   const response: AxiosResponse = await customAxios.get(
-    `http://192.168.100.191:8080/api/draw/list?category_no=${subIdx}&like=${like}&date=${date}`
+    `/draw/list?category_no=${subIdx}&like=${like}&date=${date}`
   )
   return response
 }
 export async function deleteDrawing(draw_no: number) {
-  const response: AxiosResponse = await customAxios.delete(
-    `http://192.168.100.191:8080/api/user/draw`,
-    {
-      data: { draw_no: draw_no },
-    }
-  )
+  const response: AxiosResponse = await customAxios.delete(`/user/draw`, {
+    data: { draw_no: draw_no },
+  })
   return response
 }
