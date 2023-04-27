@@ -12,6 +12,7 @@ export default function Category({ changeCategory }: { changeCategory: any }) {
   const setCategory = useCallback(async () => {
     const response = await getCategory()
     setCategoryList(() => [...response.data])
+    console.log(response)
   }, [])
 
   useEffect(() => {
