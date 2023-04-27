@@ -18,7 +18,7 @@ customAxios.interceptors.request.use(function (config) {
   // let refresh_token = localStorage.getItem("refresh_token");
   if (!access_token) {
     // if (!access_token) {
-    config.headers["Authorization"] = null
+    config.headers["Authorization"] = ""
     // config.headers["Refresh-Token"] = null;
     return config
   }
