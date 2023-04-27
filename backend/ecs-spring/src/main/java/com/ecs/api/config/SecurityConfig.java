@@ -63,7 +63,8 @@ public class SecurityConfig {
 //                "http://localhost:3000",
 //                "http://192.168.100.85:3000/",
 //                "http://192.168.100.190:3000/"));
-        corsConfiguration.addAllowedOrigin("*");
+//        corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.addAllowedOriginPattern("*");
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.setAllowCredentials(true);
