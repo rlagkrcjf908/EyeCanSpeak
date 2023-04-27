@@ -30,8 +30,8 @@ public class PrincipalDetails implements OAuth2User, UserDetails {
     }
 
     @Override
-    public String getUsername() {
-        return users.getUsersName();
+    public String getUsername() { // nickName
+        return users.getUsersNickName();
     }
 
     /* 계정 만료 여부
@@ -80,7 +80,7 @@ public class PrincipalDetails implements OAuth2User, UserDetails {
     }
 
     @Override
-    public String getName() {
-        return users.getUsersName();
+    public String getName() { // nickName
+        return users.getUsersNickName();
     }
 }
