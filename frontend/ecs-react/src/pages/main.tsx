@@ -4,15 +4,22 @@ import Content from "../components/main/content"
 import MainBtn from "../components/main/mainBtn"
 import Title from "../components/main/title"
 import style from "../styles/main/main.module.css"
+import { useEffect } from "react"
+import { Cookies } from "react-cookie"
 
 export default function Main() {
   const navigate = useNavigate()
+  const cookies = new Cookies()
+  useEffect(() => {
+    console.log(cookies.get("accessToken"))
+    console.log("!!")
+  }, [])
   return (
     <>
       <Title></Title>
       <Content></Content>
 
-      {isLogin() ? (
+      {/* {isLogin("accessToken") ? (
         <div className={style.btnBox}>
           <button
             className={style.btn}
@@ -23,9 +30,9 @@ export default function Main() {
             시작하기
           </button>
         </div>
-      ) : (
-        <MainBtn></MainBtn>
-      )}
+      ) : ( */}
+      <MainBtn></MainBtn>
+      {/* )} */}
     </>
   )
 }
