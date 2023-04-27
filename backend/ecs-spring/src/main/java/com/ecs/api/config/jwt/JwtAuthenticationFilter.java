@@ -4,6 +4,7 @@ import com.ecs.api.config.oauth.PrincipalDetails;
 import com.ecs.api.entity.Users;
 import com.ecs.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtTokenProvider;
@@ -26,13 +28,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = jwtTokenProvider.resolveToken(request, "AccessToken");
-        String refreshToken=jwtTokenProvider.resolveToken(request, "refreshToken");
 
+        log.debug("token: "+ token);
         if(token != null ){ // access token 검증
             if(jwtTokenProvider.validationToken(token)){
+                log.debug("token 검증 완료 ");
                 Authentication authentication=jwtTokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }else{ // access token 만료
+                String refreshToken=jwtTokenProvider.resolveToken(request, "refreshToken");
                 if(jwtTokenProvider.validationToken(refreshToken)){ // refresh token 확인 후 access token 재발급
                     Authentication authentication=jwtTokenProvider.getAuthentication(refreshToken);
 
@@ -50,6 +54,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         }
+        log.debug("filter chain ");
         filterChain.doFilter(request, response);
     }
 }
