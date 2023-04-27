@@ -22,7 +22,6 @@ customAxios.interceptors.request.use(function (config) {
     // config.headers["Refresh-Token"] = null;
     return config
   }
-  access_token = JSON.parse(access_token)
   // refresh_token = JSON.parse(refresh_token);
   config.headers["Authorization"] = `Bearer ${access_token}`
   // config.headers["Refresh-Token"] = `Bearer ${refresh_token}`;
