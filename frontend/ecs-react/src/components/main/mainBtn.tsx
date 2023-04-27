@@ -13,6 +13,9 @@ export default function MainBtn() {
       }}
     >
       <img src={button} alt='' style={{ cursor: "pointer" }}></img>
+      <a href='https://k8d204.p.ssafy.io/api/oauth2/authorization/kakao'>
+        adas
+      </a>
     </div>
   )
 }
