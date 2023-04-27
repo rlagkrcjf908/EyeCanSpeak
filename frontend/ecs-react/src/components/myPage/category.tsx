@@ -9,7 +9,6 @@ interface categoryType {
 
 export default function Category({ changeCategory }: { changeCategory: any }) {
   const [categoryList, setCategoryList] = useState<categoryType[]>([])
-
   const setCategory = useCallback(async () => {
     const response = await getCategory()
     setCategoryList(() => [...response.data])
