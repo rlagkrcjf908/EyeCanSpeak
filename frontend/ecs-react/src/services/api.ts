@@ -12,20 +12,22 @@ const customAxios = axios.create({
   headers: { "Content-type": "application/json" },
 })
 const cookies = new Cookies()
+const token = cookies.get("accessToken")
+customAxios.defaults.headers.common["Authorization"] = `Bearer ${token}`
 
-customAxios.interceptors.request.use(
-  (config) => {
-    const token = cookies.get("accessToken")
-    if (token) {
-      console.log("!")
-      config.headers["Authorization"] = "Bearer " + token
-    }
-    config.headers["Content-Type"] = "application/json"
-    return config
-  },
-  (error) => {
-    Promise.reject(error)
-  }
-)
+// customAxios.interceptors.request.use(
+//   (config) => {
+//     const token = cookies.get("accessToken")
+//     if (token) {
+//       console.log("!")
+//       config.headers["Authorization"] = "Bearer " + token
+//     }
+//     config.headers["Content-Type"] = "application/json"
+//     return config
+//   },
+//   (error) => {
+//     Promise.reject(error)
+//   }
+// )
 
 export default customAxios
