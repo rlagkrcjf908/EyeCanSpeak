@@ -20,6 +20,7 @@ export default function Main() {
     const token = cookies.get("accessToken")
     if (token !== undefined) {
       const obj = parseJwt(token)
+      console.log(obj)
       setUserNo(obj.no)
       setUserName(obj.name)
       setLog(true)
