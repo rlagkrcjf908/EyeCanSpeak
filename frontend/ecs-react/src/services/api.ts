@@ -13,60 +13,18 @@ const customAxios = axios.create({
 })
 const cookies = new Cookies()
 
-customAxios.interceptors.request.use(function (config) {
-  let access_token = cookies.get("accessToken")
-  console.log(access_token)
-  // let refresh_token = localStorage.getItem("refresh_token");
-  if (!access_token) {
-    // if (!access_token) {
-    config.headers["Authorization"] = ""
-    // config.headers["Refresh-Token"] = null;
+customAxios.interceptors.request.use(
+  (config) => {
+    const token = cookies.get("accessToken")
+    if (token) {
+      config.headers["Authorization"] = "Bearer " + token
+    }
+    config.headers["Content-Type"] = "application/json"
     return config
+  },
+  (error) => {
+    Promise.reject(error)
   }
-  // refresh_token = JSON.parse(refresh_token);
-  config.headers["Authorization"] = `Bearer ${access_token}`
-  // config.headers["Refresh-Token"] = `Bearer ${refresh_token}`;
-  return config
-})
-
-// customAxios.interceptors.response.use(
-// 	function (response) {
-// 		// console.log("get response", response);
-// 		return response;
-// 	},
-// 	async function (error) {
-// 		if (error.response && error.response.status === 401) {
-// 			try {
-// 				const SetToken = useSetRecoilState(tokenAtom);
-
-// 				localStorage.removeItem("access_token");
-// 				localStorage.removeItem("refresh_token");
-// 				sessionStorage.removeItem("userEmail");
-// 				sessionStorage.removeItem("userNick");
-// 				SetToken(null);
-// const originalRequest = error.config;
-// const response = await customAxios.post("/accounts/token/refresh/");
-// if (response) {
-// 	const accessToken = response.data.access_token;
-// 	console.log("accessToken=", accessToken);
-// 	const refreshToken = response.data.refresh_token;
-// 	localStorage.removeItem("access_token");
-// 	localStorage.removeItem("refresh_token");
-// 	localStorage.setItem("access_token", JSON.stringify(accessToken));
-// 	localStorage.setItem("refresh_token", JSON.stringify(refreshToken));
-// 	originalRequest.headers["Authorization"] = accessToken;
-// 	originalRequest.headers["Refresh_Token"] = refreshToken;
-// 	return await customAxios.request(originalRequest);
-// }
-// 			} catch (error) {
-// 				localStorage.removeItem("access_token");
-// 				localStorage.removeItem("refresh_token");
-// 				console.log(error);
-// 			}
-// 			return Promise.reject(error);
-// 		}
-// 		return Promise.reject(error);
-// 	}
-// );
+)
 
 export default customAxios
