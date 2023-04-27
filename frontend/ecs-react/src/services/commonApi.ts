@@ -6,7 +6,8 @@ export async function getCategory() {
   const cookies = new Cookies()
   const token = cookies.get("accessToken")
   const headers = { Authorization: `Bearer ${token}` }
-  const response = axios.get("https://testapi.jasonwatmore.com/products/2", {
+
+  const response = axios.get("https://k8d204.p.ssafy.io/api/draw/category", {
     headers,
   })
 
