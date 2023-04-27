@@ -1,4 +1,5 @@
 import axios from "axios"
+import { Cookies } from "react-cookie"
 // import { useSetRecoilState } from "recoil";
 // import { tokenAtom } from "../atoms";
 
@@ -10,9 +11,10 @@ const customAxios = axios.create({
   baseURL: `${BASE_URL}`,
   headers: { "Content-type": "application/json" },
 })
+const cookies = new Cookies()
 
 customAxios.interceptors.request.use(function (config) {
-  let access_token = localStorage.getItem("access_token")
+  let access_token = cookies.get("accessToken")
   // let refresh_token = localStorage.getItem("refresh_token");
   if (!access_token) {
     // if (!access_token) {
