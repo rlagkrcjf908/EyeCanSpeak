@@ -45,6 +45,6 @@ public class CustomOAuthSuccessHandler implements AuthenticationSuccessHandler {
 
         response.setHeader("AccessToken", jwtToken);
 
-        response.sendRedirect("https://k8d204.p.ssafy.io/kakao/redirect"+"?accessToken="+jwtToken+"&refreshToken="+refreshToken);
+        response.sendRedirect("https://k8d204.p.ssafy.io/");
     }
 }
