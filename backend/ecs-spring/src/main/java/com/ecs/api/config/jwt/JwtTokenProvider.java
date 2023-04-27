@@ -69,9 +69,10 @@ public class JwtTokenProvider {
 
     public Claims createClaims(Users users, long expire){
         Claims claims= Jwts.claims()
-                .setSubject(users.getUsersNickName())
+                .setSubject("user")
                 .setIssuedAt(new Date()) // 발행일
                 .setExpiration(new Date(System.currentTimeMillis()+ expire));
+        claims.put("name", users.getUsersNickName());
         claims.put("no", users.getUsersNo());
 
         return claims;
