@@ -4,11 +4,13 @@ export const isLog = atom<boolean>({
   key: "isLog",
   default: false,
 })
-export const userEmail = atom<boolean>({
-  key: "isLog",
-  default: false,
+
+export const userNo = atom<number>({
+  key: "userNo",
+  default: 0,
 })
-export const userNo = atom<boolean>({
-  key: "isLog",
-  default: false,
+
+export const userName = atom<string>({
+  key: "userName",
+  default: "",
 })
