@@ -57,7 +57,7 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration corsConfiguration=new CorsConfiguration();
         corsConfiguration.setAllowedOrigins(List.of(
-                "https://k8d204.p.ssafy.io/"));
+                "https://k8d204.p.ssafy.io/", "http://localhost:3000"));
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.setAllowedHeaders(List.of("Accept", "Accept-Language", "Authorization", "Content-Language", "Content-Type"));
         corsConfiguration.setAllowCredentials(true);
