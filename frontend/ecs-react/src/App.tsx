@@ -19,8 +19,8 @@ function App() {
         <BrowserRouter>
           <RoutesSetup></RoutesSetup>
         </BrowserRouter>
-      </RecoilRoot>{" "}
-      <Mouse></Mouse>
+        <Mouse></Mouse>
+      </RecoilRoot>
     </>
   )
 }
