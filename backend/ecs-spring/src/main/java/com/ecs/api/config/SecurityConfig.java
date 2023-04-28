@@ -38,22 +38,22 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
+                .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers("/h2-console/**",
-                        "/webjars/**")
+                        "/webjars/**", "/api/**", "*")
                 .permitAll()
-                .anyRequest().authenticated()
+//                .anyRequest().authenticated()
                 .and()
                 .headers()
-                .frameOptions().sameOrigin()
-                .and()
-                .oauth2Login()
-                .userInfoEndpoint()
-                .userService(principalOauth2UserService)
-                .and()
-                .successHandler(customOAuthSuccessHandler)
-                .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                .frameOptions().sameOrigin();
+//                .and()
+//                .oauth2Login()
+//                .userInfoEndpoint()
+//                .userService(principalOauth2UserService)
+//                .and()
+//                .successHandler(customOAuthSuccessHandler)
+//                .and()
+//                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
