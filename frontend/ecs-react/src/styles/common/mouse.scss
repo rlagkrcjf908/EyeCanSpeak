@@ -16,7 +16,11 @@ $speed: 0.38s;
 $timing-function: ease-out;
 
 .mouse {
+  position: fixed;
   margin: 0 auto;
+  left: 0;
+  right: 0;
+  top: 400px;
   background: $button-color;
   border-radius: 50px;
   color: white;
@@ -114,6 +118,11 @@ $timing-function: ease-out;
 .leftFrills:after,
 .rightFrills:before {
   transform: rotate(-$frill-rotation);
+}
+
+.controller {
+  position: fixed;
+  bottom: 500px;
 }
 
 @keyframes move-left {
