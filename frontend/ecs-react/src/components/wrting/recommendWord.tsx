@@ -1,6 +1,6 @@
 import { useRecoilState, useRecoilValue } from "recoil"
 import { useState, useRef } from "react"
-import { recommendWord, textState } from "../../recoil/atoms/writing"
+import { recommendWord, textState } from "../../recoil/atoms/writingState"
 import style from "../../styles/writing/writing.module.css"
 import next from "../../assets/icon/next.png"
 import prev from "../../assets/icon/back.png"

@@ -12,5 +12,5 @@ export const searchWord = atom<string>({
 
 export const recommendWord = atom<string[]>({
   key: "recommendWord",
-  default: ["This", "is", "test", "word"],
+  default: [],
 })
