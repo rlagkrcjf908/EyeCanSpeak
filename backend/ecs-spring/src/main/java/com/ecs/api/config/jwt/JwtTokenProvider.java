@@ -88,7 +88,13 @@ public class JwtTokenProvider {
     }
 
     public String resolveToken(HttpServletRequest request, String type){
-        return request.getHeader(type);
+        String token=request.getHeader("Authorization");
+        if(type.equals("accessToken")){
+            if(token.startsWith("Bearer")){
+                token=token.replace("Bearer ","");
+            }
+        }
+        return token;
     }
 
     // Claim의 유효기간 체크
