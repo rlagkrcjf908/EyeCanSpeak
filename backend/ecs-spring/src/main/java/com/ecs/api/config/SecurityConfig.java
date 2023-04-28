@@ -39,7 +39,7 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers("/", "/css/**", "/js/**", "/images/**", "/favicon.ico", "/api/*", "*").permitAll()
+                .antMatchers("/", "/webjars/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .headers()

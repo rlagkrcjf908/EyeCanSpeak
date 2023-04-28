@@ -27,13 +27,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        log.debug("doFilter start");
         String token = jwtTokenProvider.resolveToken(request, "accessToken");
 
-        log.debug("token: "+ token);
         if(token != null ){ // access token 검증
             if(jwtTokenProvider.validationToken(token)){
-                log.debug("token 검증 완료 ");
                 Authentication authentication=jwtTokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }else{ // access token 만료
@@ -55,7 +52,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         }
-        log.debug("filter chain ");
         filterChain.doFilter(request, response);
     }
 }
