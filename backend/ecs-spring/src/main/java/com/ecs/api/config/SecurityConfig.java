@@ -14,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
@@ -37,6 +38,7 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .authorizeRequests()
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/h2-console/**",
                         "/webjars/**")
                 .permitAll()
@@ -63,7 +65,7 @@ public class SecurityConfig {
                 "http://localhost:3000",
                 "http://192.168.100.85:3000/",
                 "http://192.168.100.190:3000/"));
-        corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.setAllowedMethods(List.of("GET", "POST","PUT", "DELETE", "OPTIONS"));
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.setAllowCredentials(true);
 
