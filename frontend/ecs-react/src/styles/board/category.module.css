@@ -4,7 +4,6 @@
 }
 
 .item {
-  cursor: pointer;
   margin: 0 20px;
   width: 150px;
   height: 70px;
@@ -12,15 +11,21 @@
   font-size: 20px;
   background: none;
 }
+
+.btns {
+  display: flex;
+  justify-content: right;
+  margin: 40px 0;
+}
+
 .sortBtn1,
 .sortBtn2 {
-  float: right;
   cursor: pointer;
   background: none;
   font-size: 20px;
-  margin: 0 20px;
+  margin: 0 50px;
 }
 
-.sortBtn1 {
+.sortBtn2 {
   margin-right: 130px;
 }

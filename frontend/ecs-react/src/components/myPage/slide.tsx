@@ -29,51 +29,53 @@ export default function Slide({
   sort: boolean
 }): React.ReactElement {
   const navigate = useNavigate()
-  const customeSlider: any = React.createRef()
+  const customSlider: any = React.createRef()
   const [drawList, setDrawList] = useState<drawInfo[]>([])
   const [currentPage, setCurrentPage] = useState(0)
-  const setting = {
+  const settings = {
     dots: false,
-    infinite: true,
-    touchThreshold: 100,
-    speed: 300,
-    slidesToShow: 2.3,
-    slidesToScroll: 1,
-    centerMode: true,
-    // centerPadding: "30px",
+    draggable: false,
     arrows: false,
-
+    adaptiveHeight: true,
+    centerMode: true,
+    centerPadding: "300px",
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1440,
         settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
+          centerPadding: "20vw",
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 770,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
+          centerPadding: "0",
+          arrows: false,
         },
       },
     ],
+    beforeChange: (oldIndex: any, newIndex: any) => {
+      if (oldIndex !== newIndex) {
+        const cloned = document.querySelectorAll(
+          ".slick-center + .slick-cloned"
+        )
+        cloned.forEach((node) => {
+          setTimeout(() => {
+            node.classList.add("slick-current")
+            node.classList.add("slick-center")
+          })
+        })
+      }
+    },
   }
+
   const gotoNext = () => {
-    customeSlider.current.slickNext()
+    customSlider.current.slickNext()
     setCurrentPage(currentPage + 1 >= drawList.length ? 0 : currentPage + 1)
   }
 
   const gotoPrev = () => {
-    customeSlider.current.slickPrev()
+    customSlider.current.slickPrev()
     setCurrentPage(currentPage - 1 < 0 ? drawList.length - 1 : currentPage - 1)
   }
 
@@ -151,12 +153,12 @@ export default function Slide({
   }
 
   useEffect(() => {
+    console.log(testList.length)
     // setList()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
-    console.log(currentPage)
     // setList()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage])
@@ -164,81 +166,54 @@ export default function Slide({
   return (
     <>
       <div className='slide-container pt-5'>
-        <div className='slide-row'>
-          <div className='slide-col-12'>
-            <div className='slide-buttons'>
-              <button className='prev-button' onClick={() => gotoPrev()}>
-                <img src={prev} alt='' width={30}></img>
-              </button>
-              <button className='next-button' onClick={() => gotoNext()}>
-                <img src={next} alt='' width={30}></img>
-              </button>
-            </div>
-            <Slider {...setting} ref={customeSlider} className='slick'>
-              {testList.map(
-                (
-                  item // drawList로 바꿔야함
-                ) => (
-                  <div className='slide-item' key={item.draw_no}>
-                    <div
-                      className='slide-bg'
-                      style={{ backgroundImage: `url(${item.draw_drawing})` }}
+        <div className='slide-buttons'>
+          <button className='prev-button' onClick={() => gotoPrev()}>
+            <img src={prev} alt='' width={30}></img>
+          </button>
+          <button className='next-button' onClick={() => gotoNext()}>
+            <img src={next} alt='' width={30}></img>
+          </button>
+        </div>
+        <div className='v-story-wrap con'>
+          <Slider
+            ref={customSlider}
+            className='v-story-slider'
+            data-aos='fade-up'
+            {...settings}
+          >
+            {testList.map((item, index) => (
+              <div className='slider-item'>
+                <div className='img-box'>
+                  <img src={item.draw_drawing} alt='' />
+                </div>
+                <div className='v-story-desc-list'>
+                  <p className='v-story-desc-tt'>
+                    <br />
+                  </p>
+                  <p className='v-story-desc'>{item.category_nm}</p>
+                  {item.like ? (
+                    <button
+                      className='slide-like'
+                      onClick={() => {
+                        setUnlike(item.draw_no)
+                      }}
                     >
-                      {item.like ? (
-                        <button
-                          className='slide-like'
-                          onClick={() => {
-                            setUnlike(item.draw_no)
-                          }}
-                        >
-                          <img src={likeIco} alt='' width={50} />
-                        </button>
-                      ) : (
-                        <button
-                          className='slide-like'
-                          onClick={() => {
-                            setLike(item.draw_no)
-                          }}
-                        >
-                          <img src={unlikeIco} alt='' width={50} />
-                        </button>
-                      )}
-                      <div className='slide-painter'> {item.user_nm}</div>
-                      <div className='slide-category'></div>
-                    </div>
-                  </div>
-                )
-              )}
-
-              {/* <div className='item'>
-                <div
-                  className='bg'
-                  style={{
-                    backgroundImage:
-                      "url(https://images.pexels.com/photos/4319752/pexels-photo-4319752.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)",
-                  }}
-                ></div>
+                      <img src={likeIco} alt='' width={50} />
+                    </button>
+                  ) : (
+                    <button
+                      className='slide-like'
+                      onClick={() => {
+                        setLike(item.draw_no)
+                      }}
+                    >
+                      <img src={unlikeIco} alt='' width={50} />
+                    </button>
+                  )}
+                </div>
               </div>
-              <div className='item'>
-                <div
-                  className='bg'
-                  style={{
-                    backgroundImage:
-                      "url(https://images.pexels.com/photos/1402850/pexels-photo-1402850.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)",
-                  }}
-                ></div>
-              </div>
-              <div className='item'>
-                <div
-                  className='bg'
-                  style={{
-                    backgroundImage:
-                      "url(https://images.pexels.com/photos/2422915/pexels-photo-2422915.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)",
-                  }}
-                ></div>
-              </div> */}
-            </Slider>
-          </div>
+            ))}
+          </Slider>
         </div>
         <div className={style.buttons}>
           <button className={style.btn} onClick={saveDraw}>
