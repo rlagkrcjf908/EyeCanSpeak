@@ -41,7 +41,6 @@ export default function SelectSubjectDraw() {
       return
     }
     setSubject(randomSubject.subjectNM)
-    console.log(randomSubject.subjectNM)
   }
 
   // Category 선택하고 Category안의 subject 부르기

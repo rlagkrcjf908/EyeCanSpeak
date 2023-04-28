@@ -5,7 +5,7 @@ import {
   recommendWord,
   searchWord,
   textState,
-} from "../../recoil/atoms/writing"
+} from "../../recoil/atoms/writingState"
 import { getWords, saveWord } from "../../services/writingApi"
 import style from "../../styles/writing/keyboard.module.css"
 import RecommendWord from "./recommendWord"
@@ -34,9 +34,7 @@ export default function Key() {
   const loadWords = async () => {
     try {
       const response = await getWords(word)
-
       const item = response.data.writeContents
-      console.log(response)
       setWords(item)
     } catch (error: any) {
       console.log(error)
@@ -55,6 +53,9 @@ export default function Key() {
 
   // 글 모두 지우기
   const deleteInputValue = () => {
+    if (!inputRef.current) return
+    inputWrapper?.backspace()
+    inputRef.current.value = ""
     setText("")
   }
 
@@ -71,11 +72,11 @@ export default function Key() {
     const textList = text.split(" ")
     const lastText = textList[textList.length - 1]
     setWord(lastText)
+    inputRef.current?.focus()
   }, [text])
 
   useEffect(() => {
     if (!text) return
-
     loadWords()
   }, [word])
   // 누른 키에 따라 다른 함수 실행
@@ -100,7 +101,16 @@ export default function Key() {
     }
     onChange()
   }
-
+  // Enter,Backspace 키보드로 입력
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSaveWord()
+    }
+    if (e.key === "Backspace") {
+      e.preventDefault()
+      inputWrapper?.backspace()
+    }
+  }
   return (
     <div className={style.section}>
       <div>
@@ -113,7 +123,7 @@ export default function Key() {
           }}
           value={text}
           onChange={onChange}
-          maxLength={5}
+          onKeyDown={(e) => handleKeyDown(e)}
         />
       </div>
       {/* 추천단어 */}
