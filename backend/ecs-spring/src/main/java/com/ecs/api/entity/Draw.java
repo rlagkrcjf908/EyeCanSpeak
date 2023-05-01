@@ -1,7 +1,6 @@
 package com.ecs.api.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -16,6 +15,7 @@ import java.util.List;
 @Table(name = "Draw")
 @Getter
 @Setter
+@NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class Draw {
 
@@ -46,8 +46,13 @@ public class Draw {
     @JoinColumn(name = "CATEGORY_NO")
     private Category categoryNo;
 
-
     @OneToMany(mappedBy = "drawNo",cascade = CascadeType.REMOVE)
     private List<Likes> likes = new ArrayList<>();
+
+    @Builder
+    public Draw(int drawNo){
+        this.drawNo=drawNo;
+    }
+
 
 }
