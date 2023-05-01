@@ -26,7 +26,7 @@ public class UserRepositorySupport implements  UserCustomRepository{
     public List<UserDrawResDto> findUserDrawList(Users users, int num, boolean like, boolean date) {
 
         List<UserDrawResDto> userDrawResDtoList= queryFactory
-                .select(Projections.constructor(UserDrawResDto.class, draw.drawNo, draw.drawDrawing, draw.drawRecentDate, draw.categoryNo.categoryNM))
+                .select(Projections.constructor(UserDrawResDto.class, draw.drawNo, draw.drawDrawing, draw.drawRecentDate, draw.categoryNo.categoryNM, draw.drawPostTF))
                 .from(draw)
                 .where(draw.usersNo.usersNo.eq(users.getUsersNo()), eqCategory(num))
                 .orderBy(sortByField(like, date).toArray(new OrderSpecifier[0]))
