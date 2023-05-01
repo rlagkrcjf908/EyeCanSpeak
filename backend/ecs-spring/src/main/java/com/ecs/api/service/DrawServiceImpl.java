@@ -183,7 +183,8 @@ public class DrawServiceImpl implements DrawService{
             Likes likes = likesRepository.findByUsersNoAndDrawNo(user, dentity);
 
             DrawResDto dto = new DrawResDto();
-            dto.setDrawDrawing(drawdto.getDrawDrawing());
+
+            dto.setDrawDrawing(getS3(bucket,drawdto.getDrawDrawing()));
             dto.setDrawNo(drawdto.getDrawNo());
             dto.setDrawDate(drawdto.getDrawRecentDate());
             dto.setCount(drawdto.getCount());
