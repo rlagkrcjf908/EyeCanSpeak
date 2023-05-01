@@ -2,6 +2,7 @@ package com.ecs.api.config.oauth;
 
 import com.ecs.api.entity.Users;
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -11,6 +12,7 @@ import java.util.Collection;
 import java.util.Map;
 
 @Data
+@Getter
 public class PrincipalDetails implements OAuth2User, UserDetails {
     private Users users;
     private Map<String, Object> attributes;
