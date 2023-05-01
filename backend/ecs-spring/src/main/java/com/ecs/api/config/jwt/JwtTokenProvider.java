@@ -84,7 +84,7 @@ public class JwtTokenProvider {
         PrincipalDetails users=new PrincipalDetails(userRepository.findByUsersId(email)
                 .orElseThrow(()->new IllegalArgumentException("유저가 없습니다.")));
 
-        return new UsernamePasswordAuthenticationToken(users.getUsers(), "", users.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(users, "", users.getAuthorities());
     }
 
     public String resolveToken(HttpServletRequest request, String type){
