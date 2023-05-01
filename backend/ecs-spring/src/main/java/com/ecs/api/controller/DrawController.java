@@ -76,8 +76,8 @@ public class DrawController {
 
     }
     // 이미지 수정
-    @PutMapping(value="/store/{draw_no}",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<?extends BaseResDto> update(@PathVariable("draw_no")int drawNo,@RequestPart(value = "data") DrawReqDto drawReqDto, @RequestPart(value="File")MultipartFile multipartFile){
+    @PutMapping(value="/store/{drawNo}",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<?extends BaseResDto> update(@PathVariable("drawNo")int drawNo,@RequestPart(value = "data") DrawReqDto drawReqDto, @RequestPart(value="File")MultipartFile multipartFile){
         try{
             AwsS3ReqDto awsS3ReqDto = drawService.update(drawNo,drawReqDto,multipartFile);
             if(awsS3ReqDto != null) {
@@ -92,7 +92,7 @@ public class DrawController {
 
     // 이미지 삭제
     @DeleteMapping()
-    public ResponseEntity<?extends BaseResDto> remove(@RequestParam("draw_no")int drawNo){
+    public ResponseEntity<?extends BaseResDto> remove(@RequestParam("drawNo")int drawNo){
         try{
             drawService.remove(drawNo);
             return ResponseEntity.status(200).body(BaseResDto.of(200, "Success"));
@@ -105,8 +105,8 @@ public class DrawController {
     }
 
     // 이미지 불러오기
-    @GetMapping("/{draw_No}")
-    public ResponseEntity<String> getDraw(@PathVariable("draw_No") int drawNo){
+    @GetMapping("/{drawNo}")
+    public ResponseEntity<String> getDraw(@PathVariable("drawNo") int drawNo){
         try{
             String Image = drawService.getDraw(drawNo);
             return ResponseEntity.status(200).body(Image);
@@ -119,7 +119,7 @@ public class DrawController {
     // 작품 공유 ----------------------------------------------------------------------------------------------
     // 작품 리스트
     @GetMapping("/list")
-    public ResponseEntity<List<DrawResDto>> getList(@RequestParam("user_no")int userNo,@RequestParam("category_no")int categoryNo, @RequestParam(value ="like",defaultValue = "false")boolean like, @RequestParam(value = "date",defaultValue = "false")boolean date){
+    public ResponseEntity<List<DrawResDto>> getList(@RequestParam("userNo")int userNo,@RequestParam("categoryNo")int categoryNo, @RequestParam(value ="like",defaultValue = "false")boolean like, @RequestParam(value = "date",defaultValue = "false")boolean date){
         try{
             List<DrawResDto> drawings = drawService.getList(userNo,categoryNo,like,date);
             return ResponseEntity.status(200).body(drawings);
@@ -131,7 +131,7 @@ public class DrawController {
     // 좋아요---------------------------------------------------------------------------------------------------
 
     @PostMapping("/like")
-    public ResponseEntity<?extends BaseResDto> Likes(@RequestParam("user_no")int userNo,@RequestBody LikeReqDto likeReqDto){
+    public ResponseEntity<?extends BaseResDto> Likes(@RequestParam("userNo")int userNo,@RequestBody LikeReqDto likeReqDto){
 
         try {
 
@@ -144,7 +144,7 @@ public class DrawController {
         }
     }
     @DeleteMapping("/like")
-    public ResponseEntity<?extends BaseResDto> delLikes(@RequestParam("user_no")int userNo,@RequestBody LikeReqDto likeReqDto){
+    public ResponseEntity<?extends BaseResDto> delLikes(@RequestParam("userNo")int userNo,@RequestBody LikeReqDto likeReqDto){
 
         try{
 

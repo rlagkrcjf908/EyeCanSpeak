@@ -16,7 +16,7 @@ import java.util.List;
 public class WriteController {
     private final WriteService writeService;
     @PostMapping()
-    public ResponseEntity<?extends BaseResDto> setWrite(@RequestParam("user_no")int userNo, @RequestBody WriteReqDto writeReqDto){
+    public ResponseEntity<?extends BaseResDto> setWrite(@RequestParam("userNo")int userNo, @RequestBody WriteReqDto writeReqDto){
         try{
             writeService.setWrite(userNo,writeReqDto);
             return ResponseEntity.status(200).body(BaseResDto.of(200, "Success"));
@@ -27,7 +27,7 @@ public class WriteController {
 
     }
     @PostMapping("/history")
-    public ResponseEntity<WriteResDto> getWriteHistory(@RequestParam("user_no")int userNo, @RequestBody WriteReqDto writeReqDto){
+    public ResponseEntity<WriteResDto> getWriteHistory(@RequestParam("userNo")int userNo, @RequestBody WriteReqDto writeReqDto){
             WriteResDto writeResDto = writeService.getWriteHistory(userNo,writeReqDto);
             return ResponseEntity.status(200).body(writeResDto);
     }
