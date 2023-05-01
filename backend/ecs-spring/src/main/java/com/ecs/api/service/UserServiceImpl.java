@@ -29,8 +29,8 @@ public class UserServiceImpl implements UserService {
         List<UserDrawResDto> userDrawList=userRepositorySupport.findUserDrawList(users, num, like, date);
 
         for (UserDrawResDto userDrawResDto : userDrawList) {
-            userDrawResDto.setDrawDrawing(getS3(bucket, userDrawResDto.getDrawDrawing()));
-            if (likesRepository.existsByUsersNoAndDrawNo(users, Draw.builder().drawNo(userDrawResDto.getDrawNo()).build())) {
+            userDrawResDto.setDraw_drawing(getS3(bucket, userDrawResDto.getDraw_drawing()));
+            if (likesRepository.existsByUsersNoAndDrawNo(users, Draw.builder().drawNo(userDrawResDto.getDraw_no()).build())) {
                 userDrawResDto.setLike(true);
             } else {
                 userDrawResDto.setLike(false);
