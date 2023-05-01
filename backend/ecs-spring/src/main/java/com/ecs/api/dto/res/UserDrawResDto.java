@@ -8,19 +8,19 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 public class UserDrawResDto {
-    private int drawNo;
-    private String drawDrawing;
-    private LocalDateTime drawDate;
-    private String categoryNm;
-    private boolean drawPostTF;
+    private int draw_no;
+    private String draw_drawing;
+    private LocalDateTime draw_date;
+    private String category_nm;
+    private boolean draw_post_tf;
     private boolean like;
-    private Long likeCnt;
+    private Long like_cnt;
 
-    public UserDrawResDto(int drawNo, String drawDrawing, LocalDateTime drawDate, String categoryNm, boolean drawPostTF) {
-        this.drawNo = drawNo;
-        this.drawDrawing = drawDrawing;
-        this.drawDate = drawDate;
-        this.categoryNm = categoryNm;
-        this.drawPostTF=drawPostTF;
+    public UserDrawResDto(int drawNo, String drawDrawing, LocalDateTime drawDate, String categoryNM, boolean drawPostTF) {
+        this.draw_no = drawNo;
+        this.draw_drawing = drawDrawing;
+        this.draw_date = drawDate;
+        this.category_nm = categoryNM;
+        this.draw_post_tf=drawPostTF;
     }
 }
