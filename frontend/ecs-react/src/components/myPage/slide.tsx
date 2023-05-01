@@ -116,6 +116,7 @@ export default function Slide({
   const setLike = async (draw_no: number) => {
     const response = await like(draw_no)
     if (response.status === 200) {
+      console.log("좋아요")
     }
   }
   const setUnlike = async (draw_no: number) => {
