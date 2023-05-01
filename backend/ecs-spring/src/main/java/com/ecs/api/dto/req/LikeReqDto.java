@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 public class LikeReqDto {
 
-    @JsonProperty("draw_no")
+    @JsonProperty("drawNo")
     int drawNo;
 }
