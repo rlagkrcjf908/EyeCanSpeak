@@ -137,7 +137,12 @@ function Board({ width, height }: CanvasProps) {
   }
   return (
     <div className={style.container}>
-      <div className={style.board}>
+      <div
+        className={style.board}
+        style={{
+          backgroundColor: "white",
+        }}
+      >
         <canvas
           ref={canvasRef}
           height={height}

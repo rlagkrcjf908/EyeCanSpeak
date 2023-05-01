@@ -1,19 +1,5 @@
 import { AxiosResponse } from "axios"
 import customAxios from "./api"
-export async function signup( // 참고
-  email: string,
-  password: string,
-  nickname: string,
-  code: string
-) {
-  const response: AxiosResponse = await customAxios.post(`/accounts/signup/`, {
-    email: email,
-    password: password,
-    nickname: nickname,
-    code: code,
-  })
-  return response
-}
 
 export async function getList(subIdx: number, sort: boolean) {
   let like: boolean = false,
@@ -28,9 +14,9 @@ export async function getList(subIdx: number, sort: boolean) {
   )
   return response
 }
-export async function deleteDrawing(draw_no: number) {
+export async function deleteDrawing(drawNo: number) {
   const response: AxiosResponse = await customAxios.delete(`/user/draw`, {
-    data: { draw_no: draw_no },
+    data: { drawNo: drawNo },
   })
   return response
 }

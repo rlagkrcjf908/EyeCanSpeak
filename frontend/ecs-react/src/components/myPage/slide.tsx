@@ -11,6 +11,8 @@ import unlikeIco from "../../assets/icon/unlike.png"
 import { like, unLike } from "../../services/boardApi"
 import { deleteDrawing, getList } from "../../services/userApi"
 import { useNavigate } from "react-router"
+import { useRecoilState, useSetRecoilState } from "recoil"
+import { bgImg, drawInfoState } from "../../recoil/atoms/drawingState"
 
 interface drawInfo {
   user_nm: string
@@ -32,6 +34,8 @@ export default function Slide({
   const customSlider: any = React.createRef()
   const [drawList, setDrawList] = useState<drawInfo[]>([])
   const [currentPage, setCurrentPage] = useState(0)
+  const setBgImage = useSetRecoilState(bgImg)
+  const [drawInfo, setDrawInfo] = useRecoilState(drawInfoState)
   const settings = {
     dots: false,
     draggable: false,
@@ -112,6 +116,7 @@ export default function Slide({
   const setLike = async (draw_no: number) => {
     const response = await like(draw_no)
     if (response.status === 200) {
+      console.log("좋아요")
     }
   }
   const setUnlike = async (draw_no: number) => {
@@ -147,19 +152,22 @@ export default function Slide({
       })
   }
 
+  const editDraw = () => {
+    setBgImage(drawList[currentPage].draw_drawing)
+    navigate(`/editDraw/${drawList[currentPage].draw_no}`)
+    setDrawInfo({
+      draw_no: drawList[currentPage].draw_no,
+      subject_nm: drawList[currentPage].category_nm,
+    })
+  }
+
   const deleteDraw = async () => {
     const response = await deleteDrawing(drawList[currentPage].draw_no)
     if (response.status === 400) console.log("삭제 실패")
   }
 
   useEffect(() => {
-    console.log(testList.length)
-    // setList()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => {
-    // setList()
+    setList()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage])
 
@@ -219,12 +227,7 @@ export default function Slide({
           <button className={style.btn} onClick={saveDraw}>
             이미지 다운로드
           </button>
-          <button
-            className={style.btn}
-            onClick={() => {
-              navigate(`/editDraw/${drawList[currentPage].draw_no}`)
-            }}
-          >
+          <button className={style.btn} onClick={editDraw}>
             수정
           </button>
           <button className={style.btn} onClick={deleteDraw}>

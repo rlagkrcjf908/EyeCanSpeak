@@ -5,6 +5,7 @@ const usePreventLeave = () => {
   }
 
   function enablePrevent() {
+    // 모달 창..?
     window.addEventListener("beforeunload", listener)
   }
 
