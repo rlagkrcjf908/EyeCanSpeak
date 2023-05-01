@@ -19,11 +19,6 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping
-    public ResponseEntity<?> getUser(@AuthenticationPrincipal PrincipalDetails principalDetails){
-        return ResponseEntity.ok().body(principalDetails.getUsers());
-    }
-
     @GetMapping("/list")
     public ResponseEntity<?> getDrawList(@AuthenticationPrincipal PrincipalDetails principalDetails,
                                          @RequestParam(value = "category_no", required = false, defaultValue = "-1") int num,
