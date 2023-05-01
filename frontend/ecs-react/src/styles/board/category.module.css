@@ -15,7 +15,7 @@
 .btns {
   display: flex;
   justify-content: right;
-  margin: 40px 0;
+  margin: 15px 0;
 }
 
 .sortBtn1,

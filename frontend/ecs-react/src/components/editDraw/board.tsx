@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import style from "../../styles/drawing/board.module.css"
 import { useRecoilValue } from "recoil"
 import Palette from "./palette"
+import img from "../../PaintJs.png"
 import { saveDrawing } from "../../services/drawingApi"
 import { useParams } from "react-router"
 import {
@@ -11,6 +12,8 @@ import {
   nextXState,
   nextYState,
 } from "../../recoil/atoms/mouseState"
+import { bgImg } from "../../recoil/atoms/drawingState"
+import { async } from "q"
 
 interface CanvasProps {
   width: number
@@ -27,6 +30,7 @@ function Board({ width, height }: CanvasProps) {
   const [size, setSize] = useState(2)
   const [offsetLeft, setOffsetLeft] = useState(0)
   const [offsetTop, setOffsetTop] = useState(0)
+  const bgImage = useRecoilValue(bgImg)
 
   const [initStart, setInitStart] = useState(true)
   const [start, setStart] = useState(true)
@@ -61,8 +65,13 @@ function Board({ width, height }: CanvasProps) {
     }
 
     if (initStart && context) {
-      context.fillStyle = "#ffffff"
-      context?.fillRect(0, 0, canvas.width, canvas.height)
+      let backImg = new Image()
+      backImg.crossOrigin = "Anonymous"
+      backImg.src = bgImage
+      backImg.onload = function () {
+        context.drawImage(backImg, 0, 0, canvas.width + 5, canvas.height)
+      }
+
       setInitStart(false)
     }
 
@@ -124,20 +133,31 @@ function Board({ width, height }: CanvasProps) {
 
   //------------------------------------------------------
   const saveDraw = async () => {
+    // const canvas: any = document.getElementById("canvas")
+    // console.log(canvas)
+    // const dataURL = canvas.toDataURL("image/jpeg")
+    // const formData = new FormData()
+    // formData.append("multipartFiles", dataURL)
+    // const subject_nm: any = params.subject_nm
+    // const response = await saveDrawing(subject_nm, formData)
+    // if (response.status === 400) console.log("저장 실패")
     const canvas: any = document.getElementById("canvas")
-    console.log(canvas)
-    const dataURL = canvas.toDataURL("image/jpeg")
-
-    const formData = new FormData()
-
-    formData.append("multipartFiles", dataURL)
-    const subject_nm: any = params.subject_nm
-    const response = await saveDrawing(subject_nm, formData)
-    if (response.status === 400) console.log("저장 실패")
+    const image = canvas.toDataURL()
+    const link = document.createElement("a")
+    link.href = image
+    link.download = "PaintJS[🎨]"
+    link.click()
   }
+  const postDraw = async () => {}
   return (
     <div className={style.container}>
-      <div className={style.board}>
+      <div
+        className={style.board}
+        style={{
+          backgroundImage: `url(${bgImage})`,
+          backgroundSize: "1005px 700px",
+        }}
+      >
         <canvas
           ref={canvasRef}
           height={height}
@@ -146,9 +166,13 @@ function Board({ width, height }: CanvasProps) {
         ></canvas>
       </div>
       <div>
-        <Palette changeColor={changeColor} changeSize={changeSize} />{" "}
-        <button className={style.saveBtn} onClick={saveDraw}>
+        <Palette changeColor={changeColor} changeSize={changeSize} />
+        {/* 나중에 모달 창으로 만들기 */}
+        <button className={style.btn} onClick={saveDraw}>
           저장
+        </button>
+        <button className={style.btn} onClick={postDraw}>
+          공유
         </button>
       </div>
     </div>
