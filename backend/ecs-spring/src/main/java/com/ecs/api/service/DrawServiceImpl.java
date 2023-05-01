@@ -187,7 +187,7 @@ public class DrawServiceImpl implements DrawService{
             dto.setDrawDrawing(getS3(bucket,drawdto.getDrawDrawing()));
             dto.setDrawNo(drawdto.getDrawNo());
             dto.setDrawDate(drawdto.getDrawRecentDate());
-            dto.setCount(drawdto.getCount());
+            dto.setLikeCnt(drawdto.getCount());
             if (likes == null) dto.setLike(false);
             dto.setLike(true);
 

@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class WriteReqDto {
-    @JsonProperty("write_content")
+    @JsonProperty("writeContent")
     String writeContent;
 
 }

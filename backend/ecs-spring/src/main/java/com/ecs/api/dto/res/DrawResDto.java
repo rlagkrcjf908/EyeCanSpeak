@@ -14,5 +14,5 @@ public class DrawResDto {
     String categoryNM;
     boolean like;
     String userNM;
-    Long count;
+    Long likeCnt;
 }
