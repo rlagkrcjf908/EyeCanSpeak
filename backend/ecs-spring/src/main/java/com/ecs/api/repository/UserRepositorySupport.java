@@ -35,10 +35,10 @@ public class UserRepositorySupport implements  UserCustomRepository{
             Long likeCounts=queryFactory
                     .select(likes.drawNo.count())
                     .from(likes)
-                    .where(likes.drawNo.drawNo.eq(userDrawResDtoList.get(i).getDraw_no()))
+                    .where(likes.drawNo.drawNo.eq(userDrawResDtoList.get(i).getDrawNo()))
                     .fetchOne();
             UserDrawResDto userDrawResDto=userDrawResDtoList.get(i);
-            userDrawResDto.setLike_cnt(likeCounts);
+            userDrawResDto.setLikeCnt(likeCounts);
             userDrawResDtoList.set(i, userDrawResDto);
         }
 
