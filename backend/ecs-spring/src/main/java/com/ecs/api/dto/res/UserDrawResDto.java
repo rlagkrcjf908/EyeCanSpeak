@@ -16,11 +16,12 @@ public class UserDrawResDto {
     private boolean like;
     private Long likeCnt;
 
-    public UserDrawResDto(int drawNo, String drawDrawing, LocalDateTime drawDate, String categoryNM, boolean drawPostTF) {
+    public UserDrawResDto(int drawNo, String drawDrawing, LocalDateTime drawDate, String categoryNM, boolean drawPostTF, Long likeCnt) {
         this.drawNo = drawNo;
         this.drawDrawing = drawDrawing;
         this.drawDate = drawDate;
         this.categoryNM = categoryNM;
         this.drawPostTF=drawPostTF;
+        this.likeCnt=likeCnt;
     }
 }

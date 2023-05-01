@@ -25,24 +25,15 @@ public class UserRepositorySupport implements  UserCustomRepository{
     @Override
     public List<UserDrawResDto> findUserDrawList(Users users, int num, boolean like, boolean date) {
 
-        List<UserDrawResDto> userDrawResDtoList= queryFactory
-                .select(Projections.constructor(UserDrawResDto.class, draw.drawNo, draw.drawDrawing, draw.drawRecentDate, draw.categoryNo.categoryNM, draw.drawPostTF))
+        return queryFactory
+                .select(Projections.constructor(UserDrawResDto.class, draw.drawNo, draw.drawDrawing, draw.drawRecentDate, draw.categoryNo.categoryNM, draw.drawPostTF, likes.drawNo.drawNo.count()))
                 .from(draw)
+                .leftJoin(likes)
+                .on(draw.drawNo.eq(likes.drawNo.drawNo))
                 .where(draw.usersNo.usersNo.eq(users.getUsersNo()), eqCategory(num))
+                .groupBy(draw.drawNo)
                 .orderBy(sortByField(like, date).toArray(new OrderSpecifier[0]))
                 .fetch();
-        for(int i=0; i<userDrawResDtoList.size(); i++){
-            Long likeCounts=queryFactory
-                    .select(likes.drawNo.count())
-                    .from(likes)
-                    .where(likes.drawNo.drawNo.eq(userDrawResDtoList.get(i).getDrawNo()))
-                    .fetchOne();
-            UserDrawResDto userDrawResDto=userDrawResDtoList.get(i);
-            userDrawResDto.setLikeCnt(likeCounts);
-            userDrawResDtoList.set(i, userDrawResDto);
-        }
-
-        return userDrawResDtoList;
     }
 
     private BooleanExpression eqCategory(int num){
@@ -54,8 +45,8 @@ public class UserRepositorySupport implements  UserCustomRepository{
 
     private List<OrderSpecifier> sortByField(boolean like, boolean date ){
         List<OrderSpecifier> orderSpecifiers=new ArrayList<>();
+        if(like) orderSpecifiers.add(draw.drawNo.count().desc());
         if(date) orderSpecifiers.add(draw.drawRecentDate.desc());
-        if(like) orderSpecifiers.add(likes.drawNo.count().desc());
         return orderSpecifiers;
     }
 }
