@@ -9,4 +9,5 @@ import java.util.List;
 public interface UserService {
     List<UserDrawResDto> findUserDrawList(Users users, int num, boolean like, boolean date);
     UserDrawGetResDto findUserDraw(int drawNo);
+    void deleteDraw(int drawNo);
 }

@@ -39,4 +39,14 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @DeleteMapping("/draw/{drawNo}")
+    public ResponseEntity<?> deleteDraw(@PathVariable("drawNo") int drawNo){
+        try{
+            userService.deleteDraw(drawNo);
+            return ResponseEntity.ok().build();
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }
