@@ -146,14 +146,14 @@ function Board({ width, height }: CanvasProps) {
   }
 
   const saveApi = async (formData: FormData) => {
-    // const token = cookies.get("accessToken")
+    const token = cookies.get("accessToken")
     const response: AxiosResponse = await axios.post(
       "https://k8d204.p.ssafy.io/api/draw/store",
       formData,
       {
         headers: {
           "Content-Type": "multipart/form-data",
-          // Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     )
