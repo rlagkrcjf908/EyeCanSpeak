@@ -50,6 +50,16 @@ public class UserServiceImpl implements UserService {
         return getDraw;
     }
 
+    @Override
+    public void deleteDraw(int drawNo) {
+        Draw draw=drawRepository.findDrawsByDrawNo(drawNo).orElseThrow(()->new IllegalArgumentException("그림 없음"));
+        boolean isExist=amazonS3.doesObjectExist(bucket, draw.getDrawDrawing());
+        if(isExist){
+            amazonS3.deleteObject(bucket, draw.getDrawDrawing());
+            drawRepository.delete(draw);
+        }
+    }
+
     private String getS3(String bucket, String fileName) {
         return amazonS3.getUrl(bucket, fileName).toString();
     }
