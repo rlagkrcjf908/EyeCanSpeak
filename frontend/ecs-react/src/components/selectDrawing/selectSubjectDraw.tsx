@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
 import { getCategory } from "../../services/commonApi"
 import { getSubject } from "../../services/selectSubject"
-import style from "../../styles/selectDrawing/SubjectDraw.module.css"
+import style from "../../styles/selectDrawing/subjectDraw.module.css"
 import Subject from "../../assets/image/SubjectDraw.png"
 import resetImg from "../../assets/image/reset.png"
 import backImg from "../../assets/image/left.png"

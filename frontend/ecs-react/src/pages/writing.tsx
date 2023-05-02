@@ -1,4 +1,4 @@
-import Key from "../components/wrting/key"
+import Key from "../components/writing/key"
 import style from "../styles/writing/writing.module.css"
 
 export default function Writing() {
