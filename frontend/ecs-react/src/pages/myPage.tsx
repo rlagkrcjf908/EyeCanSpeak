@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Category from "../components/myPage/category"
 import Slide from "../components/myPage/slide"
 import Sort from "../components/myPage/sort"
 
 export default function MyPage() {
-  const [category, setCategory] = useState(0)
+  const [category, setCategory] = useState(-1)
   const [sort, setSort] = useState(true)
 
   const changeCategory: any = (idx: number) => {
