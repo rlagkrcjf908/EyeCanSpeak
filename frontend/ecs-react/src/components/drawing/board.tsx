@@ -157,7 +157,7 @@ function Board({ width, height }: CanvasProps) {
         },
       }
     )
-    if (response.status !== 200) console.log("저장 실패ㅠ")
+    if (response.status !== 200) console.log("저장 실패")
   }
   const postDraw = async () => {}
   return (
