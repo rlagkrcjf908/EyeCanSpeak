@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 import style from "../../styles/drawing/board.module.css"
-import { useRecoilState, useRecoilValue } from "recoil"
+import { useRecoilValue } from "recoil"
 import Palette from "./palette"
-import { saveDrawing } from "../../services/drawingApi"
+// import { saveDrawing } from "../../services/drawingApi"
 import { useParams } from "react-router"
 import {
   currerntXState,
@@ -11,6 +11,8 @@ import {
   nextXState,
   nextYState,
 } from "../../recoil/atoms/mouseState"
+import axios, { AxiosResponse } from "axios"
+import { Cookies } from "react-cookie"
 
 interface CanvasProps {
   width: number
@@ -18,7 +20,7 @@ interface CanvasProps {
 }
 
 function Board({ width, height }: CanvasProps) {
-  const [click, setClick] = useRecoilState(isClick)
+  const click = useRecoilValue(isClick)
   const currentX = useRecoilValue(currerntXState)
   const currentY = useRecoilValue(currerntYState)
   const nextX = useRecoilValue(nextXState)
@@ -27,6 +29,8 @@ function Board({ width, height }: CanvasProps) {
   const [size, setSize] = useState(2)
   const [offsetLeft, setOffsetLeft] = useState(0)
   const [offsetTop, setOffsetTop] = useState(0)
+
+  const cookies = new Cookies()
 
   const [initStart, setInitStart] = useState(true)
   const [start, setStart] = useState(true)
@@ -124,17 +128,38 @@ function Board({ width, height }: CanvasProps) {
 
   //------------------------------------------------------
   const saveDraw = async () => {
-    const canvas: any = document.getElementById("canvas")
-    console.log(canvas)
-    const dataURL = canvas.toDataURL("image/jpeg")
-
     const formData = new FormData()
-
-    formData.append("multipartFiles", dataURL)
-    const subject_nm: any = params.subject_nm
-    const response = await saveDrawing(subject_nm, formData)
-    if (response.status === 400) console.log("저장 실패")
+    const canvas: any = document.getElementById("canvas")
+    const data = {
+      categoryNo: params,
+      drawPostTF: false,
+    }
+    await canvas.toBlob((blob: any) => {
+      // canvas 이미지 파일로 변환
+      formData.append("drawDrawing", blob)
+      formData.append(
+        "data",
+        new Blob([JSON.stringify(data)], { type: "application/json" })
+      )
+      saveApi(formData)
+    })
   }
+
+  const saveApi = async (formData: FormData) => {
+    const token = cookies.get("accessToken")
+    const response: AxiosResponse = await axios.post(
+      "http://192.168.100.207:8080/api/draw/store",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    if (response.status !== 200) console.log("저장 실패ㅠ")
+  }
+  const postDraw = async () => {}
   return (
     <div className={style.container}>
       <div
@@ -152,8 +177,11 @@ function Board({ width, height }: CanvasProps) {
       </div>
       <div style={{ textAlign: "center" }}>
         <Palette changeColor={changeColor} changeSize={changeSize} />
-        <button className={style.saveBtn} onClick={saveDraw}>
+        <button className={style.btn} onClick={saveDraw}>
           저장
+        </button>
+        <button className={style.btn} onClick={postDraw}>
+          공유
         </button>
       </div>
     </div>

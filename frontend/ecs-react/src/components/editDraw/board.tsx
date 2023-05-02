@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import style from "../../styles/drawing/board.module.css"
 import { useRecoilValue } from "recoil"
 import Palette from "./palette"
-import img from "../../PaintJs.png"
-import { saveDrawing } from "../../services/drawingApi"
+// import { saveDrawing } from "../../services/drawingApi"
 import { useParams } from "react-router"
 import {
   currerntXState,
@@ -13,7 +12,6 @@ import {
   nextYState,
 } from "../../recoil/atoms/mouseState"
 import { bgImg } from "../../recoil/atoms/drawingState"
-import { async } from "q"
 
 interface CanvasProps {
   width: number
@@ -43,7 +41,6 @@ function Board({ width, height }: CanvasProps) {
   }
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const params = useParams()
 
   const [isPainting, setIsPainting] = useState(false)
 
@@ -165,7 +162,7 @@ function Board({ width, height }: CanvasProps) {
           id='canvas'
         ></canvas>
       </div>
-      <div>
+      <div style={{ textAlign: "center" }}>
         <Palette changeColor={changeColor} changeSize={changeSize} />
         {/* 나중에 모달 창으로 만들기 */}
         <button className={style.btn} onClick={saveDraw}>
