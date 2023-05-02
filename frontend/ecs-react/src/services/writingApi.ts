@@ -7,7 +7,7 @@ export async function getHistory(payload: string) {
   const response: AxiosResponse = await customAxios.post(
     `/write/history?userNo=${user_no}`,
     {
-      write_content: payload,
+      writeContent: payload,
     }
   )
   return response
@@ -15,9 +15,9 @@ export async function getHistory(payload: string) {
 // 로컬단어검색하기
 export async function saveWord(payload: string) {
   const response: AxiosResponse = await customAxios.post(
-    `/write?user_no=${user_no}`,
+    `/write?userNo=${user_no}`,
     {
-      write_content: payload,
+      writeContent: payload,
     }
   )
   return response
