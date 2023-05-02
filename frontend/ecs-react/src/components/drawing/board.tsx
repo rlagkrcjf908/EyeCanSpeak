@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import style from "../../styles/drawing/board.module.css"
-import { useRecoilState, useRecoilValue } from "recoil"
+import { useRecoilValue } from "recoil"
 import Palette from "./palette"
 // import { saveDrawing } from "../../services/drawingApi"
 import { useParams } from "react-router"
@@ -12,6 +12,7 @@ import {
   nextYState,
 } from "../../recoil/atoms/mouseState"
 import axios, { AxiosResponse } from "axios"
+import { Cookies } from "react-cookie"
 
 interface CanvasProps {
   width: number
@@ -19,7 +20,7 @@ interface CanvasProps {
 }
 
 function Board({ width, height }: CanvasProps) {
-  const [click, setClick] = useRecoilState(isClick)
+  const click = useRecoilValue(isClick)
   const currentX = useRecoilValue(currerntXState)
   const currentY = useRecoilValue(currerntYState)
   const nextX = useRecoilValue(nextXState)
@@ -28,6 +29,8 @@ function Board({ width, height }: CanvasProps) {
   const [size, setSize] = useState(2)
   const [offsetLeft, setOffsetLeft] = useState(0)
   const [offsetTop, setOffsetTop] = useState(0)
+
+  const cookies = new Cookies()
 
   const [initStart, setInitStart] = useState(true)
   const [start, setStart] = useState(true)
@@ -128,7 +131,7 @@ function Board({ width, height }: CanvasProps) {
     const formData = new FormData()
     const canvas: any = document.getElementById("canvas")
     const data = {
-      categoryNo: 1,
+      categoryNo: params,
       drawPostTF: false,
     }
     await canvas.toBlob((blob: any) => {
@@ -143,19 +146,19 @@ function Board({ width, height }: CanvasProps) {
   }
 
   const saveApi = async (formData: FormData) => {
-    const response: AxiosResponse = await axios({
-      method: "POST",
-      url: "http://192.168.100.207:8080/api/draw/store/",
-      headers: {
-        "Content-Type": "multipart/form-data",
-        // Authorization: `Bearer ${token}`,
-      },
-      data: {
-        formData,
-      },
-    })
+    const token = cookies.get("accessToken")
+    const response: AxiosResponse = await axios.post(
+      "http://192.168.100.207:8080/api/draw/store",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    if (response.status !== 200) console.log("저장 실패ㅠ")
   }
-
   const postDraw = async () => {}
   return (
     <div className={style.container}>
