@@ -10,7 +10,7 @@ export async function getList(subIdx: number, sort: boolean) {
     date = false
   }
   const response: AxiosResponse = await customAxios.get(
-    `/draw/list?category_no=${subIdx}&like=${like}&date=${date}`
+    `/user/list?category_no=${subIdx}&like=${like}&date=${date}`
   )
   return response
 }

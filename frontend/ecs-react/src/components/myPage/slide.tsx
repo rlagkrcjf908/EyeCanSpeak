@@ -11,15 +11,15 @@ import unlikeIco from "../../assets/icon/unlike.png"
 import { like, unLike } from "../../services/boardApi"
 import { deleteDrawing, getList } from "../../services/userApi"
 import { useNavigate } from "react-router"
-import { useRecoilState, useSetRecoilState } from "recoil"
+import { useSetRecoilState } from "recoil"
 import { bgImg, drawInfoState } from "../../recoil/atoms/drawingState"
 
 interface drawInfo {
-  user_nm: string
-  draw_no: number
-  draw_drawing: string
-  draw_date: Date
-  category_nm: string
+  userNM: string
+  drawNo: number
+  drawDrawing: string
+  drawDate: Date
+  categoryNM: string
   like: boolean
 }
 
@@ -35,7 +35,7 @@ export default function Slide({
   const [drawList, setDrawList] = useState<drawInfo[]>([])
   const [currentPage, setCurrentPage] = useState(0)
   const setBgImage = useSetRecoilState(bgImg)
-  const [drawInfo, setDrawInfo] = useRecoilState(drawInfoState)
+  const setDrawInfo = useSetRecoilState(drawInfoState)
   const settings = {
     dots: false,
     draggable: false,
@@ -83,55 +83,34 @@ export default function Slide({
     setCurrentPage(currentPage - 1 < 0 ? drawList.length - 1 : currentPage - 1)
   }
 
-  const testList: drawInfo[] = [
-    {
-      user_nm: "김학철",
-      draw_no: 1,
-      draw_drawing:
-        "https://images.pexels.com/photos/4319752/pexels-photo-4319752.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-      draw_date: new Date(),
-      category_nm: "동물",
-      like: true,
-    },
-    {
-      user_nm: "박소희",
-      draw_no: 2,
-      draw_drawing:
-        "https://images.pexels.com/photos/1402850/pexels-photo-1402850.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-      draw_date: new Date(),
-      category_nm: "과일",
-      like: false,
-    },
-    {
-      user_nm: "이찬석",
-      draw_no: 3,
-      draw_drawing:
-        "https://cdn.pixabay.com/photo/2021/08/23/01/03/cubic-house-6566412__340.jpg",
-      draw_date: new Date(),
-      category_nm: "물건",
-      like: true,
-    },
-  ]
-
-  const setLike = async (draw_no: number) => {
-    const response = await like(draw_no)
+  const setLike = async (drawNo: number) => {
+    const response = await like(drawNo)
     if (response.status === 200) {
       console.log("좋아요")
     }
   }
-  const setUnlike = async (draw_no: number) => {
-    const response = await unLike(draw_no)
+  const setUnlike = async (drawNo: number) => {
+    const response = await unLike(drawNo)
     if (response.status === 200) {
     }
   }
 
-  const setList = useCallback(async () => {
-    const response = await getList(category, sort)
-    setDrawList(() => [response.data])
+  const setList = useCallback(
+    async (category: number, sort: boolean) => {
+      const response = await getList(category, sort)
+      setDrawList(() => [...response.data])
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [category, sort]
+  )
+
+  useEffect(() => {
+    setList(category, sort)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, sort])
 
   const saveDraw = () => {
-    fetch(`${drawList[currentPage].draw_drawing}`, { method: "GET" })
+    fetch(`${drawList[currentPage].drawDrawing}`, { method: "GET" })
       .then((res) => {
         return res.blob()
       })
@@ -153,23 +132,23 @@ export default function Slide({
   }
 
   const editDraw = () => {
-    setBgImage(drawList[currentPage].draw_drawing)
-    navigate(`/editDraw/${drawList[currentPage].draw_no}`)
+    setBgImage(drawList[currentPage].drawDrawing)
+    navigate(`/editDraw/${drawList[currentPage].drawNo}`)
     setDrawInfo({
-      draw_no: drawList[currentPage].draw_no,
-      subject_nm: drawList[currentPage].category_nm,
+      draw_no: drawList[currentPage].drawNo,
+      subject_nm: drawList[currentPage].categoryNM,
     })
   }
 
   const deleteDraw = async () => {
-    const response = await deleteDrawing(drawList[currentPage].draw_no)
+    const response = await deleteDrawing(drawList[currentPage].drawNo)
     if (response.status === 400) console.log("삭제 실패")
   }
 
   useEffect(() => {
-    setList()
+    // setList(-1)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage])
+  }, [])
 
   return (
     <>
@@ -189,21 +168,21 @@ export default function Slide({
             data-aos='fade-up'
             {...settings}
           >
-            {testList.map((item, index) => (
-              <div className='slider-item'>
+            {drawList.map((item, index) => (
+              <div className='slider-item' key={index}>
                 <div className='img-box'>
-                  <img src={item.draw_drawing} alt='' />
+                  <img src={item.drawDrawing} alt='' />
                 </div>
                 <div className='v-story-desc-list'>
                   <p className='v-story-desc-tt'>
                     <br />
                   </p>
-                  <p className='v-story-desc'>{item.category_nm}</p>
+                  <p className='v-story-desc'>{item.categoryNM}</p>
                   {item.like ? (
                     <button
                       className='slide-like'
                       onClick={() => {
-                        setUnlike(item.draw_no)
+                        setUnlike(item.drawNo)
                       }}
                     >
                       <img src={likeIco} alt='' width={50} />
@@ -212,7 +191,7 @@ export default function Slide({
                     <button
                       className='slide-like'
                       onClick={() => {
-                        setLike(item.draw_no)
+                        setLike(item.drawNo)
                       }}
                     >
                       <img src={unlikeIco} alt='' width={50} />

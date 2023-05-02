@@ -12,7 +12,6 @@ export default function Category({ changeCategory }: { changeCategory: any }) {
   const setCategory = useCallback(async () => {
     const response = await getCategory()
     setCategoryList(() => [...response.data])
-    console.log(response)
   }, [])
 
   useEffect(() => {
@@ -23,9 +22,10 @@ export default function Category({ changeCategory }: { changeCategory: any }) {
     <div className={style.container}>
       {categoryList.map((item, index) => (
         <button
+          key={index}
           className={style.item}
           onClick={() => {
-            changeCategory({ index })
+            changeCategory(index + 1)
           }}
         >
           {categoryList[index].categoryNM}
