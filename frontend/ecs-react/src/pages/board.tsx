@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Category from "../components/board/category"
 import Slide from "../components/board/slide"
 import Sort from "../components/board/sort"

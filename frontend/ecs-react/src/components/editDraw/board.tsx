@@ -11,6 +11,7 @@ import {
   nextXState,
   nextYState,
 } from "../../recoil/atoms/mouseState"
+import { getDrawing } from "../../services/drawingApi"
 import { bgImg } from "../../recoil/atoms/drawingState"
 
 interface CanvasProps {
@@ -29,7 +30,7 @@ function Board({ width, height }: CanvasProps) {
   const [offsetLeft, setOffsetLeft] = useState(0)
   const [offsetTop, setOffsetTop] = useState(0)
   const bgImage = useRecoilValue(bgImg)
-
+  const params = useParams()
   const [initStart, setInitStart] = useState(true)
   const [start, setStart] = useState(true)
 
@@ -65,6 +66,7 @@ function Board({ width, height }: CanvasProps) {
       let backImg = new Image()
       backImg.crossOrigin = "Anonymous"
       backImg.src = bgImage
+      console.log(backImg.src)
       backImg.onload = function () {
         context.drawImage(backImg, 0, 0, canvas.width + 5, canvas.height)
       }
@@ -86,7 +88,16 @@ function Board({ width, height }: CanvasProps) {
     }
   }
 
+  const getEditDraw = async () => {
+    let response
+    if (params.draw_no !== undefined) {
+      response = await getDrawing(parseInt(params.draw_no))
+      console.log(response.data)
+    }
+  }
+
   useEffect(() => {
+    getEditDraw()
     if (!canvasRef.current) {
       return
     }

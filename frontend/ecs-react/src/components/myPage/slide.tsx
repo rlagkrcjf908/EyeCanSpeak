@@ -12,7 +12,7 @@ import { like, unLike } from "../../services/boardApi"
 import { deleteDrawing, getList } from "../../services/userApi"
 import { useNavigate } from "react-router"
 import { useSetRecoilState } from "recoil"
-import { bgImg, drawInfoState } from "../../recoil/atoms/drawingState"
+import { bgImg } from "../../recoil/atoms/drawingState"
 
 interface drawInfo {
   userNM: string
@@ -35,7 +35,6 @@ export default function Slide({
   const [drawList, setDrawList] = useState<drawInfo[]>([])
   const [currentPage, setCurrentPage] = useState(0)
   const setBgImage = useSetRecoilState(bgImg)
-  const setDrawInfo = useSetRecoilState(drawInfoState)
   const settings = {
     dots: false,
     draggable: false,
@@ -75,12 +74,16 @@ export default function Slide({
 
   const gotoNext = () => {
     customSlider.current.slickNext()
-    setCurrentPage(currentPage + 1 >= drawList.length ? 0 : currentPage + 1)
+    setCurrentPage((current) =>
+      currentPage + 1 >= drawList.length ? 0 : currentPage + 1
+    )
   }
 
   const gotoPrev = () => {
     customSlider.current.slickPrev()
-    setCurrentPage(currentPage - 1 < 0 ? drawList.length - 1 : currentPage - 1)
+    setCurrentPage((current) =>
+      currentPage - 1 < 0 ? drawList.length - 1 : currentPage - 1
+    )
   }
 
   const setLike = async (drawNo: number) => {
@@ -110,45 +113,21 @@ export default function Slide({
   }, [category, sort])
 
   const saveDraw = () => {
-    fetch(`${drawList[currentPage].drawDrawing}`, { method: "GET" })
-      .then((res) => {
-        return res.blob()
-      })
-      .then((blob) => {
-        var url = window.URL.createObjectURL(blob)
-        var a = document.createElement("a")
-        a.href = url
-        a.download = "myItem.extension"
-        document.body.appendChild(a)
-        a.click()
-        setTimeout(() => {
-          window.URL.revokeObjectURL(url)
-        }, 60000)
-        a.remove()
-      })
-      .catch((err) => {
-        console.error("err: ", err)
-      })
+    const link = document.createElement("a")
+    link.href = drawList[currentPage].drawDrawing
+    link.download = "PaintIMG[🎨]"
+    link.click()
   }
 
   const editDraw = () => {
     setBgImage(drawList[currentPage].drawDrawing)
     navigate(`/editDraw/${drawList[currentPage].drawNo}`)
-    setDrawInfo({
-      draw_no: drawList[currentPage].drawNo,
-      subject_nm: drawList[currentPage].categoryNM,
-    })
   }
 
   const deleteDraw = async () => {
     const response = await deleteDrawing(drawList[currentPage].drawNo)
     if (response.status === 400) console.log("삭제 실패")
   }
-
-  useEffect(() => {
-    // setList(-1)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   return (
     <>
