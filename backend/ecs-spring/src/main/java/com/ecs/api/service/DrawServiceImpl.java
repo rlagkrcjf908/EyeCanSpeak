@@ -74,10 +74,10 @@ public class DrawServiceImpl implements DrawService{
         removeFile(file);
 
         Draw draw = new Draw();
-        Category category = categoryRepository.findById(drawReqDto.getCategoryNo()).orElse(null);
+        Subjects subjects = subjectRepository.findBySubjectsNM(drawReqDto.getSubjectNM()).orElse(null);
         draw.setDrawPostTF(drawReqDto.isDrawPostTF());
         draw.setUsersNo(users);
-        draw.setCategoryNo(category);
+        draw.setCategoryNo(subjects.getCategoryNo());
 
 
         // key 값으로 삭제인지 path로 삭제인지 다시 확인할 것
@@ -103,10 +103,10 @@ public class DrawServiceImpl implements DrawService{
         removeFile(file);
 
         Users user = users;
-        Category category = categoryRepository.findById(drawReqDto.getCategoryNo()).orElse(null);
+        Subjects subjects = subjectRepository.findBySubjectsNM(drawReqDto.getSubjectNM()).orElse(null);
         draw.setDrawPostTF(drawReqDto.isDrawPostTF());
         draw.setUsersNo(user);
-        draw.setCategoryNo(category);
+        draw.setCategoryNo(subjects.getCategoryNo());
 
         // key 값으로 삭제인지 path로 삭제인지 다시 확인할 것
         draw.setDrawDrawing(draw.getDrawDrawing());

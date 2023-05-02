@@ -9,8 +9,8 @@ import lombok.Setter;
 public class DrawReqDto {
 
 
-    @JsonProperty("categoryNo")
-    int categoryNo;
+    @JsonProperty("subjectNM")
+    String subjectNM;
 
     @JsonProperty("drawPostTF")
     boolean drawPostTF;
