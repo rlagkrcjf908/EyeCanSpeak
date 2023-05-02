@@ -148,7 +148,7 @@ function Board({ width, height }: CanvasProps) {
   const saveApi = async (formData: FormData) => {
     const token = cookies.get("accessToken")
     const response: AxiosResponse = await axios.post(
-      "http://192.168.100.207:8080/api/draw/store",
+      "https://k8d204.p.ssafy.io/api/draw/store",
       formData,
       {
         headers: {
