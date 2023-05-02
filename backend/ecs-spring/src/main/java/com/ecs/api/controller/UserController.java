@@ -1,15 +1,13 @@
 package com.ecs.api.controller;
 
 import com.ecs.api.config.oauth.PrincipalDetails;
+import com.ecs.api.dto.res.UserDrawGetResDto;
 import com.ecs.api.dto.res.UserDrawResDto;
 import com.ecs.api.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,7 +28,15 @@ public class UserController {
         }catch (Exception e){
             return ResponseEntity.badRequest().build();
         }
-
     }
 
+    @GetMapping("/{drawNo}")
+    public ResponseEntity<?> getDraw(@PathVariable("drawNo") int drawNo){
+        try{
+            UserDrawGetResDto draw=userService.findUserDraw(drawNo);
+            return ResponseEntity.ok().body(draw);
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

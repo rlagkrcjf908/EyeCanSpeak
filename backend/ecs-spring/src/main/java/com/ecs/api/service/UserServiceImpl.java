@@ -1,9 +1,11 @@
 package com.ecs.api.service;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.ecs.api.dto.res.UserDrawGetResDto;
 import com.ecs.api.dto.res.UserDrawResDto;
 import com.ecs.api.entity.Draw;
 import com.ecs.api.entity.Users;
+import com.ecs.api.repository.DrawRepository;
 import com.ecs.api.repository.LikesRepository;
 import com.ecs.api.repository.UserRepositorySupport;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepositorySupport userRepositorySupport;
+    private final DrawRepository drawRepository;
     private final LikesRepository likesRepository;
     private final AmazonS3 amazonS3;
 
@@ -37,6 +40,14 @@ public class UserServiceImpl implements UserService {
             }
         }
         return userDrawList;
+    }
+
+    @Override
+    public UserDrawGetResDto findUserDraw(int drawNo) {
+        Draw draw=drawRepository.findDrawsByDrawNo(drawNo).orElseThrow(()->new IllegalArgumentException("그림 없음"));
+        UserDrawGetResDto getDraw=new UserDrawGetResDto(draw);
+        getDraw.setDrawDrawing(getS3(bucket, draw.getDrawDrawing()));
+        return getDraw;
     }
 
     private String getS3(String bucket, String fileName) {
