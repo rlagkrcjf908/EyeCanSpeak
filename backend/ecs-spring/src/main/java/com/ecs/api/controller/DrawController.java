@@ -1,5 +1,6 @@
 package com.ecs.api.controller;
 
+import com.ecs.api.config.oauth.PrincipalDetails;
 import com.ecs.api.dto.req.AwsS3ReqDto;
 import com.ecs.api.dto.req.DrawReqDto;
 import com.ecs.api.dto.req.LikeReqDto;
@@ -15,6 +16,7 @@ import com.ecs.api.service.DrawService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -59,10 +61,10 @@ public class DrawController {
     //그림 그리기 ------------------------------------------------------------------------
     //이미지 저장
     @PostMapping(value="/store",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<?extends BaseResDto> upload(@RequestPart(value = "data") DrawReqDto drawReqDto, @RequestPart(value="File")MultipartFile multipartFile) throws IOException {
+    public ResponseEntity<?extends BaseResDto> upload(@AuthenticationPrincipal PrincipalDetails principalDetails,@RequestPart(value = "data") DrawReqDto drawReqDto, @RequestPart(value="drawDrawing")MultipartFile multipartFile) throws IOException {
         try{
 
-            AwsS3ReqDto awsS3ReqDto = drawService.upload(drawReqDto,multipartFile);
+            AwsS3ReqDto awsS3ReqDto = drawService.upload(principalDetails.getUsers(),drawReqDto,multipartFile);
             if(awsS3ReqDto != null) {
                 return ResponseEntity.status(200).body(BaseResDto.of(200, "Success"));
             }
@@ -77,9 +79,9 @@ public class DrawController {
     }
     // 이미지 수정
     @PutMapping(value="/store/{drawNo}",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<?extends BaseResDto> update(@PathVariable("drawNo")int drawNo,@RequestPart(value = "data") DrawReqDto drawReqDto, @RequestPart(value="File")MultipartFile multipartFile){
+    public ResponseEntity<?extends BaseResDto> update(@AuthenticationPrincipal PrincipalDetails principalDetails,@PathVariable("drawNo")int drawNo,@RequestPart(value = "data") DrawReqDto drawReqDto, @RequestPart(value="drawDrawing")MultipartFile multipartFile){
         try{
-            AwsS3ReqDto awsS3ReqDto = drawService.update(drawNo,drawReqDto,multipartFile);
+            AwsS3ReqDto awsS3ReqDto = drawService.update(principalDetails.getUsers(),drawNo,drawReqDto,multipartFile);
             if(awsS3ReqDto != null) {
                 return ResponseEntity.status(200).body(BaseResDto.of(200, "Success"));
             }
@@ -119,9 +121,9 @@ public class DrawController {
     // 작품 공유 ----------------------------------------------------------------------------------------------
     // 작품 리스트
     @GetMapping("/list")
-    public ResponseEntity<List<DrawResDto>> getList(@RequestParam("userNo")int userNo,@RequestParam("categoryNo")int categoryNo, @RequestParam(value ="like",defaultValue = "false")boolean like, @RequestParam(value = "date",defaultValue = "false")boolean date){
+    public ResponseEntity<List<DrawResDto>> getList(@AuthenticationPrincipal PrincipalDetails principalDetails,@RequestParam("categoryNo")int categoryNo, @RequestParam(value ="like",defaultValue = "false")boolean like, @RequestParam(value = "date",defaultValue = "false")boolean date){
         try{
-            List<DrawResDto> drawings = drawService.getList(userNo,categoryNo,like,date);
+            List<DrawResDto> drawings = drawService.getList(principalDetails.getUsers(),categoryNo,like,date);
             return ResponseEntity.status(200).body(drawings);
         }
         catch (Exception e){
@@ -131,11 +133,11 @@ public class DrawController {
     // 좋아요---------------------------------------------------------------------------------------------------
 
     @PostMapping("/like")
-    public ResponseEntity<?extends BaseResDto> Likes(@RequestParam("userNo")int userNo,@RequestBody LikeReqDto likeReqDto){
+    public ResponseEntity<?extends BaseResDto> Likes(@AuthenticationPrincipal PrincipalDetails principalDetails,@RequestBody LikeReqDto likeReqDto){
 
         try {
 
-                drawService.likes(userNo, likeReqDto);
+                drawService.likes(principalDetails.getUsers(), likeReqDto);
                 return ResponseEntity.status(200).body(BaseResDto.of(200, "Success"));
             }
 
@@ -144,11 +146,11 @@ public class DrawController {
         }
     }
     @DeleteMapping("/like")
-    public ResponseEntity<?extends BaseResDto> delLikes(@RequestParam("userNo")int userNo,@RequestBody LikeReqDto likeReqDto){
+    public ResponseEntity<?extends BaseResDto> delLikes(@AuthenticationPrincipal PrincipalDetails principalDetails,@RequestBody LikeReqDto likeReqDto){
 
         try{
 
-            drawService.dellikes(userNo,likeReqDto);
+            drawService.dellikes(principalDetails.getUsers(),likeReqDto);
             return ResponseEntity.status(200).body(BaseResDto.of(200, "Success"));
         }
         catch (Exception e){

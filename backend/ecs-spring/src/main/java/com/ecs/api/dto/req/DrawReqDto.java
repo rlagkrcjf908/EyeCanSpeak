@@ -7,11 +7,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DrawReqDto {
-    @JsonProperty("usersNo")
-    int usersNo;
 
-    @JsonProperty("subjectNM")
-    String subjectNM;
+
+    @JsonProperty("categoryNo")
+    int categoryNo;
 
     @JsonProperty("drawPostTF")
     boolean drawPostTF;
