@@ -22,8 +22,11 @@ export default function SelectSubjectDraw() {
   // 랜덤으로 나온 서브젝트
   const [subject, setSubject] = useState<string>("")
 
-  // 카테고리
+  // 카테고리 리스트
   const [category, setCategory] = useState<categoryTypes[]>([])
+
+  // 선택된 카테고리
+  const [selectedCategory, setSelectedCategory] = useState<number>(-1)
 
   // isSelectCategory 가 true면 랜덤 서브젝트를 보여줌
   const [isSelectCategory, SetIsSelectCategory] = useState(false)
@@ -46,6 +49,7 @@ export default function SelectSubjectDraw() {
   // Category 선택하고 Category안의 subject 부르기
 
   const selectCategory = async (categoryNum: number) => {
+    setSelectedCategory(categoryNum)
     try {
       const response = await getSubject(categoryNum)
       const item = response.data
@@ -99,7 +103,7 @@ export default function SelectSubjectDraw() {
           {/* subject고르기 */}
           <div className={style.subjectItem}>
             <p>{subject && subject}</p>
-            <Link to={`/drawing/${subject}`} className={style.draw}>
+            <Link to={`/drawing/${selectedCategory}`} className={style.draw}>
               그리기
             </Link>
             <div className={style.buttonBox}>
