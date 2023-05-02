@@ -2,14 +2,14 @@ package com.ecs.api.controller;
 
 import com.ecs.api.config.oauth.PrincipalDetails;
 import com.ecs.api.dto.req.AwsS3ReqDto;
-import com.ecs.api.dto.req.DrawModReqDto;
 import com.ecs.api.dto.req.DrawReqDto;
 import com.ecs.api.dto.req.LikeReqDto;
 import com.ecs.api.dto.res.BaseResDto;
 import com.ecs.api.dto.res.CategoryAllResDto;
 import com.ecs.api.dto.res.DrawResDto;
 import com.ecs.api.dto.res.SubjectResDto;
-import com.ecs.api.entity.*;
+import com.ecs.api.entity.Category;
+import com.ecs.api.entity.Subjects;
 import com.ecs.api.service.DrawService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -77,7 +77,7 @@ public class DrawController {
     }
     // 이미지 수정
     @PutMapping(value="/store/{drawNo}",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<?extends BaseResDto> update(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable("drawNo")int drawNo, @RequestPart(value = "data") DrawModReqDto drawReqDto, @RequestPart(value="drawDrawing")MultipartFile multipartFile){
+    public ResponseEntity<?extends BaseResDto> update(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable("drawNo")int drawNo, @RequestPart(value = "data") DrawReqDto drawReqDto, @RequestPart(value="drawDrawing")MultipartFile multipartFile){
         try{
             AwsS3ReqDto awsS3ReqDto = drawService.update(principalDetails.getUsers(),drawNo,drawReqDto,multipartFile);
             if(awsS3ReqDto != null) {

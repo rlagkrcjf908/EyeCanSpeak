@@ -4,9 +4,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.ecs.api.config.oauth.PrincipalDetails;
 import com.ecs.api.dto.req.AwsS3ReqDto;
-import com.ecs.api.dto.req.DrawModReqDto;
 import com.ecs.api.dto.req.DrawReqDto;
 import com.ecs.api.dto.req.LikeReqDto;
 import com.ecs.api.dto.res.DrawGetResDto;
@@ -15,7 +13,6 @@ import com.ecs.api.entity.*;
 import com.ecs.api.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -75,10 +72,10 @@ public class DrawServiceImpl implements DrawService{
         removeFile(file);
 
         Draw draw = new Draw();
-        Subjects subjects = subjectRepository.findBySubjectsNM(drawReqDto.getSubjectNM()).orElse(null);
+        Category category = categoryRepository.findById(drawReqDto.getCategoryNo()).orElse(null);
         draw.setDrawPostTF(drawReqDto.isDrawPostTF());
         draw.setUsersNo(users);
-        draw.setCategoryNo(subjects.getCategoryNo());
+        draw.setCategoryNo(category);
 
 
         // key 값으로 삭제인지 path로 삭제인지 다시 확인할 것
@@ -93,7 +90,7 @@ public class DrawServiceImpl implements DrawService{
     }
     // 그림 수정
     @Override
-    public AwsS3ReqDto update(Users users, int drawNo, DrawModReqDto drawReqDto, MultipartFile multipartFile) throws IOException {
+    public AwsS3ReqDto update(Users users, int drawNo, DrawReqDto drawReqDto, MultipartFile multipartFile) throws IOException {
 
         Draw draw = drawReopsitory.findById(drawNo).orElseThrow(()-> new IllegalArgumentException("no such data"));
 

@@ -1,7 +1,6 @@
 package com.ecs.api.service;
 
 import com.ecs.api.dto.req.AwsS3ReqDto;
-import com.ecs.api.dto.req.DrawModReqDto;
 import com.ecs.api.dto.req.DrawReqDto;
 import com.ecs.api.dto.req.LikeReqDto;
 import com.ecs.api.dto.res.DrawResDto;
@@ -23,7 +22,7 @@ public interface DrawService {
 
     List<Subjects> getSubjects(int categoryNo);
 
-    AwsS3ReqDto update(Users users, int drawNo, DrawModReqDto drawReqDto, MultipartFile multipartFile) throws IOException;
+    AwsS3ReqDto update(Users users, int drawNo, DrawReqDto drawReqDto, MultipartFile multipartFile) throws IOException;
 
     String getDraw(int drawNo);
 

@@ -10,7 +10,7 @@ public class DrawReqDto {
 
 
     @JsonProperty("subjectNM")
-    String subjectNM;
+    int categoryNo;
 
     @JsonProperty("drawPostTF")
     boolean drawPostTF;
