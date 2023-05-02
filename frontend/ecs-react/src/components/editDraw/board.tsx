@@ -3,7 +3,7 @@ import style from "../../styles/drawing/board.module.css"
 import { useRecoilValue } from "recoil"
 import Palette from "./palette"
 import img from "../../PaintJs.png"
-import { saveDrawing } from "../../services/drawingApi"
+// import { saveDrawing } from "../../services/drawingApi"
 import { useParams } from "react-router"
 import {
   currerntXState,
@@ -165,7 +165,7 @@ function Board({ width, height }: CanvasProps) {
           id='canvas'
         ></canvas>
       </div>
-      <div>
+      <div style={{ textAlign: "center" }}>
         <Palette changeColor={changeColor} changeSize={changeSize} />
         {/* 나중에 모달 창으로 만들기 */}
         <button className={style.btn} onClick={saveDraw}>

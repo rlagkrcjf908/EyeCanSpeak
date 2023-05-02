@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import style from "../../styles/drawing/board.module.css"
 import { useRecoilState, useRecoilValue } from "recoil"
 import Palette from "./palette"
-import { saveDrawing } from "../../services/drawingApi"
+// import { saveDrawing } from "../../services/drawingApi"
 import { useParams } from "react-router"
 import {
   currerntXState,
@@ -11,6 +11,7 @@ import {
   nextXState,
   nextYState,
 } from "../../recoil/atoms/mouseState"
+import axios, { AxiosResponse } from "axios"
 
 interface CanvasProps {
   width: number
@@ -124,17 +125,38 @@ function Board({ width, height }: CanvasProps) {
 
   //------------------------------------------------------
   const saveDraw = async () => {
-    const canvas: any = document.getElementById("canvas")
-    console.log(canvas)
-    const dataURL = canvas.toDataURL("image/jpeg")
-
     const formData = new FormData()
-
-    formData.append("multipartFiles", dataURL)
-    const subject_nm: any = params.subject_nm
-    const response = await saveDrawing(subject_nm, formData)
-    if (response.status === 400) console.log("저장 실패")
+    const canvas: any = document.getElementById("canvas")
+    const data = {
+      categoryNo: 1,
+      drawPostTF: false,
+    }
+    await canvas.toBlob((blob: any) => {
+      // canvas 이미지 파일로 변환
+      formData.append("drawDrawing", blob)
+      formData.append(
+        "data",
+        new Blob([JSON.stringify(data)], { type: "application/json" })
+      )
+      saveApi(formData)
+    })
   }
+
+  const saveApi = async (formData: FormData) => {
+    const response: AxiosResponse = await axios({
+      method: "POST",
+      url: "http://192.168.100.207:8080/api/draw/store/",
+      headers: {
+        "Content-Type": "multipart/form-data",
+        // Authorization: `Bearer ${token}`,
+      },
+      data: {
+        formData,
+      },
+    })
+  }
+
+  const postDraw = async () => {}
   return (
     <div className={style.container}>
       <div
@@ -152,8 +174,11 @@ function Board({ width, height }: CanvasProps) {
       </div>
       <div style={{ textAlign: "center" }}>
         <Palette changeColor={changeColor} changeSize={changeSize} />
-        <button className={style.saveBtn} onClick={saveDraw}>
+        <button className={style.btn} onClick={saveDraw}>
           저장
+        </button>
+        <button className={style.btn} onClick={postDraw}>
+          공유
         </button>
       </div>
     </div>
