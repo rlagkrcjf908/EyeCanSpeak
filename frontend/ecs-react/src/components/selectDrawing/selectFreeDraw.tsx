@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import freeDrawImg from "../../assets/image/freeDraw.jpg"
+import freeDrawImg from "../../assets/image/freeDraw.png"
 import style from "../../styles/selectDrawing/freeDraw.module.css"
 
 export default function SelectFreeDraw() {

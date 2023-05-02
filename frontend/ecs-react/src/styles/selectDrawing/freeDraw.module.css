@@ -16,18 +16,24 @@
   overflow: hidden;
   border-radius: 20px;
   text-decoration: none;
-  color: white;
+  color: black;
+  background-color: white;
+  font-weight: bold;
 }
 
 .card:hover {
   display: block;
 }
-
+.card__background h1 {
+  position: absolute;
+  top: 15%;
+}
 .card__background {
   width: 500px;
   height: 600px;
+  background-size: contain;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-position: center bottom;
   display: flex;
   justify-content: center;
   align-items: center;
