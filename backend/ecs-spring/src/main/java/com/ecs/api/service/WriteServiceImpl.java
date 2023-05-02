@@ -23,8 +23,7 @@ public class WriteServiceImpl implements WriteService{
     private final WriteRepositorySupport writeRepositorySupport;
 
     @Override
-    public void setWrite(int userNo, WriteReqDto writeReqDto) {
-        Users users = userRepository.findByUsersNo(userNo).orElseThrow(()->new IllegalArgumentException("no such data"));;
+    public void setWrite(Users users, WriteReqDto writeReqDto) {
         Writes writes = new Writes();
         writes.setWriteContent(writeReqDto.getWriteContent());
         writes.setUsersNo(users);
@@ -32,9 +31,9 @@ public class WriteServiceImpl implements WriteService{
     }
 
     @Override
-    public WriteResDto getWriteHistory(int userNo, WriteReqDto writeReqDto) {
+    public WriteResDto getWriteHistory(Users users, WriteReqDto writeReqDto) {
         WriteResDto writeResDto = new WriteResDto();
-        writeResDto.setWriteContents(writeRepositorySupport.findAll(writeReqDto.getWriteContent(), userNo));
+        writeResDto.setWriteContents(writeRepositorySupport.findAll(writeReqDto.getWriteContent(), users.getUsersNo()));
         return  writeResDto;
     }
 }
