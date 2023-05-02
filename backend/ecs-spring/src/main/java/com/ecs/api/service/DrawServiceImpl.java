@@ -53,7 +53,7 @@ public class DrawServiceImpl implements DrawService{
 
     @Override
     public List<Subjects> getSubjects(int categoryNo) {
-        Category category = categoryRepository.findById(categoryNo).orElseThrow(()->new IllegalArgumentException("no such data"));
+        Category category = categoryRepository.findByCategoryNo(categoryNo).orElseThrow(()->new IllegalArgumentException("no such data"));
         List<Subjects> subjects = subjectRepository.findByCategoryNo(category).orElseThrow(()->new IllegalArgumentException("no such data"));
         return subjects;
     }
@@ -72,7 +72,7 @@ public class DrawServiceImpl implements DrawService{
         removeFile(file);
 
         Draw draw = new Draw();
-        Category category = categoryRepository.findById(drawReqDto.getCategoryNo()).orElse(null);
+        Category category = categoryRepository.findByCategoryNo(drawReqDto.getCategoryNo()).orElseThrow(()-> new IllegalArgumentException("no such data"));
         draw.setDrawPostTF(drawReqDto.isDrawPostTF());
         draw.setUsersNo(users);
         draw.setCategoryNo(category);
@@ -101,7 +101,7 @@ public class DrawServiceImpl implements DrawService{
         removeFile(file);
 
         Users user = users;
-        Category category = categoryRepository.findById(drawReqDto.getCategoryNo()).orElse(null);
+        Category category = categoryRepository.findByCategoryNo(drawReqDto.getCategoryNo()).orElseThrow(()-> new IllegalArgumentException("no such data"));
         draw.setDrawPostTF(drawReqDto.isDrawPostTF());
         draw.setUsersNo(user);
         draw.setCategoryNo(category);
@@ -125,7 +125,7 @@ public class DrawServiceImpl implements DrawService{
 
 
     private String randomFileName(File file) {
-        return dirName + "/" + UUID.randomUUID() + file.getName();
+        return dirName + "/" + UUID.randomUUID() + file.getName() +".jpg";
     }
 
     private String putS3(File uploadFile, String fileName) {
@@ -167,7 +167,7 @@ public class DrawServiceImpl implements DrawService{
     // 작품 공유 --------------------------------------------------------------------------------------------------
     @Override
     public List<DrawResDto> getList(Users users,int categoryNo, boolean like, boolean date) {
-        Category category = categoryRepository.findById(categoryNo).orElseThrow(()->new IllegalArgumentException("no such data"));
+        Category category = categoryRepository.findByCategoryNo(categoryNo).orElseThrow(()->new IllegalArgumentException("no such data"));
         List<DrawGetResDto> draws = drawRepositorySupport.findAll(like,date);
         return initDrawList(users,category,draws);
     }
