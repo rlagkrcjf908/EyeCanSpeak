@@ -167,8 +167,9 @@ public class DrawServiceImpl implements DrawService{
     // 작품 공유 --------------------------------------------------------------------------------------------------
     @Override
     public List<DrawResDto> getList(Users users,int categoryNo, boolean like, boolean date) {
-        Category category = categoryRepository.findByCategoryNo(categoryNo).orElseThrow(()->new IllegalArgumentException("no such data"));
-        List<DrawGetResDto> draws = drawRepositorySupport.findAll(like,date);
+
+        Category category = categoryRepository.findById(categoryNo).orElseThrow(()->new IllegalArgumentException("no such data"));
+        List<DrawGetResDto> draws = drawRepositorySupport.findAll(like,date,categoryNo);
         return initDrawList(users,category,draws);
     }
 

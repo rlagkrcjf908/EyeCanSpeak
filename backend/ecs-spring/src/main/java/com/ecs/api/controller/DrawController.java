@@ -119,7 +119,10 @@ public class DrawController {
     // 작품 공유 ----------------------------------------------------------------------------------------------
     // 작품 리스트
     @GetMapping("/list")
-    public ResponseEntity<List<DrawResDto>> getList(@AuthenticationPrincipal PrincipalDetails principalDetails,@RequestParam("categoryNo")int categoryNo, @RequestParam(value ="like",defaultValue = "false")boolean like, @RequestParam(value = "date",defaultValue = "false")boolean date){
+    public ResponseEntity<List<DrawResDto>> getList(@AuthenticationPrincipal PrincipalDetails principalDetails
+                                                    ,@RequestParam(value = "categoryNo",defaultValue = "-1")int categoryNo
+                                                    , @RequestParam(value ="like",defaultValue = "false")boolean like
+                                                    , @RequestParam(value = "date",defaultValue = "false")boolean date){
         try{
             List<DrawResDto> drawings = drawService.getList(principalDetails.getUsers(),categoryNo,like,date);
             return ResponseEntity.status(200).body(drawings);
