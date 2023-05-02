@@ -1,12 +1,12 @@
 import { HangulImeInputWrapper } from "mole-virtual-keyboard"
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { useRecoilState, useSetRecoilState } from "recoil"
 import {
   recommendWord,
   searchWord,
   textState,
 } from "../../recoil/atoms/writingState"
-import { getWords, saveWord } from "../../services/writingApi"
+import { getHistory, saveWord } from "../../services/writingApi"
 import style from "../../styles/writing/keyboard.module.css"
 import RecommendWord from "./recommendWord"
 
@@ -17,7 +17,7 @@ export default function Key() {
   const setWords = useSetRecoilState(recommendWord)
   // 추천 단어 검색에 사용할 단어
   const [word, setWord] = useRecoilState(searchWord)
-
+  // input 요소
   const inputRef = useRef<HTMLInputElement>(null)
   // 대소문자
   const [isCapital, setIsCapital] = useState(false)
@@ -31,15 +31,15 @@ export default function Key() {
   }, [])
 
   // 추천단어 받아오기
-  const loadWords = async () => {
+  const loadWords = useCallback(async () => {
     try {
-      const response = await getWords(word)
+      const response = await getHistory(word)
       const item = response.data.writeContents
       setWords(item)
     } catch (error: any) {
       console.log(error)
     }
-  }
+  }, [setWords, word])
 
   // 글 저장
   const handleSaveWord = async () => {
@@ -73,12 +73,12 @@ export default function Key() {
     const lastText = textList[textList.length - 1]
     setWord(lastText)
     inputRef.current?.focus()
-  }, [text])
+  }, [text, setWord])
 
   useEffect(() => {
     if (!text) return
     loadWords()
-  }, [word])
+  }, [word, text, loadWords])
   // 누른 키에 따라 다른 함수 실행
   const handleClick = (event: React.MouseEvent<HTMLLIElement>) => {
     const key = event.currentTarget.textContent

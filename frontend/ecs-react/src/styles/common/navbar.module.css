@@ -18,6 +18,10 @@
 .logoItem {
   margin: auto 30px;
 }
+.logoItem img {
+  width: 100%;
+  height: 80px;
+}
 
 .menu {
   margin: auto;

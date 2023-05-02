@@ -3,7 +3,7 @@ import style from "../../styles/common/navbar.module.css"
 import { Cookies } from "react-cookie"
 import { useSetRecoilState } from "recoil"
 import { isLog, userName, userNo } from "../../recoil/atoms/userState"
-
+import logo from "../../assets/image/ECS.png"
 export default function Navbar() {
   const navigate = useNavigate()
   const cookies = new Cookies()
@@ -24,7 +24,7 @@ export default function Navbar() {
     <div className={style.header}>
       <div className={style.logo}>
         <Link to='/' className={style.logoItem}>
-          ECS
+          <img src={logo} alt='logo' />
         </Link>
       </div>
 

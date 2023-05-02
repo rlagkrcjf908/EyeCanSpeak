@@ -3,9 +3,9 @@ import customAxios from "./api"
 const user_no: number = 1
 
 // 서버단어검색하기
-export async function getWords(payload: string) {
+export async function getHistory(payload: string) {
   const response: AxiosResponse = await customAxios.post(
-    `/write/history?user_no=${user_no}`,
+    `/write/history?userNo=${user_no}`,
     {
       write_content: payload,
     }

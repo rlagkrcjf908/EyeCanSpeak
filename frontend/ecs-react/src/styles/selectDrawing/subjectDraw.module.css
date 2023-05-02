@@ -18,11 +18,10 @@
 .back {
   display: flex;
   border-radius: 20px;
-  background-position: center;
-  background-size: cover;
+  /* background-position: center;
+  background-size: cover; */
   text-align: center;
   justify-content: center;
-  align-items: center;
   position: absolute;
   height: 100%;
   width: 100%;
@@ -30,16 +29,21 @@
   backface-visibility: hidden;
   transform-style: preserve-3d;
   transition: ease-in-out 600ms;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: white;
+  background-position: center bottom;
 }
 
 .front {
-  background-size: cover;
-  padding: 2rem;
-  font-size: 1.618rem;
+  /* padding: 2rem; */
+  font-size: 2em;
   font-weight: 600;
-  color: #fff;
+  color: black;
   overflow: hidden;
   font-family: Poppins, sans-serif;
+  padding-top: 20%;
+  /* align-items: center; */
 }
 
 .card:hover .front {
@@ -50,9 +54,12 @@
 }
 
 .back {
+  /* background-size: contain;
+  background-repeat: no-repeat; */
   transform: rotateY(-180deg);
   padding: 0 2em;
   flex-wrap: wrap;
+  align-items: center;
 }
 .back:before {
   position: absolute;

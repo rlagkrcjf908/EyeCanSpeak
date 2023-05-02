@@ -1,5 +1,5 @@
 import style from "../styles/common/selectMain.module.css"
-import drawing from "../assets/image/drawing.jpg"
+import drawing from "../assets/image/drawing.png"
 import writing from "../assets/image/writing.png"
 import { Link } from "react-router-dom"
 export default function SelectMain() {
