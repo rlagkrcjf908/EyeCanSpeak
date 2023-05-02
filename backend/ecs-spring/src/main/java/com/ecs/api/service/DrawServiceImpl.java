@@ -43,11 +43,12 @@ public class DrawServiceImpl implements DrawService{
     private final DrawRepositorySupport drawRepositorySupport;
     private final LikesRepository likesRepository;
 
+    private final CategoryRepositorySupport categoryRepositorySupport;
+
     //그림 주제 선택--------------------------------------------------------------------------------------
     @Override
     public List<Category> getAllCategory() {
-        List<Category> categories = categoryRepository.findAll();
-
+        List<Category> categories = categoryRepositorySupport.findAll();
         return categories;
     }
 
@@ -70,14 +71,11 @@ public class DrawServiceImpl implements DrawService{
         String key = randomFileName(file);
         String path = putS3(file, key);
         removeFile(file);
-
-        Draw draw = new Draw();
         Category category = categoryRepository.findByCategoryNo(drawReqDto.getCategoryNo()).orElseThrow(()-> new IllegalArgumentException("no such data"));
+        Draw draw = new Draw();
         draw.setDrawPostTF(drawReqDto.isDrawPostTF());
         draw.setUsersNo(users);
         draw.setCategoryNo(category);
-
-
         // key 값으로 삭제인지 path로 삭제인지 다시 확인할 것
         draw.setDrawDrawing(key);
         drawReopsitory.save(draw);

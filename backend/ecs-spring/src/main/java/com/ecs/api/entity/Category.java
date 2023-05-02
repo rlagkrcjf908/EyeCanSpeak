@@ -21,7 +21,7 @@ public class Category {
     @Column(name = "CATEGORY_NM", nullable = false)
     private String categoryNM;
 
-    @OneToMany(mappedBy = "categoryNo",cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "categoryNo",cascade = CascadeType.ALL)
     private List<Draw> draws = new ArrayList<>();
 
 
