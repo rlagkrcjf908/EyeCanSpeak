@@ -71,6 +71,8 @@ function Board({ width, height }: CanvasProps) {
       let backImg = new Image()
       console.log(bgImage)
       backImg.src = bgImage
+      backImg.crossOrigin = "Anonymous"
+
       console.log(backImg.src)
       backImg.onload = function () {
         context.drawImage(backImg, 0, 0, canvas.width + 5, canvas.height)
