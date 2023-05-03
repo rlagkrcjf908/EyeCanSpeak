@@ -101,6 +101,7 @@ export default function Slide({
   const setList = useCallback(
     async (category: number, sort: boolean) => {
       const response = await getList(category, sort)
+      console.log(response.data)
       setDrawList(() => [...response.data])
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

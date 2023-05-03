@@ -37,7 +37,9 @@ export default function SaveModal({
         console.log(key, ":", formData.get(key))
       }
       const response: AxiosResponse = await axios.put(
-        `https://k8d204.p.ssafy.io/api/draw/store/${drawNo}`,
+        `http://192.168.100.207:8080/api/draw/store/${drawNo}`,
+
+        // `https://k8d204.p.ssafy.io/api/draw/store/${drawNo}`,
         formData,
         {
           headers: {
@@ -48,12 +50,14 @@ export default function SaveModal({
       )
       if (response.status !== 200) console.log("저장 실패")
       setModal(false)
+      window.location.href = "https://k8d204.p.ssafy.io/myPage"
     } else {
       for (let key of formData.keys()) {
         console.log(key, ":", formData.get(key))
       }
       const response: AxiosResponse = await axios.post(
-        "https://k8d204.p.ssafy.io/api/draw/store",
+        `http://192.168.100.207:8080/api/draw/store`,
+        // "https://k8d204.p.ssafy.io/api/draw/store",
         formData,
         {
           headers: {
@@ -64,6 +68,7 @@ export default function SaveModal({
       )
       if (response.status !== 200) console.log("저장 실패")
       setModal(false)
+      window.location.href = "https://k8d204.p.ssafy.io/myPage"
     }
   }
 

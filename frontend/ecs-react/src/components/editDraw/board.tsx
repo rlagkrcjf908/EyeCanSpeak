@@ -12,7 +12,6 @@ import {
   nextYState,
 } from "../../recoil/atoms/mouseState"
 import { getDrawing } from "../../services/userApi"
-import { bgImg } from "../../recoil/atoms/drawingState"
 import { saveModal } from "../../recoil/atoms/commonState"
 
 interface CanvasProps {
@@ -70,12 +69,8 @@ function Board({ width, height }: CanvasProps) {
     if (initStart && context) {
       let backImg = new Image()
       console.log(bgImage)
-      // backImg.src = bgImage
-      backImg.setAttribute(
-        "src",
-        `${bgImage}/timestamp=${new Date().getTime()}`
-      )
-      backImg.crossOrigin = "Anonymous"
+      backImg.crossOrigin = "anonymous"
+      backImg.src = bgImage + "?timestamp=" + new Date().getTime() // 핵심(url 뒤에 캐시막기용 파라미터 추가)
 
       console.log(backImg.src)
       backImg.onload = function () {
@@ -116,6 +111,7 @@ function Board({ width, height }: CanvasProps) {
     const canvas: HTMLCanvasElement = canvasRef.current
     setOffsetLeft(canvas.offsetLeft)
     setOffsetTop(canvas.offsetTop)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -135,6 +131,7 @@ function Board({ width, height }: CanvasProps) {
           nextY - offsetTop + 25
         )
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPainting, nextX, nextY])
 
   useEffect(() => {
@@ -192,7 +189,7 @@ function Board({ width, height }: CanvasProps) {
             저장
           </button>
         </div>
-      </div>{" "}
+      </div>
     </>
   )
 }
