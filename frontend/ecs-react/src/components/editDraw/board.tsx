@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 import style from "../../styles/drawing/board.module.css"
-import { useRecoilValue } from "recoil"
+import { useRecoilValue, useSetRecoilState } from "recoil"
 import Palette from "./palette"
-// import { saveDrawing } from "../../services/drawingApi"
+import Modal from "../../pages/saveModal"
 import { useParams } from "react-router"
 import {
   currerntXState,
@@ -13,6 +13,7 @@ import {
 } from "../../recoil/atoms/mouseState"
 import { getDrawing } from "../../services/userApi"
 import { bgImg } from "../../recoil/atoms/drawingState"
+import { saveModal } from "../../recoil/atoms/commonState"
 
 interface CanvasProps {
   width: number
@@ -29,10 +30,14 @@ function Board({ width, height }: CanvasProps) {
   const [size, setSize] = useState(2)
   const [offsetLeft, setOffsetLeft] = useState(0)
   const [offsetTop, setOffsetTop] = useState(0)
-  const bgImage = useRecoilValue(bgImg)
+  const [bgImage, setBgImage] = useState("")
   const params = useParams()
   const [initStart, setInitStart] = useState(true)
   const [start, setStart] = useState(true)
+  const setModal = useSetRecoilState(saveModal)
+  const [imageBlob, setImageBlob] = useState<Blob>()
+
+  const [categoryNo, setCategoryNo] = useState(0)
 
   const changeColor = (color: string) => {
     setColor(color)
@@ -64,7 +69,7 @@ function Board({ width, height }: CanvasProps) {
 
     if (initStart && context) {
       let backImg = new Image()
-      backImg.crossOrigin = "Anonymous"
+      console.log(bgImage)
       backImg.src = bgImage
       console.log(backImg.src)
       backImg.onload = function () {
@@ -92,7 +97,8 @@ function Board({ width, height }: CanvasProps) {
     let response
     if (params.draw_no !== undefined) {
       response = await getDrawing(parseInt(params.draw_no))
-      console.log(response.data)
+      setCategoryNo(response.data.categoryNo)
+      setBgImage(response.data.drawDrawing)
     }
   }
 
@@ -141,49 +147,47 @@ function Board({ width, height }: CanvasProps) {
 
   //------------------------------------------------------
   const saveDraw = async () => {
-    // const canvas: any = document.getElementById("canvas")
-    // console.log(canvas)
-    // const dataURL = canvas.toDataURL("image/jpeg")
-    // const formData = new FormData()
-    // formData.append("multipartFiles", dataURL)
-    // const subject_nm: any = params.subject_nm
-    // const response = await saveDrawing(subject_nm, formData)
-    // if (response.status === 400) console.log("저장 실패")
+    console.log(categoryNo)
     const canvas: any = document.getElementById("canvas")
-    const image = canvas.toDataURL()
-    const link = document.createElement("a")
-    link.href = image
-    link.download = "PaintJS[🎨]"
-    link.click()
+
+    await canvas.toBlob((blob: any) => {
+      // canvas 이미지 파일로 변환
+      setImageBlob(blob)
+      setModal(true)
+    })
   }
-  const postDraw = async () => {}
   return (
-    <div className={style.container}>
-      <div
-        className={style.board}
-        style={{
-          backgroundImage: `url(${bgImage})`,
-          backgroundSize: "1005px 700px",
-        }}
-      >
-        <canvas
-          ref={canvasRef}
-          height={height}
-          width={width}
-          id='canvas'
-        ></canvas>
-      </div>
-      <div style={{ textAlign: "center" }}>
-        <Palette changeColor={changeColor} changeSize={changeSize} />
-        {/* 나중에 모달 창으로 만들기 */}
-        <button className={style.btn} onClick={saveDraw}>
-          저장
-        </button>
-        <button className={style.btn} onClick={postDraw}>
-          공유
-        </button>
-      </div>
-    </div>
+    <>
+      <Modal
+        categoryNo={categoryNo}
+        blob={imageBlob}
+        isEdit={true}
+        drawNo={params.draw_no}
+      ></Modal>
+      <div className={style.container}>
+        <div
+          className={style.board}
+          style={{
+            backgroundImage: `url(${bgImage})`,
+            backgroundSize: "1005px 700px",
+          }}
+        >
+          <canvas
+            ref={canvasRef}
+            height={height}
+            width={width}
+            id='canvas'
+          ></canvas>
+        </div>
+        <div style={{ textAlign: "center" }}>
+          <Palette changeColor={changeColor} changeSize={changeSize} />
+          {/* 나중에 모달 창으로 만들기 */}
+          <button className={style.btn} onClick={saveDraw}>
+            저장
+          </button>
+        </div>
+      </div>{" "}
+    </>
   )
 }
 Board.defaultProps = {

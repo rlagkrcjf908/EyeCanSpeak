@@ -17,3 +17,8 @@ export async function postDrawing(
   )
   return response
 }
+export async function editDrawing(drawNo: number) {
+  // 그림 수정 완료
+  const response: AxiosResponse = await customAxios.put(`/draw/store/${drawNo}`)
+  return response
+}
