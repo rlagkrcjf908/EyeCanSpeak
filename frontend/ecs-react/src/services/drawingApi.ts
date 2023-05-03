@@ -17,8 +17,3 @@ export async function postDrawing(
   )
   return response
 }
-
-export async function getDrawing(drawNo: number) {
-  const response: AxiosResponse = await customAxios.get(`/user/${drawNo}`)
-  return response
-}

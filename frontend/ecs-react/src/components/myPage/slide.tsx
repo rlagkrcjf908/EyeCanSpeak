@@ -125,8 +125,10 @@ export default function Slide({
   }
 
   const deleteDraw = async () => {
+    console.log("delete")
     const response = await deleteDrawing(drawList[currentPage].drawNo)
-    if (response.status === 400) console.log("삭제 실패")
+    if (response.status === 200) setList(category, sort)
+    else console.log("삭제 실패")
   }
 
   return (
@@ -147,51 +149,59 @@ export default function Slide({
             data-aos='fade-up'
             {...settings}
           >
-            {drawList.map((item, index) => (
-              <div className='slider-item' key={index}>
-                <div className='img-box'>
-                  <img src={item.drawDrawing} alt='' />
+            {drawList.length === 0 ? (
+              <div className={style.empty}>저장된 그림이 없습니다.</div>
+            ) : (
+              drawList.map((item, index) => (
+                <div className='slider-item' key={index}>
+                  <div>{item.drawNo}</div>
+                  <div className='img-box'>
+                    <img src={item.drawDrawing} alt='' />
+                  </div>
+                  <div className='v-story-desc-list'>
+                    <p className='v-story-desc-tt'>
+                      <br />
+                    </p>
+                    <p className='v-story-desc'>{item.categoryNM}</p>
+                    {item.like ? (
+                      <button
+                        className='slide-like'
+                        onClick={() => {
+                          setUnlike(item.drawNo)
+                        }}
+                      >
+                        <img src={likeIco} alt='' width={50} />
+                      </button>
+                    ) : (
+                      <button
+                        className='slide-like'
+                        onClick={() => {
+                          setLike(item.drawNo)
+                        }}
+                      >
+                        <img src={unlikeIco} alt='' width={50} />
+                      </button>
+                    )}
+                    {}
+                  </div>
                 </div>
-                <div className='v-story-desc-list'>
-                  <p className='v-story-desc-tt'>
-                    <br />
-                  </p>
-                  <p className='v-story-desc'>{item.categoryNM}</p>
-                  {item.like ? (
-                    <button
-                      className='slide-like'
-                      onClick={() => {
-                        setUnlike(item.drawNo)
-                      }}
-                    >
-                      <img src={likeIco} alt='' width={50} />
-                    </button>
-                  ) : (
-                    <button
-                      className='slide-like'
-                      onClick={() => {
-                        setLike(item.drawNo)
-                      }}
-                    >
-                      <img src={unlikeIco} alt='' width={50} />
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
+              ))
+            )}
           </Slider>
         </div>
-        <div className={style.buttons}>
-          <button className={style.btn} onClick={saveDraw}>
-            이미지 다운로드
-          </button>
-          <button className={style.btn} onClick={editDraw}>
-            수정
-          </button>
-          <button className={style.btn} onClick={deleteDraw}>
-            삭제
-          </button>
-        </div>
+        {drawList.length === 0 ? null : (
+          <div className={style.buttons}>
+            <button className={style.btn} onClick={saveDraw}>
+              이미지 다운로드
+            </button>
+            <button className={style.btn} onClick={editDraw}>
+              수정
+            </button>
+            <button className={style.btn} onClick={deleteDraw}>
+              삭제
+            </button>
+          </div>
+        )}
       </div>
     </>
   )

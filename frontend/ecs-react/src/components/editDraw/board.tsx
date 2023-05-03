@@ -11,7 +11,7 @@ import {
   nextXState,
   nextYState,
 } from "../../recoil/atoms/mouseState"
-import { getDrawing } from "../../services/drawingApi"
+import { getDrawing } from "../../services/userApi"
 import { bgImg } from "../../recoil/atoms/drawingState"
 
 interface CanvasProps {
