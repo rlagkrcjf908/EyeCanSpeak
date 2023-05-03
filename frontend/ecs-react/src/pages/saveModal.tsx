@@ -7,9 +7,13 @@ import axios, { AxiosResponse } from "axios"
 export default function SaveModal({
   categoryNo,
   blob,
+  isEdit,
+  drawNo,
 }: {
   categoryNo: any
   blob: any
+  isEdit: boolean
+  drawNo: any
 }) {
   const [modal, setModal] = useRecoilState(saveModal)
   const cookies = new Cookies()
@@ -17,6 +21,7 @@ export default function SaveModal({
   const save = async (post: boolean) => {
     const token = cookies.get("accessToken")
     const formData: FormData = new FormData()
+    console.log(categoryNo + "!!!")
     const data = {
       categoryNo: categoryNo,
       drawPostTF: post ? true : false,
@@ -27,18 +32,39 @@ export default function SaveModal({
     )
     formData.append("drawDrawing", blob)
 
-    const response: AxiosResponse = await axios.post(
-      "http://192.168.100.207:8080/api/draw/store",
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
+    if (isEdit) {
+      for (let key of formData.keys()) {
+        console.log(key, ":", formData.get(key))
       }
-    )
-    if (response.status !== 200) console.log("저장 실패")
-    setModal(false)
+      const response: AxiosResponse = await axios.put(
+        `https://k8d204.p.ssafy.io/api/draw/store/${drawNo}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      if (response.status !== 200) console.log("저장 실패")
+      setModal(false)
+    } else {
+      for (let key of formData.keys()) {
+        console.log(key, ":", formData.get(key))
+      }
+      const response: AxiosResponse = await axios.post(
+        "https://k8d204.p.ssafy.io/api/draw/store",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      if (response.status !== 200) console.log("저장 실패")
+      setModal(false)
+    }
   }
 
   return (

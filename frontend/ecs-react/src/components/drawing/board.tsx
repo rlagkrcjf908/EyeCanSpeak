@@ -130,7 +130,6 @@ function Board({ width, height }: CanvasProps) {
 
     await canvas.toBlob((blob: any) => {
       // canvas 이미지 파일로 변환
-
       setImageBlob(blob)
       setModal(true)
     })
@@ -138,7 +137,12 @@ function Board({ width, height }: CanvasProps) {
 
   return (
     <>
-      <Modal categoryNo={params.categoryNo} blob={imageBlob}></Modal>
+      <Modal
+        categoryNo={params.categoryNo}
+        blob={imageBlob}
+        isEdit={false}
+        drawNo='-1'
+      ></Modal>
       <div className={style.container}>
         <div
           className={style.board}
