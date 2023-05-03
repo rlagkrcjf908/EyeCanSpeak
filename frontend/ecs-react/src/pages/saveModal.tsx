@@ -48,6 +48,7 @@ export default function SaveModal({
       )
       if (response.status !== 200) console.log("저장 실패")
       setModal(false)
+      window.location.href = "https://k8d204.p.ssafy.io/myPage"
     } else {
       for (let key of formData.keys()) {
         console.log(key, ":", formData.get(key))
@@ -64,6 +65,7 @@ export default function SaveModal({
       )
       if (response.status !== 200) console.log("저장 실패")
       setModal(false)
+      window.location.href = "https://k8d204.p.ssafy.io/myPage"
     }
   }
 
