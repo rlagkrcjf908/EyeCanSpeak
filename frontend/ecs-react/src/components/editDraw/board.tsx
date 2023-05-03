@@ -70,7 +70,11 @@ function Board({ width, height }: CanvasProps) {
     if (initStart && context) {
       let backImg = new Image()
       console.log(bgImage)
-      backImg.src = bgImage
+      // backImg.src = bgImage
+      backImg.setAttribute(
+        "src",
+        `${bgImage}/timestamp=${new Date().getTime()}`
+      )
       backImg.crossOrigin = "Anonymous"
 
       console.log(backImg.src)
