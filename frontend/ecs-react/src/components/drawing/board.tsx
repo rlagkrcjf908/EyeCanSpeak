@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import style from "../../styles/drawing/board.module.css"
 import { useRecoilValue, useSetRecoilState } from "recoil"
 import Palette from "./palette"
-import Modal from "../../pages/saveModal"
+import Modal from "../modal/saveModal"
 import { useParams } from "react-router"
 import {
   currerntXState,
@@ -11,7 +11,7 @@ import {
   nextXState,
   nextYState,
 } from "../../recoil/atoms/mouseState"
-import { saveModal } from "../../recoil/atoms/commonState"
+import { saveModal } from "../../recoil/atoms/modalState"
 interface CanvasProps {
   width: number
   height: number
