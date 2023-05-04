@@ -173,7 +173,7 @@ export default function Mouse() {
       {/* <div className='rightFrills frills'></div> */}
       {/* </div> */}
       <div className='controller'>
-        <div>
+        {/* <div>
           <button onClick={() => onClick(0)}>top</button>
         </div>
         <div>
@@ -187,7 +187,7 @@ export default function Mouse() {
         </div>
         <div>
           <button onClick={clickHandler}>click</button>
-        </div>
+        </div> */}
       </div>
     </>
   )
