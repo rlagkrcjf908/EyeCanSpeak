@@ -34,7 +34,7 @@ public class DrawRepositorySupport{
         List<DrawGetResDto> drawGetResDtos = jpaQueryFactory.select(Projections.bean(DrawGetResDto.class,qDraw.drawNo,qDraw.drawDrawing,qDraw.drawRecentDate.as("drawRecentDate"),qDraw.count().as("count")))
                 .from(qDraw)
                 .where(qDraw.drawPostTF.eq(true),eqCategory(num))
-                .join(qLikes)
+                .leftJoin(qLikes)
                 .on(qDraw.drawNo.eq(qLikes.drawNo.drawNo))
                 .groupBy(qDraw.drawNo)
                 .orderBy(orderSpecifiers)

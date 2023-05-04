@@ -166,18 +166,18 @@ public class DrawServiceImpl implements DrawService{
     @Override
     public List<DrawResDto> getList(Users users,int categoryNo, boolean like, boolean date) {
 
-        Category category = categoryRepository.findById(categoryNo).orElseThrow(()->new IllegalArgumentException("no such data"));
         List<DrawGetResDto> draws = drawRepositorySupport.findAll(like,date,categoryNo);
-        return initDrawList(users,category,draws);
+
+        return initDrawList(users,draws);
     }
 
 
-    public List<DrawResDto> initDrawList(Users user,Category category,List<DrawGetResDto> draws) {
+    public List<DrawResDto> initDrawList(Users user,List<DrawGetResDto> draws) {
         List<DrawResDto> getDraws = new ArrayList<>();
         for (int i = 0; i < draws.size(); i++) {
             DrawGetResDto drawdto = draws.get(i);
             Draw dentity = drawReopsitory.findById(drawdto.getDrawNo()).orElseThrow(()->new IllegalArgumentException("no such data"));
-            Likes likes = likesRepository.findByUsersNoAndDrawNo(user, dentity);
+            Likes likes = likesRepository.findByUsersNoAndDrawNo(user, dentity).orElse(null);
 
             DrawResDto dto = new DrawResDto();
 
@@ -185,11 +185,12 @@ public class DrawServiceImpl implements DrawService{
             dto.setDrawNo(drawdto.getDrawNo());
             dto.setDrawDate(drawdto.getDrawRecentDate());
             dto.setLikeCnt(drawdto.getCount());
+
             if (likes == null) dto.setLike(false);
             dto.setLike(true);
 
             dto.setUserNM(dentity.getUsersNo().getUsersNickName());
-            dto.setCategoryNM(category.getCategoryNM());
+            dto.setCategoryNM(dentity.getCategoryNo().getCategoryNM());
 
             getDraws.add(dto);
         }
@@ -210,7 +211,7 @@ public class DrawServiceImpl implements DrawService{
     @Override
     public void dellikes(Users users, LikeReqDto likeReqDto) {
         Draw draw = drawReopsitory.findDrawsByDrawNo(likeReqDto.getDrawNo()).orElseThrow(()->new IllegalArgumentException("no such data"));
-        Likes likes = likesRepository.findByUsersNoAndDrawNo(users,draw);
+        Likes likes = likesRepository.findByUsersNoAndDrawNo(users,draw).orElse(null);
         likesRepository.delete(likes);
     }
 
