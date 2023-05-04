@@ -89,19 +89,31 @@ export default function Slide({
   const setLike = async (drawNo: number) => {
     const response = await like(drawNo)
     if (response.status === 200) {
-      console.log("좋아요")
+      setDrawList(
+        drawList.map((item) =>
+          item.drawNo === drawList[currentPage].drawNo
+            ? { ...item, like: !item.like }
+            : item
+        )
+      )
     }
   }
   const setUnlike = async (drawNo: number) => {
     const response = await unLike(drawNo)
     if (response.status === 200) {
+      setDrawList(
+        drawList.map((item) =>
+          item.drawNo === drawList[currentPage].drawNo
+            ? { ...item, like: !item.like }
+            : item
+        )
+      )
     }
   }
 
   const setList = useCallback(
     async (category: number, sort: boolean) => {
       const response = await getList(category, sort)
-      console.log(response.data)
       setDrawList(() => [...response.data])
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -126,7 +138,6 @@ export default function Slide({
   }
 
   const deleteDraw = async () => {
-    console.log("delete")
     const response = await deleteDrawing(drawList[currentPage].drawNo)
     if (response.status === 200) setList(category, sort)
     else console.log("삭제 실패")

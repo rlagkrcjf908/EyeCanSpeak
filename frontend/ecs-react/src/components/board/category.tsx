@@ -27,6 +27,7 @@ export default function Category({ changeCategory }: { changeCategory: any }) {
           onClick={() => {
             changeCategory({ index })
           }}
+          key={index}
         >
           {categoryList[index].categoryNM}
         </button>

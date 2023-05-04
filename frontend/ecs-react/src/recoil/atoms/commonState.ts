@@ -2,5 +2,5 @@ import { atom } from "recoil"
 
 export const saveModal = atom<boolean>({
   key: "saveModal",
-  default: true,
+  default: false,
 })
