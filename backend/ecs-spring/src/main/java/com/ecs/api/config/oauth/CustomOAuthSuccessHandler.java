@@ -33,13 +33,13 @@ public class CustomOAuthSuccessHandler implements AuthenticationSuccessHandler {
 
         Cookie accessCookie=new Cookie("accessToken", jwtToken);
         accessCookie.setPath("/");
-        accessCookie.setMaxAge(1000 * 60 * 60);
+        accessCookie.setMaxAge(60 * 60);
 
         Cookie refreshCookie=new Cookie("refreshToken", refreshToken);
         refreshCookie.setPath("/");
         refreshCookie.setSecure(true);
         refreshCookie.setHttpOnly(true);
-        refreshCookie.setMaxAge(1000*60*60*24);
+        refreshCookie.setMaxAge(60*60*24);
 
         response.addCookie(accessCookie);
         response.addCookie(refreshCookie);
