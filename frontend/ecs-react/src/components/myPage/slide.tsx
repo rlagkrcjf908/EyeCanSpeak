@@ -161,6 +161,7 @@ export default function Slide({
             <img src={next} alt='' width={30}></img>
           </button>
         </div>
+
         <div className='v-story-wrap con'>
           <Slider
             ref={customSlider}
@@ -200,7 +201,6 @@ export default function Slide({
                         <img src={unlikeIco} alt='' width={50} />
                       </button>
                     )}
-                    {}
                   </div>
                 </div>
               ))
