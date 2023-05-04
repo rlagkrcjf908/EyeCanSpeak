@@ -1,0 +1,38 @@
+.openModal {
+  text-align: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 2000;
+  width: 100vw;
+  height: 100vh;
+  background-color: aliceblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: show 0.3s ease;
+}
+
+.closeModal {
+  display: none;
+}
+
+.btn {
+  font-size: 30px;
+  margin: 0 20px;
+  background-color: white;
+  /* border: 1px solid black; */
+  border-radius: 30px;
+  width: 500px;
+  height: 600px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+@keyframes show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

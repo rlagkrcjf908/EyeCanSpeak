@@ -1,6 +1,6 @@
 import { useRecoilState } from "recoil"
-import { saveModal } from "../recoil/atoms/commonState"
-import style from "../styles/common/modal.module.css"
+import { saveModal } from "../../recoil/atoms/modalState"
+import style from "../../styles/modal/saveModal.module.css"
 import { Cookies } from "react-cookie"
 import axios, { AxiosResponse } from "axios"
 
@@ -21,7 +21,6 @@ export default function SaveModal({
   const save = async (post: boolean) => {
     const token = cookies.get("accessToken")
     const formData: FormData = new FormData()
-    console.log(categoryNo + "!!!")
     const data = {
       categoryNo: categoryNo,
       drawPostTF: post ? true : false,
@@ -33,9 +32,6 @@ export default function SaveModal({
     formData.append("drawDrawing", blob)
 
     if (isEdit) {
-      for (let key of formData.keys()) {
-        console.log(key, ":", formData.get(key))
-      }
       const response: AxiosResponse = await axios.put(
         `https://k8d204.p.ssafy.io/api/draw/store/${drawNo}`,
         formData,
@@ -50,9 +46,6 @@ export default function SaveModal({
       setModal(false)
       window.location.href = "https://k8d204.p.ssafy.io/myPage"
     } else {
-      for (let key of formData.keys()) {
-        console.log(key, ":", formData.get(key))
-      }
       const response: AxiosResponse = await axios.post(
         "https://k8d204.p.ssafy.io/api/draw/store",
         formData,
