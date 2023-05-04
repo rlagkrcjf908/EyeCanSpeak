@@ -10,6 +10,7 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Date;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
@@ -101,8 +103,10 @@ public class JwtTokenProvider {
     public boolean validationToken(String token){
         try{
             Jws<Claims> claims=Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            log.debug("token validation: {}" , !claims.getBody().getExpiration().before(new Date()));
             return !claims.getBody().getExpiration().before(new Date());
         }catch (Exception e){
+            log.debug("token validation exception");
             return false;
         }
     }
