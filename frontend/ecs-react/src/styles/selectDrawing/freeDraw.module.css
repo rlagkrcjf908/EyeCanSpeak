@@ -24,6 +24,7 @@
 .card:hover {
   display: block;
 }
+
 .card__background h1 {
   position: absolute;
   top: 15%;
@@ -56,5 +57,12 @@
   border-radius: 20px;
 }
 .card__background:hover {
+  transform: scale(1.2);
+}
+
+.card_hover {
+  display: block;
+}
+.hover {
   transform: scale(1.2);
 }
