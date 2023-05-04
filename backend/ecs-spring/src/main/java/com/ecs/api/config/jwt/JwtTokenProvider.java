@@ -43,15 +43,30 @@ public class JwtTokenProvider {
 
     public String createToken(Users users){
 
+        Date now=new Date();
+        Claims claims= Jwts.claims()
+                .setSubject(users.getUsersId())
+                .setIssuedAt(now) // 발행일
+                .setExpiration(new Date(now.getTime()+ 60L*60L* 1000L)); // 1시간
+        claims.put("name", users.getUsersNickName());
+        claims.put("no", users.getUsersNo());
+
         return Jwts.builder()
-                .setClaims(createClaims(users,   60L*60L* 1000L)) // 1시간
+                .setClaims(claims)
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
     public String createRefreshToken(Users users){
+
+        Date now=new Date();
+        Claims claims= Jwts.claims()
+                .setSubject("refreshToken")
+                .setIssuedAt(now) // 발행일
+                .setExpiration(new Date(now.getTime()+ 24L*60L*60L*1000L)); // 1일
+
         String refreshToken=Jwts.builder()
-                .setClaims(createClaims(users, 24L*60L*60L*1000L)) // 1일
+                .setClaims(claims)
                 .signWith(SignatureAlgorithm.HS256, refreshKey)
                 .compact();
 
@@ -67,18 +82,6 @@ public class JwtTokenProvider {
         }
         jwtTokenRepository.save(jwtToken);
         return refreshToken;
-    }
-
-    public Claims createClaims(Users users, long expire){
-        Date now=new Date();
-        Claims claims= Jwts.claims()
-                .setSubject(users.getUsersId())
-                .setIssuedAt(now) // 발행일
-                .setExpiration(new Date(now.getTime()+ expire));
-        claims.put("name", users.getUsersNickName());
-        claims.put("no", users.getUsersNo());
-
-        return claims;
     }
 
     // 필터에서 인증 성공시 SecurityContextHolder에 저장할 Authenticatiion 생성
@@ -104,10 +107,8 @@ public class JwtTokenProvider {
     public boolean validationToken(String token){
         try{
             Jws<Claims> claims=Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-            log.info("token validation: {}" , !claims.getBody().getExpiration().before(new Date()));
             return !claims.getBody().getExpiration().before(new Date());
         }catch (Exception e){
-            log.info("token validation exception");
             return false;
         }
     }
