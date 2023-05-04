@@ -1,5 +1,6 @@
 .container {
-  margin-top: 50px;
+  /* border: 1px solid black; */
+  margin-top: 2vh;
   text-align: center;
 }
 
@@ -15,7 +16,7 @@
 .btns {
   display: flex;
   justify-content: right;
-  margin: 15px 0;
+  margin: 10px 0;
 }
 
 .sortBtn1,

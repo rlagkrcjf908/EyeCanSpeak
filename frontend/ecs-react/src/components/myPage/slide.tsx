@@ -155,7 +155,6 @@ export default function Slide({
             ) : (
               drawList.map((item, index) => (
                 <div className='slider-item' key={index}>
-                  <div>{item.drawNo}</div>
                   <div className='img-box'>
                     <img src={item.drawDrawing} alt='' />
                   </div>
