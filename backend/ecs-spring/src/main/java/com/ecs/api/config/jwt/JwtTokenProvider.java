@@ -44,14 +44,14 @@ public class JwtTokenProvider {
     public String createToken(Users users){
 
         return Jwts.builder()
-                .setClaims(createClaims(users,   60L * 60L)) // 1시간
+                .setClaims(createClaims(users,   60L*60L* 1000L)) // 1시간
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
     public String createRefreshToken(Users users){
         String refreshToken=Jwts.builder()
-                .setClaims(createClaims(users, 60L*60L*24L)) // 1일
+                .setClaims(createClaims(users, 24L*60L*60L*1000L)) // 1일
                 .signWith(SignatureAlgorithm.HS256, refreshKey)
                 .compact();
 
@@ -70,10 +70,11 @@ public class JwtTokenProvider {
     }
 
     public Claims createClaims(Users users, long expire){
+        Date now=new Date();
         Claims claims= Jwts.claims()
                 .setSubject(users.getUsersId())
-                .setIssuedAt(new Date()) // 발행일
-                .setExpiration(new Date(System.currentTimeMillis()+ expire));
+                .setIssuedAt(now) // 발행일
+                .setExpiration(new Date(now.getTime()+ expire));
         claims.put("name", users.getUsersNickName());
         claims.put("no", users.getUsersNo());
 
