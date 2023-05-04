@@ -27,9 +27,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        log.info("doFilterInternal");
         String token = jwtTokenProvider.resolveToken(request, "accessToken");
-        log.info("resolve token : {}", token);
 
         if(token != null ){ // access token 검증
             if(jwtTokenProvider.validationToken(token)){
@@ -38,8 +36,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }else{ // access token 만료
                 String refreshToken=jwtTokenProvider.resolveToken(request, "refreshToken");
-                log.info("refresh token value : {}", refreshToken);
                 if(jwtTokenProvider.validationToken(refreshToken)){ // refresh token 확인 후 access token 재발급
+                    log.info("refresh token validation");
                     Authentication authentication=jwtTokenProvider.getAuthentication(refreshToken);
                     Users users=userRepository.findByUsersId(((PrincipalDetails)authentication.getPrincipal()).getPassword()).orElseThrow(()->new IllegalArgumentException("유저가 없습니다."));
                     String accessToken=jwtTokenProvider.createToken(users);
