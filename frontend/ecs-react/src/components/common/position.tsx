@@ -5,17 +5,22 @@ import {
   currerntYPosition,
   nextXPosition,
   nextYPosition,
+  socketXPosition,
+  socketYPosition,
 } from "../../recoil/atoms/boxState"
 import { isClick } from "../../recoil/atoms/mouseState"
 import { useEffect } from "react"
 
 export default function Position() {
+  const [X, setX] = useRecoilState(socketXPosition)
+  const [Y, setY] = useRecoilState(socketYPosition)
   const [currentXBox, setCurrentXBox] = useRecoilState(currerntXPosition)
   const [currentYBox, setCurrentYBox] = useRecoilState(currerntYPosition)
   const [nextX, setNextX] = useRecoilState(nextXPosition)
   const [nextY, setNextY] = useRecoilState(nextYPosition)
   const window_width = window.screen.availWidth
   const window_height = window.screen.availHeight
+  console.log("window_width", window_width, "window_height", window_height)
   const [click, setClick] = useRecoilState(isClick)
 
   let box: any
@@ -27,6 +32,12 @@ export default function Position() {
     console.log(randomX, randomY)
     move(randomX, randomY)
   }
+
+  useEffect(() => {
+    console.log("!!!", socketXPosition, socketYPosition)
+    console.log("???", X, Y)
+    move(X, Y)
+  }, [X, Y])
 
   // 좌표값에 따라 이동
   const move = (randomX: number, randomY: number) => {
@@ -45,7 +56,7 @@ export default function Position() {
     const element: any = document.elementFromPoint(nextX, nextY)
     if (!element) return
     console.log("mouseover", element.className)
-    console.log("mouseover", nextX, nextY)
+    // console.log("mouseover", nextX, nextY)
     element.dispatchEvent(
       new MouseEvent("mouseover", {
         view: window,
@@ -60,8 +71,8 @@ export default function Position() {
   const leaveHandler = () => {
     const element: any = document.elementFromPoint(currentXBox, currentYBox)
     if (!element) return
-    const className = element.className.replace("hover", "")
-    console.log("leaveHandler", element.className)
+
+    const className = element.className.replace("_hover__", "")
     element.className = className
   }
 

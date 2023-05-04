@@ -24,3 +24,12 @@ export const isClickState = atom<boolean>({
   key: "isClickState",
   default: false,
 })
+
+export const socketXPosition = atom<number>({
+  key: "socketXPosition",
+  default: -1,
+})
+export const socketYPosition = atom<number>({
+  key: "socketYPosition",
+  default: -1,
+})
