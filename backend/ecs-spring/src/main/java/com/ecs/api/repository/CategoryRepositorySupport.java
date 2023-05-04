@@ -20,8 +20,6 @@ public class CategoryRepositorySupport {
     public List<Category> findAll()  {
         List<Category> categories = jpaQueryFactory.select(qCategory)
                                                     .from(qCategory)
-                                                    .offset(0)
-                                                    .limit(3)
                                                     .fetch();
         return categories;
     }

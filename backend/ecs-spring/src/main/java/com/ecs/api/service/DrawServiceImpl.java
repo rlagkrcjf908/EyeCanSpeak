@@ -186,8 +186,13 @@ public class DrawServiceImpl implements DrawService{
             dto.setDrawDate(drawdto.getDrawRecentDate());
             dto.setLikeCnt(drawdto.getCount());
 
-            if (likes == null) dto.setLike(false);
-            dto.setLike(true);
+            if (likes == null) {
+                dto.setLike(false);
+            }
+            else{
+                dto.setLike(true);
+            }
+
 
             dto.setUserNM(dentity.getUsersNo().getUsersNickName());
             dto.setCategoryNM(dentity.getCategoryNo().getCategoryNM());
