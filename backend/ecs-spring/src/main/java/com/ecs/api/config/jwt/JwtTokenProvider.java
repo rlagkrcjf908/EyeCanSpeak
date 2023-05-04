@@ -103,10 +103,10 @@ public class JwtTokenProvider {
     public boolean validationToken(String token){
         try{
             Jws<Claims> claims=Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-            log.debug("token validation: {}" , !claims.getBody().getExpiration().before(new Date()));
+            log.info("token validation: {}" , !claims.getBody().getExpiration().before(new Date()));
             return !claims.getBody().getExpiration().before(new Date());
         }catch (Exception e){
-            log.debug("token validation exception");
+            log.info("token validation exception");
             return false;
         }
     }
