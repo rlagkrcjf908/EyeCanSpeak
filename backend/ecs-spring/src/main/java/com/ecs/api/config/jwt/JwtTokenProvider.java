@@ -42,14 +42,14 @@ public class JwtTokenProvider {
     public String createToken(Users users){
 
         return Jwts.builder()
-                .setClaims(createClaims(users, 1000L * 60L * 60L)) // 1시간
+                .setClaims(createClaims(users,   60L * 60L)) // 1시간
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
     public String createRefreshToken(Users users){
         String refreshToken=Jwts.builder()
-                .setClaims(createClaims(users, 1000L*60L*60L*24L)) // 1일
+                .setClaims(createClaims(users, 60L*60L*24L)) // 1일
                 .signWith(SignatureAlgorithm.HS256, refreshKey)
                 .compact();
 
