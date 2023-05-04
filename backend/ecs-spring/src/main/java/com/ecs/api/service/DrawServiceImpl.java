@@ -186,10 +186,10 @@ public class DrawServiceImpl implements DrawService{
             dto.setLikeCnt(drawdto.getCount());
 
             if (likes) {
-                dto.setLike(false);
+                dto.setLike(true);
             }
             else{
-                dto.setLike(true);
+                dto.setLike(false);
             }
 
 
