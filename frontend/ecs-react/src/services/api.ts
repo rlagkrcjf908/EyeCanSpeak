@@ -3,8 +3,8 @@ import { Cookies } from "react-cookie"
 // import { useSetRecoilState } from "recoil";
 // import { tokenAtom } from "../atoms";
 
-const BASE_URL = "https://k8d204.p.ssafy.io/api"
-// const BASE_URL = "http://192.168.100.207:8080/api"
+// const BASE_URL = "https://k8d204.p.ssafy.io/api"
+const BASE_URL = "http://192.168.100.207:8080/api"
 // const BASE_URL = "http://192.168.100.166:8000/api";
 //
 const customAxios = axios.create({
