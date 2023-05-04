@@ -177,8 +177,7 @@ public class DrawServiceImpl implements DrawService{
         for (int i = 0; i < draws.size(); i++) {
             DrawGetResDto drawdto = draws.get(i);
             Draw dentity = drawReopsitory.findById(drawdto.getDrawNo()).orElseThrow(()->new IllegalArgumentException("no such data"));
-            Likes likes = likesRepository.findByUsersNoAndDrawNo(user, dentity).orElse(null);
-
+            boolean likes = likesRepository.existsByUsersNoAndDrawNo(user, dentity);
             DrawResDto dto = new DrawResDto();
 
             dto.setDrawDrawing(getS3(bucket,drawdto.getDrawDrawing()));
@@ -186,7 +185,7 @@ public class DrawServiceImpl implements DrawService{
             dto.setDrawDate(drawdto.getDrawRecentDate());
             dto.setLikeCnt(drawdto.getCount());
 
-            if (likes == null) {
+            if (likes) {
                 dto.setLike(false);
             }
             else{
