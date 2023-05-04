@@ -7,5 +7,5 @@ export const saveModal = atom<boolean>({
 
 export const deleteModal = atom<boolean>({
   key: "deleteModal",
-  default: true,
+  default: false,
 })
