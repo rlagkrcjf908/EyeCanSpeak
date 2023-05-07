@@ -19,17 +19,13 @@ export default function SelectSubjectDraw() {
 
   const handleMouseOver = () => {
     const subjectCard = document.querySelector("#subjectCard")
-    // const card__background = document.querySelector("#card__background")
     subjectCard?.classList.add(`${style.hover}`)
-    // card__background?.classList.add(`${style.hover}`)
     console.log(1)
     console.log(subjectCard?.className)
   }
   const handleMouseLeave = () => {
     const subjectCard = document.querySelector("#subjectCard")
-    // const card__background = document.querySelector("#card__background")
     subjectCard?.classList.remove(`${style.hover}`)
-    // card__background?.classList.remove(`${style.hover}`)
     console.log(2)
     console.log(subjectCard?.className)
   }

@@ -20,7 +20,6 @@ export default function Position() {
   const [nextY, setNextY] = useRecoilState(nextYPosition)
   const window_width = window.screen.availWidth
   const window_height = window.screen.availHeight
-  console.log("window_width", window_width, "window_height", window_height)
   const [click, setClick] = useRecoilState(isClick)
 
   let box: any
@@ -29,13 +28,10 @@ export default function Position() {
   const onClick = () => {
     let randomX = Math.floor(Math.random() * Math.floor(window_width))
     let randomY = Math.floor(Math.random() * Math.floor(window_height))
-    console.log(randomX, randomY)
     move(randomX, randomY)
   }
 
   useEffect(() => {
-    console.log("!!!", socketXPosition, socketYPosition)
-    console.log("???", X, Y)
     move(X, Y)
   }, [X, Y])
 
@@ -55,8 +51,7 @@ export default function Position() {
   const hoverHandler = () => {
     const element: any = document.elementFromPoint(nextX, nextY)
     if (!element) return
-    console.log("mouseover", element.className)
-    // console.log("mouseover", nextX, nextY)
+
     element.dispatchEvent(
       new MouseEvent("mouseover", {
         view: window,
@@ -65,13 +60,24 @@ export default function Position() {
         buttons: 1,
       })
     )
+    // 마우스 오버 된 요소의 클래스네임에 호버가 있으면 마우스 변함
+    if (element.className.indexOf("hover") === -1) {
+      console.log("NoP", element.className)
+      box = document.querySelector("#box")
+      box.classList.remove(`${style.hover}`)
+    } else {
+      console.log("YesP", element.className)
+      box = document.querySelector("#box")
+      box.classList.add(`${style.hover}`)
+    }
+
   }
 
-  // 마우스리브
+  // 마우스리브하면 움직이기 전 좌표에 있던 요소의 className에 hover 지우기
   const leaveHandler = () => {
     const element: any = document.elementFromPoint(currentXBox, currentYBox)
     if (!element) return
-
+    console.log("LeaveHandler???????", element.className)
     const className = element.className.replace("_hover__", "")
     element.className = className
   }
@@ -118,7 +124,7 @@ export default function Position() {
         className={style.box}
         id='box'
         style={{
-          transform: `translate(${nextX}px, ${nextY}px)`,
+          transform: `translate3d(calc(${nextX}px - 50%), calc(${nextY}px - 50%), 0)`,
           transition: "all 0.2s",
         }}
       ></div>

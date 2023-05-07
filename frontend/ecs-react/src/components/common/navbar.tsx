@@ -20,8 +20,22 @@ export default function Navbar() {
 
     navigate("/")
   }
+  // 마우스 오버 
+  const handleMouseOver = (e: any) => {
+    const activeItem = e.target
+    activeItem?.classList.add(`${style.hover}`)
+  }
+  // 마우스 리브
+  const handleMouseLeave = (e: any) => {
+    const activeItem = e.target
+    activeItem?.classList.remove(`${style.hover}`)
+  }
+
   return (
-    <div className={style.header}>
+    <div
+      onMouseOver={handleMouseOver}
+      onMouseLeave={handleMouseLeave}
+      className={style.header}>
       <div className={style.logo}>
         <Link to='/' className={style.logoItem}>
           <img src={logo} alt='logo' />
@@ -30,18 +44,18 @@ export default function Navbar() {
 
       <div className={style.menu}>
         <Link to='/writing' data-hover='글쓰기'>
-          <span>글쓰기</span>
+          <span className={style.menuItem}>글쓰기</span>
         </Link>
         <Link to='/selectDraw' data-hover='그림그리기'>
-          <span>그림그리기</span>
+          <span className={style.menuItem}>그림그리기</span>
         </Link>
         <Link to='/board' data-hover='게시판'>
-          <span>게시판</span>
+          <span className={style.menuItem}>게시판</span>
         </Link>
         <Link to='/myPage' data-hover='마이페이지'>
-          <span>마이페이지</span>
+          <span className={style.menuItem}>마이페이지</span>
         </Link>
-        <span onClick={logout}>로그아웃</span>
+        <span className={style.menuItem} onClick={logout}>로그아웃</span>
       </div>
     </div>
   )

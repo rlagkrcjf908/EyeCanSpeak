@@ -3,7 +3,7 @@ import freeDrawImg from "../../assets/image/freeDraw.png"
 import style from "../../styles/selectDrawing/freeDraw.module.css"
 
 export default function SelectFreeDraw() {
-  const handleMouseOver = () => {
+  const handleMouseOver = (e: any) => {
     const freeCard = document.querySelector("#freeCard")
     const card__background = document.querySelector("#card__background")
     freeCard?.classList.add(`${style.card_hover}`)
@@ -20,7 +20,7 @@ export default function SelectFreeDraw() {
     <Link to='/drawing/5' id='freeCard' className={style.card}>
       <div
         id='card__background'
-        className={style.card__background}
+        className={`${style.card__background} `}
         onMouseOver={handleMouseOver}
         onMouseLeave={handleMouseLeave}
         style={{ backgroundImage: `url(${freeDrawImg})` }}
