@@ -13,10 +13,10 @@ function App() {
 
   useEffect(() => {
     console.log("??")
-    // if (cookie.accessToken === undefined) {
-    //   console.log("timeout!")
-    //   window.location.href = "https://k8d204.p.ssafy.io"
-    // }
+    if (cookie.accessToken === undefined) {
+      console.log("timeout!")
+      document.location.href = "https://k8d204.p.ssafy.io"
+    }
   }, [cookie.accessToken])
 
   return (
