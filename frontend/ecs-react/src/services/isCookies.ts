@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom"
 
 export default function IsCookies() {
   const [cookie] = useCookies(["accessToken"])
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
-  // if (cookie.accessToken === undefined) {
-  console.log("time out !!")
-  // navigate("/")
-  // }
+  if (cookie.accessToken === undefined) {
+    console.log("time out !!")
+    // navigate("/")
+  }
 }

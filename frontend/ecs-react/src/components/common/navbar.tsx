@@ -24,7 +24,7 @@ export default function Navbar() {
 
   useEffect(() => {
     console.log("isCookie?")
-    // IsCookies()
+    IsCookies()
   }, [])
   return (
     <div className={style.header}>
