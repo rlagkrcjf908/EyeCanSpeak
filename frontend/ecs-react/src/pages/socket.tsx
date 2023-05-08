@@ -8,7 +8,7 @@ import Webcam from "react-webcam"
 function SocketTest() {
   const [socketInstance, setSocketInstance] = useState<Socket>()
   const [loading, setLoading] = useState(true)
-  const [buttonStatus, setButtonStatus] = useState(false)
+  const [buttonStatus, setButtonStatus] = useState(true)
   const [imgSrc, setImgSrc] = useState<string | null>(null)
   const webcamRef = useRef<Webcam>(null)
 
@@ -45,48 +45,39 @@ function SocketTest() {
     })
   }, [webcamRef, setImgSrc, socketInstance])
   // 1초 마다 캡쳐화면 보내기
-  // useEffect(() => {
-  //   let interval: NodeJS.Timeout | null = null
-  //   if (!interval) return
-
-  //   if (buttonStatus === true) {
-  //     interval = setInterval(capture, 1000)
-  //   } else {
-  //     clearInterval(interval)
-  //   }
-
-  //   return () => {
-  //     if (!interval) return
-  //     clearInterval(interval)
-  //   }
-  // }, [buttonStatus, capture])
-  // 소켓 연결
   useEffect(() => {
-    // if (buttonStatus === true) {
-    const socket = io("http://192.168.100.88:5001", {
-      transports: ["websocket"],
-      // cors: {
-      //   origin: "http://localhost:3000/",
-      // },
-    })
-
-    setSocketInstance(socket)
-
-    socket.on("connect", () => {
-      console.log("connect")
-    })
-
-    setLoading(false)
-
-    socket.on("disconnect", (data) => {
-      console.log(data)
-    })
-
-    return function cleanup() {
-      socket.disconnect()
+    if (socketInstance) {
+      setInterval(capture, 1000)
     }
-    // }
-  }, [])
+  }, [socketInstance])
+  // 소켓 연결
+
+  useEffect(() => {
+    if (buttonStatus === true) {
+      const socket = io("http://192.168.100.88:5001", {
+        transports: ["websocket"],
+        // cors: {
+        //   origin: "http://localhost:3000/",
+        // },
+      })
+
+      setSocketInstance(socket)
+
+      socket.on("connect", () => {
+        console.log("connect")
+      })
+
+      setLoading(false)
+
+      socket.on("disconnect", (data) => {
+        console.log(data)
+      })
+
+      return function cleanup() {
+        socket.disconnect()
+      }
+    }
+  }, [buttonStatus])
 
   return (
     <div className={style.App}>
