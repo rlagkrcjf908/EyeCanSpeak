@@ -10,14 +10,6 @@ import { Cookies, useCookies } from "react-cookie"
 
 function App() {
   const [cookie, setCookie] = useCookies(["accessToken"])
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    // if (cookie.accessToken === undefined) {
-    //   navigate("/")
-    //   console.log("timeout!")
-    // }
-  }, [cookie.accessToken])
 
   useEffect(() => {
     console.log(cookie.accessToken)
