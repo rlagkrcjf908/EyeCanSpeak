@@ -2,8 +2,7 @@ package com.ecs.api.config;
 
 import com.ecs.api.config.jwt.JwtAuthenticationFilter;
 import com.ecs.api.config.jwt.JwtTokenProvider;
-import com.ecs.api.config.oauth.CustomOAuthSuccessHandler;
-import com.ecs.api.config.oauth.PrincipalOauth2UserService;
+import com.ecs.api.config.oauth.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +24,9 @@ import java.util.List;
 public class SecurityConfig {
     private final PrincipalOauth2UserService principalOauth2UserService;
     private final CustomOAuthSuccessHandler customOAuthSuccessHandler;
+    private final CustomOAuthFailureHandler customOAuthFailureHandler;
+    private final CustomEntryPointHandler customEntryPointHandler;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Bean
@@ -50,6 +52,11 @@ public class SecurityConfig {
                 .userService(principalOauth2UserService)
                 .and()
                 .successHandler(customOAuthSuccessHandler)
+                .failureHandler(customOAuthFailureHandler)
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(customEntryPointHandler) // 인증 실패
+                .accessDeniedHandler(customAccessDeniedHandler) // 인가 실패
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
         return http.build();
