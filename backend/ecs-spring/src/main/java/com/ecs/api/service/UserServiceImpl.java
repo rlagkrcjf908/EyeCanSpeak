@@ -5,6 +5,7 @@ import com.ecs.api.dto.res.UserDrawGetResDto;
 import com.ecs.api.dto.res.UserDrawResDto;
 import com.ecs.api.entity.Draw;
 import com.ecs.api.entity.Users;
+import com.ecs.api.exception.EmptyValueExistException;
 import com.ecs.api.repository.DrawRepository;
 import com.ecs.api.repository.LikesRepository;
 import com.ecs.api.repository.UserRepositorySupport;
@@ -44,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDrawGetResDto findUserDraw(int drawNo) {
-        Draw draw=drawRepository.findDrawsByDrawNo(drawNo).orElseThrow(()->new IllegalArgumentException("그림 없음"));
+        Draw draw=drawRepository.findDrawsByDrawNo(drawNo).orElseThrow(EmptyValueExistException::new);
         UserDrawGetResDto getDraw=new UserDrawGetResDto(draw);
         getDraw.setDrawDrawing(getS3(bucket, draw.getDrawDrawing()));
         return getDraw;
@@ -52,7 +53,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteDraw(int drawNo) {
-        Draw draw=drawRepository.findDrawsByDrawNo(drawNo).orElseThrow(()->new IllegalArgumentException("그림 없음"));
+        Draw draw=drawRepository.findDrawsByDrawNo(drawNo).orElseThrow(EmptyValueExistException::new);
         boolean isExist=amazonS3.doesObjectExist(bucket, draw.getDrawDrawing());
         if(isExist){
             amazonS3.deleteObject(bucket, draw.getDrawDrawing());
