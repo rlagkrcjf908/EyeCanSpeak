@@ -72,6 +72,7 @@ def handle_image(image):
     X, Y, DIR = example.test(img)
     print(f"x: {X} y: {Y}, dir:{DIR}")
     emit("image", {'image': image, 'id': request.sid, 'x': X, 'y': Y, 'dir': DIR}, room=room)
+    # emit("image", {'id': request.sid, 'x': X, 'y': Y, 'dir': DIR}, room=room)
 
 
 @socketio.on('test')

@@ -11,14 +11,14 @@ from gaze_tracking import GazeTracking
 class Example(object):
     def __init__(self):
         self.frame = ""
-        self.minX = 504.5
-        self.maxX = 512.5
-        self.minY = 324.5
-        self.maxY = 327.5
+        self.minX = 314.5
+        self.maxX = 324.0
+        self.minY = 215.5
+        self.maxY = 217.5
         self.diffX = self.maxX - self.minX
         self.diffY = self.maxY - self.minY
-        self.W = 1024
-        self.H = 768
+        self.W = 640
+        self.H = 480
 
     def test(self, image):
         frame = image
