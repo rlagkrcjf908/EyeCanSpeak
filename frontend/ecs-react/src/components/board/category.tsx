@@ -25,7 +25,7 @@ export default function Category({ changeCategory }: { changeCategory: any }) {
         <button
           className={style.item}
           onClick={() => {
-            changeCategory({ index })
+            changeCategory(index)
           }}
           key={index}
         >
