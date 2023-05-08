@@ -9,6 +9,7 @@ export default function IsCookies() {
     console.log(cookies.get("accessToken"))
     console.log(typeof cookies.get("accessToken"))
     console.log("time out !!")
+    document.location.href = "https://k8d204.p.ssafy.io"
     // navigate("/")
   }
 }
