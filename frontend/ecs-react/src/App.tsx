@@ -6,22 +6,18 @@ import { RecoilRoot } from "recoil"
 import "./styles/common/common.css"
 import "./App.css"
 import Mouse from "./components/common/mouse"
-import { Cookies, useCookies } from "react-cookie"
+import { Cookies, CookiesProvider, useCookies } from "react-cookie"
 
 function App() {
-  const [cookie, setCookie] = useCookies(["accessToken"])
-  const navigate = useNavigate()
+  const [cookie] = useCookies(["accessToken"])
 
   useEffect(() => {
     if (cookie.accessToken === undefined) {
-      // navigate("/")
       console.log("timeout!")
+      window.location.href = "https://k8d204.p.ssafy.io"
     }
   }, [cookie.accessToken])
 
-  useEffect(() => {
-    console.log(cookie.accessToken)
-  }, [])
   return (
     <>
       <RecoilRoot>
@@ -30,9 +26,11 @@ function App() {
             <title>ECS</title>
           </Helmet>
         </HelmetProvider>
-        <BrowserRouter>
-          <RoutesSetup></RoutesSetup>
-        </BrowserRouter>
+        <CookiesProvider>
+          <BrowserRouter>
+            <RoutesSetup></RoutesSetup>
+          </BrowserRouter>
+        </CookiesProvider>
         <Mouse></Mouse>
       </RecoilRoot>
     </>
