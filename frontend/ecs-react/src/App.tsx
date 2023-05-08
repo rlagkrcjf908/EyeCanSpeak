@@ -6,19 +6,10 @@ import { RecoilRoot } from "recoil"
 import "./styles/common/common.css"
 import "./App.css"
 import Mouse from "./components/common/mouse"
-import { Cookies, CookiesProvider, useCookies } from "react-cookie"
+import { CookiesProvider } from "react-cookie"
+import Cookies from "./services/cookies"
 
 function App() {
-  const [cookie] = useCookies(["accessToken"])
-
-  useEffect(() => {
-    console.log("??")
-    if (cookie.accessToken === undefined) {
-      console.log("timeout!")
-      document.location.href = "https://k8d204.p.ssafy.io"
-    }
-  }, [cookie.accessToken])
-
   return (
     <>
       <RecoilRoot>
@@ -28,6 +19,7 @@ function App() {
           </Helmet>
         </HelmetProvider>
         <CookiesProvider>
+          <Cookies></Cookies>
           <BrowserRouter>
             <RoutesSetup></RoutesSetup>
           </BrowserRouter>
