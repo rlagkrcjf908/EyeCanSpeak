@@ -4,6 +4,8 @@ import { Cookies } from "react-cookie"
 import { useSetRecoilState } from "recoil"
 import { isLog, userName, userNo } from "../../recoil/atoms/userState"
 import logo from "../../assets/image/ECS.png"
+import IsCookies from "../../services/isCookies"
+import { useEffect } from "react"
 export default function Navbar() {
   const navigate = useNavigate()
   const cookies = new Cookies()
@@ -17,9 +19,12 @@ export default function Navbar() {
     setUserNo(-1)
     setUserName("")
     setLog(false)
-
     navigate("/")
   }
+
+  useEffect(() => {
+    IsCookies()
+  }, [])
   return (
     <div className={style.header}>
       <div className={style.logo}>
