@@ -30,6 +30,9 @@ function SocketTest() {
   const onClick = () => {
     console.log("socketInstance::::", socketInstance)
     socketInstance && socketInstance.emit("test", "emit Test")
+    setInterval(() => {
+      capture()
+    }, 1000)
   }
   // 캠 화면 캡쳐하고 보냄
   const capture = useCallback(() => {
@@ -42,48 +45,48 @@ function SocketTest() {
     })
   }, [webcamRef, setImgSrc, socketInstance])
   // 1초 마다 캡쳐화면 보내기
-  useEffect(() => {
-    let interval: NodeJS.Timeout | null = null
-    if (!interval) return
+  // useEffect(() => {
+  //   let interval: NodeJS.Timeout | null = null
+  //   if (!interval) return
 
-    if (buttonStatus === true) {
-      interval = setInterval(capture, 1000)
-    } else {
-      clearInterval(interval)
-    }
+  //   if (buttonStatus === true) {
+  //     interval = setInterval(capture, 1000)
+  //   } else {
+  //     clearInterval(interval)
+  //   }
 
-    return () => {
-      if (!interval) return
-      clearInterval(interval)
-    }
-  }, [buttonStatus, capture])
+  //   return () => {
+  //     if (!interval) return
+  //     clearInterval(interval)
+  //   }
+  // }, [buttonStatus, capture])
   // 소켓 연결
   useEffect(() => {
-    if (buttonStatus === true) {
-      const socket = io("http://192.168.100.88:5001", {
-        transports: ["websocket"],
-        // cors: {
-        //   origin: "http://localhost:3000/",
-        // },
-      })
+    // if (buttonStatus === true) {
+    const socket = io("http://192.168.100.88:5001", {
+      transports: ["websocket"],
+      // cors: {
+      //   origin: "http://localhost:3000/",
+      // },
+    })
 
-      setSocketInstance(socket)
+    setSocketInstance(socket)
 
-      socket.on("connect", () => {
-        console.log("connect")
-      })
+    socket.on("connect", () => {
+      console.log("connect")
+    })
 
-      setLoading(false)
+    setLoading(false)
 
-      socket.on("disconnect", (data) => {
-        console.log(data)
-      })
+    socket.on("disconnect", (data) => {
+      console.log(data)
+    })
 
-      return function cleanup() {
-        socket.disconnect()
-      }
+    return function cleanup() {
+      socket.disconnect()
     }
-  }, [buttonStatus])
+    // }
+  }, [])
 
   return (
     <div className={style.App}>
