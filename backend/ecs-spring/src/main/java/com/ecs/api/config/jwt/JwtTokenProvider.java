@@ -22,7 +22,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Date;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
