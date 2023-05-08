@@ -22,31 +22,19 @@ public class UserController {
                                          @RequestParam(value = "category_no", required = false, defaultValue = "-1") int num,
                                          @RequestParam(value = "like", required = false, defaultValue = "false") boolean like,
                                          @RequestParam(value="date", required = false, defaultValue = "false") boolean date){
-        try{
-            List<UserDrawResDto> userDrawList=userService.findUserDrawList(principalDetails.getUsers(), num , like, date);
-            return ResponseEntity.ok().body(userDrawList);
-        }catch (Exception e){
-            return ResponseEntity.badRequest().build();
-        }
+        List<UserDrawResDto> userDrawList=userService.findUserDrawList(principalDetails.getUsers(), num , like, date);
+        return ResponseEntity.ok().body(userDrawList);
     }
 
     @GetMapping("/{drawNo}")
     public ResponseEntity<?> getDraw(@PathVariable("drawNo") int drawNo){
-        try{
-            UserDrawGetResDto draw=userService.findUserDraw(drawNo);
-            return ResponseEntity.ok().body(draw);
-        }catch (Exception e){
-            return ResponseEntity.badRequest().build();
-        }
+        UserDrawGetResDto draw=userService.findUserDraw(drawNo);
+        return ResponseEntity.ok().body(draw);
     }
 
     @DeleteMapping("/draw/{drawNo}")
     public ResponseEntity<?> deleteDraw(@PathVariable("drawNo") int drawNo){
-        try{
-            userService.deleteDraw(drawNo);
-            return ResponseEntity.ok().build();
-        }catch (Exception e){
-            return ResponseEntity.badRequest().build();
-        }
+        userService.deleteDraw(drawNo);
+        return ResponseEntity.ok().build();
     }
 }
