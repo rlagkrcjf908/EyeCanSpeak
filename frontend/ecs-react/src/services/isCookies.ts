@@ -5,8 +5,8 @@ export default function IsCookies() {
   const [cookie] = useCookies(["accessToken"])
   const navigate = useNavigate()
 
-  if (cookie.accessToken === undefined) {
-    console.log("time out !!")
-    navigate("/")
-  }
+  // if (cookie.accessToken === undefined) {
+  console.log("time out !!")
+  // navigate("/")
+  // }
 }
