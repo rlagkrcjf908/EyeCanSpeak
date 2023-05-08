@@ -6,6 +6,7 @@ export default function IsCookies() {
   const navigate = useNavigate()
 
   if (cookie.accessToken === undefined) {
+    console.log("time out !!")
     navigate("/")
   }
 }
