@@ -12,7 +12,7 @@ function App() {
   const [cookie, setCookie] = useCookies(["accessToken"])
   useEffect(() => {}, [cookie])
   useEffect(() => {
-    console.log(cookie)
+    console.log(typeof cookie)
   }, [])
   return (
     <>
