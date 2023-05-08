@@ -23,6 +23,7 @@ export default function Navbar() {
   }
 
   useEffect(() => {
+    console.log("isCookie?")
     IsCookies()
   }, [])
   return (
