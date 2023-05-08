@@ -12,7 +12,7 @@ import com.ecs.api.dto.res.DrawResDto;
 import com.ecs.api.entity.*;
 import com.ecs.api.exception.EmptyValueExistException;
 import com.ecs.api.repository.*;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,7 +26,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DrawServiceImpl implements DrawService{
 
     private final AmazonS3 amazonS3;
@@ -35,7 +35,6 @@ public class DrawServiceImpl implements DrawService{
     @Value("${cloud.aws.s3.dirName}")
     private String dirName;
 
-    private final UserRepository userRepository;
 
     private final DrawRepository drawReopsitory;
 
