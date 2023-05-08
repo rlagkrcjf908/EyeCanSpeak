@@ -6,6 +6,7 @@ import { Socket } from "socket.io-client"
 export default function WebSocketCall({ socket }: { socket?: Socket }) {
   const [message, setMessage] = useState<string>("")
   const [messages, setMessages] = useState<string[]>([])
+  const [imgSrc, setImgSrc] = useState(null)
   const [X, setX] = useRecoilState(socketXPosition)
   const [Y, setY] = useRecoilState(socketYPosition)
 
@@ -25,10 +26,10 @@ export default function WebSocketCall({ socket }: { socket?: Socket }) {
   useEffect(() => {
     socket?.on("data", (data) => {
       console.log(data)
-      console.log(data.x)
-      console.log(data.y)
-      setX(data.x)
-      setY(data.y)
+      // console.log(data.x)
+      // console.log(data.y)
+      // setX(data.x)
+      // setY(data.y)
       setMessages([...messages, data.data])
     })
     return () => {
@@ -37,6 +38,19 @@ export default function WebSocketCall({ socket }: { socket?: Socket }) {
       })
     }
   }, [socket, messages])
+
+  useEffect(() => {
+    socket?.on("image", (data) => {
+      setImgSrc(data.image.buffer)
+      console.log("Received image::::", data.image)
+      console.log("x , y, dir", data.x, data.y, data.dir)
+    })
+    return () => {
+      socket?.off("image", () => {
+        console.log("image event was removed")
+      })
+    }
+  }, [socket, setImgSrc])
 
   return (
     <div>
@@ -47,6 +61,8 @@ export default function WebSocketCall({ socket }: { socket?: Socket }) {
         {messages.map((message, ind) => {
           return <li key={ind}>{message}</li>
         })}
+
+        {imgSrc && <img src={imgSrc} />}
       </ul>
     </div>
   )

@@ -12,6 +12,7 @@ function SocketTest() {
   const [imgSrc, setImgSrc] = useState<string | null>(null)
   const webcamRef = useRef<Webcam>(null)
 
+  // 소켓 연결/해제 버튼
   const handleClick = () => {
     if (buttonStatus === false) {
       setButtonStatus(true)
@@ -19,26 +20,44 @@ function SocketTest() {
       setButtonStatus(false)
     }
   }
-
+  // 캠 화면
   const videoConstraints = {
-    width: 420,
-    height: 420,
+    width: 1024,
+    height: 768,
+    // facingMode: { exact: "environment" }
   }
-
+  // 연결 테스트
   const onClick = () => {
     console.log("socketInstance::::", socketInstance)
     socketInstance && socketInstance.emit("test", "emit Test")
   }
-
+  // 캠 화면 캡쳐하고 보냄
   const capture = useCallback(() => {
-    console.log("1. socketInstance::::", socketInstance)
     if (!webcamRef.current) return
     const imageSrc = webcamRef.current.getScreenshot()
     setImgSrc(imageSrc)
-
-    console.log("2. socketInstance::::", socketInstance)
+    socketInstance?.emit("imageConversionByClient", {
+      image: true,
+      buffer: imageSrc,
+    })
   }, [webcamRef, setImgSrc, socketInstance])
+  // 1초 마다 캡쳐화면 보내기
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null
+    if (!interval) return
 
+    if (buttonStatus === true) {
+      interval = setInterval(capture, 1000)
+    } else {
+      clearInterval(interval)
+    }
+
+    return () => {
+      if (!interval) return
+      clearInterval(interval)
+    }
+  }, [buttonStatus, capture])
+  // 소켓 연결
   useEffect(() => {
     if (buttonStatus === true) {
       const socket = io("http://192.168.100.88:5001", {
@@ -78,8 +97,8 @@ function SocketTest() {
           muted={false}
           audio={false}
           mirrored={true}
-          height={400}
-          width={400}
+          height={768}
+          width={1024}
           ref={webcamRef}
           screenshotFormat='image/jpeg'
           videoConstraints={videoConstraints}
