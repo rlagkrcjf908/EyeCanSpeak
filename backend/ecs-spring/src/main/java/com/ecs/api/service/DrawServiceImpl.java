@@ -10,8 +10,9 @@ import com.ecs.api.dto.req.LikeReqDto;
 import com.ecs.api.dto.res.DrawGetResDto;
 import com.ecs.api.dto.res.DrawResDto;
 import com.ecs.api.entity.*;
+import com.ecs.api.exception.EmptyValueExistException;
 import com.ecs.api.repository.*;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,7 +26,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class DrawServiceImpl implements DrawService{
 
     private final AmazonS3 amazonS3;
@@ -54,8 +55,8 @@ public class DrawServiceImpl implements DrawService{
 
     @Override
     public List<Subjects> getSubjects(int categoryNo) {
-        Category category = categoryRepository.findByCategoryNo(categoryNo).orElseThrow(()->new IllegalArgumentException("no such data"));
-        List<Subjects> subjects = subjectRepository.findByCategoryNo(category).orElseThrow(()->new IllegalArgumentException("no such data"));
+        Category category = categoryRepository.findByCategoryNo(categoryNo).orElseThrow(EmptyValueExistException::new);
+        List<Subjects> subjects = subjectRepository.findByCategoryNo(category).orElseThrow(EmptyValueExistException::new);
         return subjects;
     }
 
@@ -71,7 +72,7 @@ public class DrawServiceImpl implements DrawService{
         String key = randomFileName(file);
         String path = putS3(file, key);
         removeFile(file);
-        Category category = categoryRepository.findByCategoryNo(drawReqDto.getCategoryNo()).orElseThrow(()-> new IllegalArgumentException("no such data"));
+        Category category = categoryRepository.findByCategoryNo(drawReqDto.getCategoryNo()).orElseThrow(EmptyValueExistException::new);
         Draw draw = new Draw();
         draw.setDrawPostTF(drawReqDto.isDrawPostTF());
         draw.setUsersNo(users);
@@ -90,7 +91,7 @@ public class DrawServiceImpl implements DrawService{
     @Override
     public AwsS3ReqDto update(Users users, int drawNo, DrawReqDto drawReqDto, MultipartFile multipartFile) throws IOException {
 
-        Draw draw = drawReopsitory.findById(drawNo).orElseThrow(()-> new IllegalArgumentException("no such data"));
+        Draw draw = drawReopsitory.findById(drawNo).orElseThrow(EmptyValueExistException::new);
 
         File file = convertMultipartFileToFile(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File convert fail"));
@@ -99,7 +100,7 @@ public class DrawServiceImpl implements DrawService{
         removeFile(file);
 
         Users user = users;
-        Category category = categoryRepository.findByCategoryNo(drawReqDto.getCategoryNo()).orElseThrow(()-> new IllegalArgumentException("no such data"));
+        Category category = categoryRepository.findByCategoryNo(drawReqDto.getCategoryNo()).orElseThrow(EmptyValueExistException::new);
         draw.setDrawPostTF(drawReqDto.isDrawPostTF());
         draw.setUsersNo(user);
         draw.setCategoryNo(category);
@@ -116,7 +117,7 @@ public class DrawServiceImpl implements DrawService{
     // 그림 불러오기
     @Override
     public String getDraw(int drawNo) {
-        Draw draw = drawReopsitory.findById(drawNo).orElseThrow(()-> new IllegalArgumentException("no such data"));
+        Draw draw = drawReopsitory.findById(drawNo).orElseThrow(EmptyValueExistException::new);
         return getS3(bucket,draw.getDrawDrawing());
 
     }
@@ -155,7 +156,7 @@ public class DrawServiceImpl implements DrawService{
     // 테스트용 S3 파일삭제
     @Override
     public void remove(int drawNo) {
-        Draw draw = drawReopsitory.findById(drawNo).orElseThrow(()->new IllegalArgumentException("no such data"));
+        Draw draw = drawReopsitory.findById(drawNo).orElseThrow(EmptyValueExistException::new);
         if (!amazonS3.doesObjectExist(bucket, draw.getDrawDrawing())) {
             throw new AmazonS3Exception("Object " + draw.getDrawDrawing()+ " does not exist!");
         }
@@ -176,7 +177,7 @@ public class DrawServiceImpl implements DrawService{
         List<DrawResDto> getDraws = new ArrayList<>();
         for (int i = 0; i < draws.size(); i++) {
             DrawGetResDto drawdto = draws.get(i);
-            Draw dentity = drawReopsitory.findById(drawdto.getDrawNo()).orElseThrow(()->new IllegalArgumentException("no such data"));
+            Draw dentity = drawReopsitory.findById(drawdto.getDrawNo()).orElseThrow(EmptyValueExistException::new);
             boolean likes = likesRepository.existsByUsersNoAndDrawNo(user, dentity);
             DrawResDto dto = new DrawResDto();
 
@@ -206,7 +207,7 @@ public class DrawServiceImpl implements DrawService{
     @Override
     public void likes(Users users, LikeReqDto likeReqDto) {
         Likes likes = new Likes();
-        Draw draw = drawReopsitory.findDrawsByDrawNo(likeReqDto.getDrawNo()).orElseThrow(()->new IllegalArgumentException("no such data"));
+        Draw draw = drawReopsitory.findDrawsByDrawNo(likeReqDto.getDrawNo()).orElseThrow(EmptyValueExistException::new);
         likes.setUsersNo(users);
         likes.setDrawNo(draw);
         likesRepository.save(likes);
@@ -214,7 +215,7 @@ public class DrawServiceImpl implements DrawService{
 
     @Override
     public void dellikes(Users users, LikeReqDto likeReqDto) {
-        Draw draw = drawReopsitory.findDrawsByDrawNo(likeReqDto.getDrawNo()).orElseThrow(()->new IllegalArgumentException("no such data"));
+        Draw draw = drawReopsitory.findDrawsByDrawNo(likeReqDto.getDrawNo()).orElseThrow(EmptyValueExistException::new);
         Likes likes = likesRepository.findByUsersNoAndDrawNo(users,draw).orElse(null);
         likesRepository.delete(likes);
     }
