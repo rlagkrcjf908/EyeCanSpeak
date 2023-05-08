@@ -13,10 +13,10 @@ function App() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (cookie.accessToken === undefined) {
-      navigate("/")
-      console.log("timeout!")
-    }
+    // if (cookie.accessToken === undefined) {
+    //   navigate("/")
+    //   console.log("timeout!")
+    // }
   }, [cookie.accessToken])
 
   useEffect(() => {
