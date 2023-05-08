@@ -1,0 +1,53 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+}
+.circle {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: red;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 3em;
+  font-weight: bold;
+}
+
+.topRightCircle {
+  top: 0;
+  left: calc(100% - 100px);
+}
+.bottomLeftCircle {
+  top: calc(100% - 100px);
+  left: 0;
+}
+.bottomRightCircle {
+  top: calc(100% - 100px);
+  left: calc(100% - 100px);
+}
+
+/* .container img,
+video,
+button {
+  display: block;
+}
+
+.container video {
+  position: absolute;
+  right: 100%;
+} */
+.cam {
+  position: absolute;
+  top: 300px;
+  left: 300px;
+}
+.container button {
+  position: absolute;
+  top: 300px;
+  left: 300px;
+}
