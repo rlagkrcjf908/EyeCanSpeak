@@ -62,22 +62,21 @@ export default function Position() {
     )
     // 마우스 오버 된 요소의 클래스네임에 호버가 있으면 마우스 변함
     if (element.className.indexOf("hover") === -1) {
-      console.log("NoP", element.className)
+      // console.log("NoP", element.className)
       box = document.querySelector("#box")
       box.classList.remove(`${style.hover}`)
     } else {
-      console.log("YesP", element.className)
+      // console.log("YesP", element.className)
       box = document.querySelector("#box")
       box.classList.add(`${style.hover}`)
     }
-
   }
 
   // 마우스리브하면 움직이기 전 좌표에 있던 요소의 className에 hover 지우기
   const leaveHandler = () => {
     const element: any = document.elementFromPoint(currentXBox, currentYBox)
     if (!element) return
-    console.log("LeaveHandler???????", element.className)
+    // console.log("LeaveHandler???????", element.className)
     const className = element.className.replace("_hover__", "")
     element.className = className
   }
@@ -113,7 +112,7 @@ export default function Position() {
         })
       )
     )
-    console.log("blinking")
+    // console.log("blinking")
   }
 
   return (

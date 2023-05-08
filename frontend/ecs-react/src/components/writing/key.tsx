@@ -112,15 +112,13 @@ export default function Key() {
     }
   }
 
-  // 키보드 키(li)에 마우스 오버 됐을 때 
+  // 키보드 키(li)에 마우스 오버 됐을 때
   const handleMouseOver = (e: any) => {
     const activeKey = e.target
-    console.log("tagName", activeKey.tagName)
 
     if (activeKey.tagName === "DIV" || activeKey.tagName === "UL") return
 
     activeKey?.classList.add(`${style.hover}`)
-    console.log(activeKey)
   }
   // 마우스 리브
   const handleMouseLeave = (e: any) => {
@@ -150,9 +148,11 @@ export default function Key() {
       <RecommendWord />
       {isKorean ? (
         // 한글키보드
-        <div className={style.keyboard}
+        <div
+          className={style.keyboard}
           onMouseOver={handleMouseOver}
-          onMouseLeave={handleMouseLeave}>
+          onMouseLeave={handleMouseLeave}
+        >
           <ul className={`${style.row} ${style["row-0"]}`}>
             <li onClick={handleClick} className={style.pinky}>
               {isCapital ? "~" : "`"}

@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react"
 import { useRecoilState } from "recoil"
 import { socketXPosition, socketYPosition } from "../../recoil/atoms/boxState"
-export default function WebSocketCall({ socket }) {
-  const [message, setMessage] = useState("")
-  const [messages, setMessages] = useState([])
+import { Socket } from "socket.io-client"
+
+export default function WebSocketCall({ socket }: { socket?: Socket }) {
+  const [message, setMessage] = useState<string>("")
+  const [messages, setMessages] = useState<string[]>([])
   const [X, setX] = useRecoilState(socketXPosition)
   const [Y, setY] = useRecoilState(socketYPosition)
-  const handleText = (e) => {
+
+  const handleText = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputMessage = e.target.value
     setMessage(inputMessage)
   }
@@ -15,12 +18,12 @@ export default function WebSocketCall({ socket }) {
     if (!message) {
       return
     }
-    socket.emit("data", message)
+    socket?.emit("data", message)
     setMessage("")
   }
 
   useEffect(() => {
-    socket.on("data", (data) => {
+    socket?.on("data", (data) => {
       console.log(data)
       console.log(data.x)
       console.log(data.y)
@@ -29,7 +32,7 @@ export default function WebSocketCall({ socket }) {
       setMessages([...messages, data.data])
     })
     return () => {
-      socket.off("data", () => {
+      socket?.off("data", () => {
         console.log("data event was removed")
       })
     }
