@@ -6,13 +6,13 @@ import { RecoilRoot } from "recoil"
 import "./styles/common/common.css"
 import "./App.css"
 import Mouse from "./components/common/mouse"
-import { useCookies } from "react-cookie"
+import { Cookies, useCookies } from "react-cookie"
 
 function App() {
   const [cookie, setCookie] = useCookies(["accessToken"])
-  useEffect(() => {}, [cookie])
+
   useEffect(() => {
-    console.log(typeof cookie)
+    console.log(cookie.accessToken)
   }, [])
   return (
     <>
