@@ -12,10 +12,11 @@ function App() {
   const [cookie] = useCookies(["accessToken"])
 
   useEffect(() => {
-    if (cookie.accessToken === undefined) {
-      console.log("timeout!")
-      window.location.href = "https://k8d204.p.ssafy.io"
-    }
+    console.log("??")
+    // if (cookie.accessToken === undefined) {
+    //   console.log("timeout!")
+    //   window.location.href = "https://k8d204.p.ssafy.io"
+    // }
   }, [cookie.accessToken])
 
   return (
