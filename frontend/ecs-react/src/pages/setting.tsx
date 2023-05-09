@@ -1,12 +1,14 @@
 import style from "../styles/common/setting.module.css"
 import { useState, useEffect, useRef } from "react"
 import Webcam from "react-webcam"
-
+import { Cookies } from "react-cookie"
+import axios, { AxiosResponse } from "axios"
 export default function Setting() {
   const [count, setCount] = useState<number>(5)
   const [circleStyle, setCircleStyle] = useState({ top: "0", left: "0" })
   const webcamRef = useRef<Webcam>(null)
   const [imgSrc, setImgSrc] = useState<string[]>([])
+  const cookies = new Cookies()
 
   // 캠 화면, 나중에 안보이게 수정
   const videoConstraints = {
@@ -21,18 +23,40 @@ export default function Setting() {
     const imageSrc: string | null = webcamRef.current.getScreenshot()
     if (!imageSrc) return
     setImgSrc((imgSrc) => [...imgSrc, imageSrc])
-    console.log(1)
-    console.log(imageSrc)
+    // console.log(1)
+    // console.log(imageSrc)
   }
 
   useEffect(() => {
     console.log(imgSrc)
     if (imgSrc.length === 4) sendImage()
   }, [imgSrc])
+
   // 캡쳐보내기
-  const sendImage = () => {
+  const sendImage = async () => {
     console.log("sendImage")
     console.log("----------------------", imgSrc)
+    const token = cookies.get("accessToken")
+    const formData: FormData = new FormData()
+    imgSrc.forEach((element) => {
+      formData.append("settingImg", element)
+    })
+    const response: AxiosResponse = await axios.put(
+      // api 주소 적기
+      `https://k8d204.p.ssafy.io/api/?????`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    if (response.status === 200) {
+      console.log("저장")
+    } else {
+      console.log("ERROR")
+    }
   }
 
   // 동그라미 위치 (좌상/우상/좌하/우하)
