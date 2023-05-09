@@ -48,3 +48,14 @@
 .http {
   color: red;
 }
+
+.App img,
+video,
+button {
+  display: block;
+}
+
+.App video {
+  position: absolute;
+  right: 100%;
+}

@@ -62,7 +62,7 @@ export default function WebSocketCall({ socket }: { socket?: Socket }) {
           return <li key={ind}>{message}</li>
         })}
 
-        {imgSrc && <img src={imgSrc} />}
+        {/* {imgSrc && <img src={imgSrc} />} */}
       </ul>
     </div>
   )
