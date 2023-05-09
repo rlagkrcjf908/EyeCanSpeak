@@ -54,7 +54,7 @@ function SocketTest() {
 
   useEffect(() => {
     if (buttonStatus === true) {
-      const socket = io("http://192.168.100.88:5001", {
+      const socket = io("http://192.168.100.88:5000", {
         transports: ["websocket"],
         // cors: {
         //   origin: "http://localhost:3000/",
@@ -69,7 +69,7 @@ function SocketTest() {
 
       setLoading(false)
 
-      socket.on("disconnect", (data) => {
+      socket.on("disconnect", (data:any) => {
         console.log(data)
       })
 
