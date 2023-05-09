@@ -6,20 +6,35 @@ export default function Setting() {
   const [count, setCount] = useState<number>(5)
   const [circleStyle, setCircleStyle] = useState({ top: "0", left: "0" })
   const webcamRef = useRef<Webcam>(null)
-  const [imgSrc, setImgSrc] = useState<string | null>(null)
+  const [imgSrc, setImgSrc] = useState<string[]>([])
 
+  // 캠 화면, 나중에 안보이게 수정
   const videoConstraints = {
     width: 420,
     height: 420,
   }
+
+  // 캡쳐화면 imgSrc에 저장
   const capture = () => {
     if (!webcamRef.current) return
     //캡쳐된 이미지
-    // const imageSrc = webcamRef.current.getScreenshot()
-    // setImgSrc(imageSrc)
+    const imageSrc: string | null = webcamRef.current.getScreenshot()
+    if (!imageSrc) return
+    setImgSrc((imgSrc) => [...imgSrc, imageSrc])
     console.log(1)
-    // console.log("Sent Image::::", imageSrc)
+    console.log(imageSrc)
   }
+
+  useEffect(() => {
+    console.log(imgSrc)
+    if (imgSrc.length === 4) sendImage()
+  }, [imgSrc])
+  // 캡쳐보내기
+  const sendImage = () => {
+    console.log("sendImage")
+    console.log("----------------------", imgSrc)
+  }
+
   // 동그라미 위치 (좌상/우상/좌하/우하)
   const circles = [
     { top: "0", left: "0" },
@@ -29,8 +44,8 @@ export default function Setting() {
   ]
 
   const circleCount = circles.length
-  // circles 인덱스번호*6초 후에 각 위치의 동그라미 나타나고 5초 카운트다운
-  const createCircle = () => {
+  /* circles 인덱스번호*6초 후에 각 위치의 동그라미 나타나고 5초부터 0초까지 카운트다운, 카운트가 다 끝나기 전에 화면 캡쳐*/
+  const createCircle = async () => {
     for (let i = 0; i < circleCount; i++) {
       const circle = circles[i]
       setTimeout(() => {
