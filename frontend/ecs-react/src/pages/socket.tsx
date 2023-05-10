@@ -56,7 +56,7 @@ function SocketTest() {
     if (buttonStatus === true) {
       const socket = io("https://k8d204.p.ssafy.io:5000", {
         path: "/socket.io",
-        transports: ["websocket"],
+        // transports: ["websocket"],
         // cors: {
         //   origin: "http://localhost:3000/",
         // },
