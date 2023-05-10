@@ -9,11 +9,13 @@ import SelectMain from "../pages/selectMain"
 import Writing from "../pages/writing"
 import EditDraw from "../pages/editDraw"
 import NotFound from "../pages/404NotFound"
+import Setting from "../pages/setting"
 import SocketTest from "../pages/socket"
 export default function routesSetup() {
   return (
     <Routes>
       <Route path='/' element={<Main />} />
+      <Route path='/setting' element={<Setting />} />
       <Route path='/socketTest' element={<SocketTest />} />
       <Route element={<Layout />}>
         <Route path='/selectMain' element={<SelectMain />} />
