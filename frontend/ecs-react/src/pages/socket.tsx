@@ -4,6 +4,8 @@ import WebSocketCall from "../components/socket/WebSocketCall"
 import { io, Socket } from "socket.io-client"
 import { useCallback, useRef, useEffect, useState } from "react"
 import Webcam from "react-webcam"
+import { useRecoilValue } from "recoil"
+import { userNo } from "../recoil/atoms/userState"
 
 function SocketTest() {
   const [socketInstance, setSocketInstance] = useState<Socket>()
@@ -11,6 +13,7 @@ function SocketTest() {
   const [buttonStatus, setButtonStatus] = useState(true)
   const [imgSrc, setImgSrc] = useState<string | null>(null)
   const webcamRef = useRef<Webcam>(null)
+  const userNumber = useRecoilValue(userNo)
 
   // 소켓 연결/해제 버튼
   const handleClick = () => {
@@ -29,7 +32,6 @@ function SocketTest() {
   // 연결 테스트
   const onClick = () => {
     console.log("socketInstance::::", socketInstance)
-    socketInstance && socketInstance.emit("test", "emit Test")
     setInterval(() => {
       capture()
     }, 1000)
@@ -42,6 +44,7 @@ function SocketTest() {
     socketInstance?.emit("imageConversionByClient", {
       image: true,
       buffer: imageSrc,
+      userNo: userNumber,
     })
   }, [webcamRef, setImgSrc, socketInstance])
   // 1초 마다 캡쳐화면 보내기
@@ -60,7 +63,6 @@ function SocketTest() {
         // cors: {
         //   origin: "http://localhost:3000/",
         // },
-   
       })
 
       setSocketInstance(socket)
