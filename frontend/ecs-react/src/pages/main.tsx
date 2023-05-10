@@ -29,20 +29,20 @@ export default function Main() {
     <>
       <Title></Title>
       <Content></Content>
-      {log ? (
-        <div className={style.btnBox}>
-          <button
-            className={style.btn}
-            onClick={() => {
-              navigate("/selectMain")
-            }}
-          >
-            시작하기
-          </button>
-        </div>
-      ) : (
+      {/* {log ? ( */}
+      <div className={style.btnBox}>
+        <button
+          className={style.btn}
+          onClick={() => {
+            navigate("/setting")
+          }}
+        >
+          시작하기
+        </button>
+      </div>
+      {/* ) : (
         <MainBtn></MainBtn>
-      )}
+      )} */}
     </>
   )
 }
