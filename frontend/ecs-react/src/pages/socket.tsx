@@ -1,4 +1,4 @@
-import style from "../styles/common/socketTest.module.css"
+import style from "../styles/common/socket.module.css"
 import HttpCall from "../components/socket/HttpCall"
 import WebSocketCall from "../components/socket/WebSocketCall"
 import { io, Socket } from "socket.io-client"

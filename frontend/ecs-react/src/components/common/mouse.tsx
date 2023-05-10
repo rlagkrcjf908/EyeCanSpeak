@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import "../../styles/common/mouse.scss"
-import { useRecoilState } from "recoil"
+import { useRecoilState, useSetRecoilState } from "recoil"
 import {
   currerntXState,
   currerntYState,
@@ -10,14 +10,14 @@ import {
 } from "../../recoil/atoms/mouseState"
 
 export default function Mouse() {
-  const [currentX, setCurrentX] = useRecoilState(currerntXState)
-  const [currentY, setCurrentY] = useRecoilState(currerntYState)
+  const setCurrentX = useSetRecoilState(currerntXState)
+  const setCurrentY = useSetRecoilState(currerntYState)
   const [nextX, setNextX] = useRecoilState(nextXState)
   const [nextY, setNextY] = useRecoilState(nextYState)
   const [left, setLeft] = useState(0)
   const [top, setTop] = useState(0)
   const [dir, setDir] = useState(2)
-  const [click, setClick] = useRecoilState(isClick)
+  const setClick = useSetRecoilState(isClick)
 
   const window_width = window.screen.availWidth
   const window_height = window.screen.availHeight
@@ -36,36 +36,36 @@ export default function Mouse() {
     const y = mouse.getBoundingClientRect().y
 
     if (selected === 0) {
-      if (y - 150 < -150) console.log("화면 안에서 이동해주세요")
+      if (y < 0) console.log("화면 안에서 이동해주세요")
       else {
-        setTop((current) => current - 50)
+        setTop((current) => current - 20)
         setCurrentX(nextX)
         setCurrentY(nextY)
-        setNextY((current) => current - 50)
+        setNextY((current) => current - 20)
       }
     } else if (selected === 1) {
-      if (y + 150 > window_height + 100) console.log("화면 안에서 이동해주세요")
+      if (y + 20 > window_height) console.log("화면 안에서 이동해주세요")
       else {
-        setTop((current) => current + 50)
+        setTop((current) => current + 20)
         setCurrentX(nextX)
         setCurrentY(nextY)
-        setNextY((current) => current + 50)
+        setNextY((current) => current + 20)
       }
     } else if (selected === 2) {
-      if (x - 150 < -150) console.log("화면 안에서 이동해주세요")
+      if (x < 0) console.log("화면 안에서 이동해주세요")
       else {
-        setLeft((current) => current - 50)
+        setLeft((current) => current - 20)
         setCurrentX(nextX)
         setCurrentY(nextY)
-        setNextX((current) => current - 50)
+        setNextX((current) => current - 20)
       }
     } else if (selected === 3) {
-      if (x + 150 > window_width + 100) console.log("화면 안에서 이동해주세요")
+      if (x + 20 > window_width) console.log("화면 안에서 이동해주세요")
       else {
-        setLeft((current) => current + 50)
+        setLeft((current) => current + 20)
         setCurrentX(nextX)
         setCurrentY(nextY)
-        setNextX((current) => current + 50)
+        setNextX((current) => current + 20)
       }
     }
   }
@@ -81,7 +81,9 @@ export default function Mouse() {
 
     if (element.className.indexOf("palette") === -1)
       setClick((current) => !current)
-    // const element2: any = document.querySelector(".fancy-button")
+    const element2: any = document.querySelector(".fancy-button1")
+    const element3: any = document.querySelector(".fancy-button2")
+    console.log(element)
 
     mouseClickEvents.forEach((mouseEventType) =>
       element.dispatchEvent(
@@ -94,28 +96,27 @@ export default function Mouse() {
       )
     )
 
-    // mouseClickEvents.forEach((mouseEventType) =>
-    //   element2.dispatchEvent(
-    //     new MouseEvent(mouseEventType, {
-    //       view: window,
-    //       bubbles: true,
-    //       cancelable: true,
-    //       buttons: 1,
-    //     })
-    //   )
-    // )
+    mouseClickEvents.forEach((mouseEventType) =>
+      element2.dispatchEvent(
+        new MouseEvent(mouseEventType, {
+          view: window,
+          bubbles: true,
+          cancelable: true,
+          buttons: 1,
+        })
+      )
+    )
 
-    // mouse = document.querySelector(`.fancy-button`)
-    // mouseClickEvents.forEach((mouseEventType) =>
-    //   mouse.dispatchEvent(
-    //     new MouseEvent(mouseEventType, {
-    //       view: window,
-    //       bubbles: true,
-    //       cancelable: true,
-    //       buttons: 1,
-    //     })
-    //   )
-    // )
+    mouseClickEvents.forEach((mouseEventType) =>
+      element3.dispatchEvent(
+        new MouseEvent(mouseEventType, {
+          view: window,
+          bubbles: true,
+          cancelable: true,
+          buttons: 1,
+        })
+      )
+    )
   }
 
   useEffect(() => {
@@ -124,56 +125,79 @@ export default function Mouse() {
     const x = mouse.getBoundingClientRect().x
     const y = mouse.getBoundingClientRect().y
 
-    // console.log(x + " " + y)
-
     setCurrentX(x)
     setCurrentY(y)
     setNextX(x)
     setNextY(y)
-    // mouseEvent()
+    mouseEvent()
   }, [])
 
   // ------------------------------------------------------------------------------
   const mouseEvent = () => {
-    const fancyButtons = document.querySelectorAll(".fancy-button")
-    console.log(fancyButtons)
+    const fancyButtons: any = document.querySelector(".fancy-button1")
 
-    fancyButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        button.addEventListener(
-          "animationend",
-          () => {
-            console.log("click")
-            button.classList.remove("active")
-          },
-          { once: true }
-        )
-        button.classList.add("active")
-      })
+    fancyButtons.addEventListener("click", () => {
+      fancyButtons.addEventListener(
+        "animationend",
+        () => {
+          console.log("click")
+          fancyButtons.classList.remove("active")
+        },
+        { once: true }
+      )
+      fancyButtons.classList.add("active")
+    })
+
+    const fancyButtons2: any = document.querySelector(".fancy-button2")
+
+    fancyButtons2.addEventListener("click", () => {
+      fancyButtons2.addEventListener(
+        "animationend",
+        () => {
+          console.log("click")
+          fancyButtons2.classList.remove("active")
+        },
+        { once: true }
+      )
+      fancyButtons2.classList.add("active")
     })
   }
 
   return (
     <>
-      {/* <div
-        className='fancy-button'
-        style={{
-          transform: `translate(${left}px, ${top}px)`,
-          transition: "all 0.2s",
-        }}
-      > */}
-      {/* <div className='leftFrills frills'></div> */}
-      <button
-        className='mouse'
-        style={{
-          transform: `translate(${left}px, ${top}px)`,
-          transition: "all 0.2s",
-        }}
-      ></button>
-      {/* <div className='rightFrills frills'></div> */}
-      {/* </div> */}
+      <div>
+        <div
+          className='fancy-button1'
+          style={{
+            transform: `translate(${left}px, ${top}px)`,
+            transition: "all 0.2s",
+          }}
+        >
+          <div className='leftFrills frills'></div>
+        </div>
+
+        <input
+          type='button'
+          className='mouse'
+          style={{
+            transform: `translate(${left}px, ${top}px)`,
+            transition: "all 0.2s",
+          }}
+        ></input>
+
+        <div
+          className='fancy-button2'
+          style={{
+            transform: `translate(${left}px, ${top}px)`,
+            transition: "all 0.2s",
+          }}
+        >
+          <div className='rightFrills frills'></div>
+        </div>
+      </div>
+
       <div className='controller'>
-        {/* <div>
+        <div>
           <button onClick={() => onClick(0)}>top</button>
         </div>
         <div>
@@ -187,7 +211,7 @@ export default function Mouse() {
         </div>
         <div>
           <button onClick={clickHandler}>click</button>
-        </div> */}
+        </div>
       </div>
     </>
   )
