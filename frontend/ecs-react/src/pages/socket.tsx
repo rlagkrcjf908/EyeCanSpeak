@@ -60,9 +60,7 @@ function SocketTest() {
         //   origin: "http://localhost:3000/",
         // },
                 path: "/socket.io",
-        cors: {
-          origin: "http://localhost:3000/",
-        },
+   
       })
 
       setSocketInstance(socket)
