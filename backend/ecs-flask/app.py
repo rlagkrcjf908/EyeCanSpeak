@@ -93,7 +93,7 @@ def getSettingPoint(image):
     return x, y
 
 
-@app.route("/http-call")
+@app.route("/http-call", methods = ['POST', 'GET'])
 def http_call():
     """return JSON with string data as the value"""
     data = {'data': 'This text was fetched using an HTTP call to server on render'}
