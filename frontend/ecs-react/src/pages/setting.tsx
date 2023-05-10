@@ -24,7 +24,7 @@ export default function Setting() {
     if (!imageSrc) return
     setImgSrc((imgSrc) => [...imgSrc, imageSrc])
     // console.log(1)
-    // console.log(imageSrc)
+    console.log(imageSrc)
   }
 
   useEffect(() => {
@@ -37,23 +37,28 @@ export default function Setting() {
     console.log("sendImage")
     console.log("----------------------", imgSrc)
     const token = cookies.get("accessToken")
-    const formData: FormData = new FormData()
-    imgSrc.forEach((element) => {
-      formData.append("settingImg", element)
-    })
-    const response: AxiosResponse = await axios.put(
+    // const formData: FormData = new FormData()
+    // imgSrc.forEach((element) => {
+    //   formData.append("settingImg", element)
+    // })
+    const response: AxiosResponse = await axios.post(
       // api 주소 적기
-      `https://k8d204.p.ssafy.io/api/?????`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      // `https://k8d204.p.ssafy.io/api/?????`,
+      `http://192.168.100.191:5001/setting`,
+      { imgSrc }
+      // formData,
+      // {
+      //   headers: {
+      // "Content-Type": "multipart/form-data",
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // }
     )
+
     if (response.status === 200) {
       console.log("저장")
+      console.log(response)
+      setImgSrc([])
     } else {
       console.log("ERROR")
     }
@@ -77,7 +82,8 @@ export default function Setting() {
 
         setTimeout(() => {
           capture()
-        }, 4000)
+          // }, 4000)
+        }, 2000)
 
         const countInterval = setInterval(() => {
           setCount((prevCount) => prevCount - 1)
@@ -85,10 +91,12 @@ export default function Setting() {
 
         setTimeout(() => {
           clearInterval(countInterval)
-        }, 5000)
+          // }, 5000)
+        }, 3000)
 
         setCircleStyle(circle)
-      }, i * 6000)
+        // }, i * 6000)
+      }, i * 3000)
     }
   }
 
