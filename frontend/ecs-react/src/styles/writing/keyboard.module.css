@@ -5,7 +5,10 @@
   margin: auto;
   width: 100%;
 }
-
+.hover {
+  transition: 0.3s;
+  transform: scale(1.3);
+}
 .row {
   list-style: none;
   display: flex;
