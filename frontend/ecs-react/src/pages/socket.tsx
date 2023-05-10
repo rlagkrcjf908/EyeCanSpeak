@@ -54,7 +54,7 @@ function SocketTest() {
 
   useEffect(() => {
     if (buttonStatus === true) {
-      const socket = io("http://192.168.100.207:5000", {
+      const socket = io("http://k8d204.p.ssafy.io:5000", {
         // transports: ["websocket"],
         // cors: {
         //   origin: "http://localhost:3000/",
