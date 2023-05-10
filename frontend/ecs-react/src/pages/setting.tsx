@@ -8,6 +8,8 @@ export default function Setting() {
   const [circleStyle, setCircleStyle] = useState({ top: "0", left: "0" })
   const webcamRef = useRef<Webcam>(null)
   const [imgSrc, setImgSrc] = useState<string[]>([])
+  const [TestimgSrc, setTestImgSrc] = useState<string>("")
+
   const cookies = new Cookies()
 
   // 캠 화면, 나중에 안보이게 수정
@@ -23,6 +25,7 @@ export default function Setting() {
     const imageSrc: string | null = webcamRef.current.getScreenshot()
     if (!imageSrc) return
     setImgSrc((imgSrc) => [...imgSrc, imageSrc])
+    setTestImgSrc(imageSrc)
     // console.log(1)
     console.log(imageSrc)
   }
@@ -41,11 +44,13 @@ export default function Setting() {
     // imgSrc.forEach((element) => {
     //   formData.append("settingImg", element)
     // })
+    console.log("****************", TestimgSrc)
     const response: AxiosResponse = await axios.post(
       // api 주소 적기
       // `https://k8d204.p.ssafy.io/api/?????`,
       `http://192.168.100.191:5001/setting`,
-      { imgSrc }
+      // { imgSrc }
+      { imgSrc: TestimgSrc }
       // formData,
       // {
       //   headers: {
