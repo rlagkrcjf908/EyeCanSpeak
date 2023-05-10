@@ -58,7 +58,7 @@ function SocketTest() {
   useEffect(() => {
     if (buttonStatus === true) {
       const socket = io("https://k8d204.p.ssafy.io", {
-        path: "/socket.io",
+        path: "/flask",
         // transports: ["websocket"],
         // cors: {
         //   origin: "http://localhost:3000/",

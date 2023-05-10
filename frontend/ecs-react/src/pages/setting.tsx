@@ -47,7 +47,7 @@ export default function Setting() {
     // })
     const response: AxiosResponse = await axios.post(
       // api 주소 적기
-      `https://k8d204.p.ssafy.io/socket.io/setting`,
+      `https://k8d204.p.ssafy.io/flask/setting`,
       // `http://192.168.100.88:5000/setting`,
       // { imgSrc }
       { userNo: userNumber, imgSrc: imageSrc, index: currentCircle + 1 }
