@@ -4,7 +4,7 @@ import Slide from "../components/board/slide"
 import Sort from "../components/board/sort"
 
 export default function Board() {
-  const [category, setCategory] = useState(0)
+  const [category, setCategory] = useState(-1)
   const [sort, setSort] = useState(true)
 
   const changeCategory: any = (idx: number) => {

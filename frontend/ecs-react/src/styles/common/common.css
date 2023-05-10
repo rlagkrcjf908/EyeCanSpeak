@@ -4,11 +4,13 @@ body {
   /* cursor: none; // 나중에 적용  */
 }
 @font-face {
-  font-family: "ImcreSoojin";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.3/ImcreSoojin.woff")
-    format("woff");
-  font-weight: lighter;
-  /* font-style: normal; */
+  font-family: "font";
+  src: url("../../assets/SUITE-ttf/SUITE-Heavy.ttf") format("truetype");
+  /* font-weight: 400; */
+  font-style: normal;
+}
+button:focus {
+  outline: none;
 }
 
 html,
@@ -95,5 +97,5 @@ mark,
 audio,
 video {
   /* 폰트 찾아서 수정 */
-  /* font-family: "ImcreSoojin"; */
+  font-family: "font";
 }

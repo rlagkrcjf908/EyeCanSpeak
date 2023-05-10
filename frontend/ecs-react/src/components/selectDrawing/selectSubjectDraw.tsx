@@ -140,8 +140,8 @@ export default function SelectSubjectDraw() {
         >
           {/* category 고르기 */}
           {category &&
-            category.map((item, idx) => {
-              return (
+            category.map((item, idx) =>
+              idx <= 3 ? (
                 <div
                   onClick={() => {
                     selectCategory(item.categoryNo)
@@ -151,8 +151,8 @@ export default function SelectSubjectDraw() {
                 >
                   {item.categoryNM}
                 </div>
-              )
-            })}
+              ) : null
+            )}
         </div>
       )}
     </div>

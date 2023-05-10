@@ -9,10 +9,12 @@ import prev from "../../assets/icon/back.png"
 import likeIco from "../../assets/icon/like.png"
 import unlikeIco from "../../assets/icon/unlike.png"
 import { like, unLike } from "../../services/boardApi"
-import { deleteDrawing, getList } from "../../services/userApi"
+import { getList } from "../../services/userApi"
 import { useNavigate } from "react-router"
 import { useSetRecoilState } from "recoil"
 import { bgImg } from "../../recoil/atoms/drawingState"
+import DeleteModal from "../modal/deleteModal"
+import { deleteModal } from "../../recoil/atoms/modalState"
 
 interface drawInfo {
   userNM: string
@@ -34,7 +36,9 @@ export default function Slide({
   const customSlider: any = React.createRef()
   const [drawList, setDrawList] = useState<drawInfo[]>([])
   const [currentPage, setCurrentPage] = useState(0)
+  const [drawNo, setDrawNo] = useState(0)
   const setBgImage = useSetRecoilState(bgImg)
+  const setModal = useSetRecoilState(deleteModal)
   const settings = {
     dots: false,
     draggable: false,
@@ -77,6 +81,7 @@ export default function Slide({
     setCurrentPage((current) =>
       currentPage + 1 >= drawList.length ? 0 : currentPage + 1
     )
+    setDrawNo(drawList[currentPage].drawNo)
   }
 
   const gotoPrev = () => {
@@ -84,17 +89,31 @@ export default function Slide({
     setCurrentPage((current) =>
       currentPage - 1 < 0 ? drawList.length - 1 : currentPage - 1
     )
+    setDrawNo(drawList[currentPage].drawNo)
   }
 
   const setLike = async (drawNo: number) => {
     const response = await like(drawNo)
     if (response.status === 200) {
-      console.log("좋아요")
+      setDrawList(
+        drawList.map((item) =>
+          item.drawNo === drawList[currentPage].drawNo
+            ? { ...item, like: !item.like }
+            : item
+        )
+      )
     }
   }
   const setUnlike = async (drawNo: number) => {
     const response = await unLike(drawNo)
     if (response.status === 200) {
+      setDrawList(
+        drawList.map((item) =>
+          item.drawNo === drawList[currentPage].drawNo
+            ? { ...item, like: !item.like }
+            : item
+        )
+      )
     }
   }
 
@@ -102,6 +121,7 @@ export default function Slide({
     async (category: number, sort: boolean) => {
       const response = await getList(category, sort)
       setDrawList(() => [...response.data])
+      if (response.data.length > 0) setDrawNo(response.data[0].drawNo)
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [category, sort]
@@ -124,15 +144,14 @@ export default function Slide({
     navigate(`/editDraw/${drawList[currentPage].drawNo}`)
   }
 
-  const deleteDraw = async () => {
-    console.log("delete")
-    const response = await deleteDrawing(drawList[currentPage].drawNo)
-    if (response.status === 200) setList(category, sort)
-    else console.log("삭제 실패")
-  }
-
   return (
     <>
+      <DeleteModal
+        drawNo={drawNo}
+        category={category}
+        sort={sort}
+        setList={setList}
+      ></DeleteModal>
       <div className='slide-container pt-5'>
         <div className='slide-buttons'>
           <button className='prev-button' onClick={() => gotoPrev()}>
@@ -142,6 +161,7 @@ export default function Slide({
             <img src={next} alt='' width={30}></img>
           </button>
         </div>
+
         <div className='v-story-wrap con'>
           <Slider
             ref={customSlider}
@@ -154,7 +174,6 @@ export default function Slide({
             ) : (
               drawList.map((item, index) => (
                 <div className='slider-item' key={index}>
-                  <div>{item.drawNo}</div>
                   <div className='img-box'>
                     <img src={item.drawDrawing} alt='' />
                   </div>
@@ -182,7 +201,6 @@ export default function Slide({
                         <img src={unlikeIco} alt='' width={50} />
                       </button>
                     )}
-                    {}
                   </div>
                 </div>
               ))
@@ -197,7 +215,13 @@ export default function Slide({
             <button className={style.btn} onClick={editDraw}>
               수정
             </button>
-            <button className={style.btn} onClick={deleteDraw}>
+            <button
+              className={style.btn}
+              onClick={() => {
+                console.log(drawList[currentPage].drawNo)
+                setModal(true)
+              }}
+            >
               삭제
             </button>
           </div>

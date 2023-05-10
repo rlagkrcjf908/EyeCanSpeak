@@ -264,16 +264,18 @@ legend {
 .next-button {
   background-color: rgb(219, 238, 255);
   cursor: pointer;
-  width: 100px;
-  height: 500px;
+  width: 200px;
+  height: 550px;
 }
 .prev-button {
+  border-radius: 0 1000px 1000px 0;
   position: absolute;
-  left: 50px;
+  left: 0px;
 }
 .next-button {
+  border-radius: 1000px 0 0 1000px;
   position: absolute;
-  right: 50px;
+  right: 0;
 }
 .slide-like {
   display: flex;

@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 import style from "../../styles/drawing/board.module.css"
-import { useRecoilValue } from "recoil"
+import { useRecoilValue, useSetRecoilState } from "recoil"
 import Palette from "./palette"
-// import { saveDrawing } from "../../services/drawingApi"
+import Modal from "../modal/saveModal"
 import { useParams } from "react-router"
 import {
   currerntXState,
@@ -11,9 +11,7 @@ import {
   nextXState,
   nextYState,
 } from "../../recoil/atoms/mouseState"
-import axios, { AxiosResponse } from "axios"
-import { Cookies } from "react-cookie"
-
+import { saveModal } from "../../recoil/atoms/modalState"
 interface CanvasProps {
   width: number
   height: number
@@ -29,8 +27,8 @@ function Board({ width, height }: CanvasProps) {
   const [size, setSize] = useState(2)
   const [offsetLeft, setOffsetLeft] = useState(0)
   const [offsetTop, setOffsetTop] = useState(0)
-
-  const cookies = new Cookies()
+  const setModal = useSetRecoilState(saveModal)
+  const [imageBlob, setImageBlob] = useState<Blob>()
 
   const [initStart, setInitStart] = useState(true)
   const [start, setStart] = useState(true)
@@ -128,65 +126,45 @@ function Board({ width, height }: CanvasProps) {
 
   //------------------------------------------------------
   const saveDraw = async () => {
-    const formData = new FormData()
     const canvas: any = document.getElementById("canvas")
-    const data = {
-      categoryNo: params.subjectNM,
-      drawPostTF: false,
-    }
+
     await canvas.toBlob((blob: any) => {
       // canvas 이미지 파일로 변환
-      formData.append("drawDrawing", blob)
-      formData.append(
-        "data",
-        new Blob([JSON.stringify(data)], { type: "application/json" })
-      )
-      saveApi(formData)
+      setImageBlob(blob)
+      setModal(true)
     })
   }
 
-  const saveApi = async (formData: FormData) => {
-    const token = cookies.get("accessToken")
-    console.log(formData.get("data"))
-    console.log(formData.get("drawDrawing"))
-    const response: AxiosResponse = await axios.post(
-      "https://k8d204.p.ssafy.io/api/draw/store",
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-    if (response.status !== 200) console.log("저장 실패")
-  }
-  const postDraw = async () => {}
   return (
-    <div className={style.container}>
-      <div
-        className={style.board}
-        style={{
-          backgroundColor: "white",
-        }}
-      >
-        <canvas
-          ref={canvasRef}
-          height={height}
-          width={width}
-          id='canvas'
-        ></canvas>
+    <>
+      <Modal
+        categoryNo={params.categoryNo}
+        blob={imageBlob}
+        isEdit={false}
+        drawNo='-1'
+      ></Modal>
+      <div className={style.container}>
+        <div
+          className={style.board}
+          style={{
+            backgroundColor: "white",
+          }}
+        >
+          <canvas
+            ref={canvasRef}
+            height={height}
+            width={width}
+            id='canvas'
+          ></canvas>
+        </div>
+        <div style={{ textAlign: "center" }}>
+          <Palette changeColor={changeColor} changeSize={changeSize} />
+          <button className={style.btn} onClick={saveDraw}>
+            저장
+          </button>
+        </div>
       </div>
-      <div style={{ textAlign: "center" }}>
-        <Palette changeColor={changeColor} changeSize={changeSize} />
-        <button className={style.btn} onClick={saveDraw}>
-          저장
-        </button>
-        <button className={style.btn} onClick={postDraw}>
-          공유
-        </button>
-      </div>
-    </div>
+    </>
   )
 }
 Board.defaultProps = {

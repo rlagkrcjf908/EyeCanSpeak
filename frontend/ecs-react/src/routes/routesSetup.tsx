@@ -19,7 +19,7 @@ export default function routesSetup() {
         <Route path='/selectMain' element={<SelectMain />} />
         <Route path='/writing' element={<Writing />} />
         <Route path='/selectDraw' element={<SelectDraw />} />-
-        <Route path='/drawing/:subjectNM' element={<Drawing />} />
+        <Route path='/drawing/:categoryNo' element={<Drawing />} />
         <Route path='/board' element={<Board />} />
         <Route path='/myPage' element={<MyPage />} />
         <Route path='/editDraw/:draw_no' element={<EditDraw />} />

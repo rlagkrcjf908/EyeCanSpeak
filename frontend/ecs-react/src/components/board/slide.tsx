@@ -11,12 +11,13 @@ import { like, unLike } from "../../services/boardApi"
 import { getList } from "../../services/boardApi"
 
 interface drawInfo {
-  user_nm: string
-  draw_no: number
-  draw_drawing: string
-  draw_date: Date
-  category_nm: string
+  categoryNM: string
+  drawDate: Date
+  drawDrawing: string
+  drawNo: number
   like: boolean
+  likeCnt: number
+  userNM: string
 }
 
 export default function Slide({
@@ -72,55 +73,40 @@ export default function Slide({
     customSlider.current.slickPrev()
   }
 
-  const setLike = async (draw_no: number) => {
-    const response = await like(draw_no)
+  const setLike = async (drawNo: number) => {
+    const response = await like(drawNo)
     if (response.status === 200) {
+      setDrawList(
+        drawList.map((item) =>
+          item.drawNo === drawNo ? { ...item, like: !item.like } : item
+        )
+      )
     }
   }
-  const setUnlike = async (draw_no: number) => {
-    const response = await unLike(draw_no)
+  const setUnlike = async (drawNo: number) => {
+    const response = await unLike(drawNo)
     if (response.status === 200) {
+      setDrawList(
+        drawList.map((item) =>
+          item.drawNo === drawNo ? { ...item, like: !item.like } : item
+        )
+      )
     }
   }
 
-  const setList = useCallback(async () => {
-    const response = await getList(category, sort)
-    setDrawList(() => [response.data])
+  const setList = useCallback(
+    async (category: number, sort: boolean) => {
+      const response = await getList(category, sort)
+      setDrawList(() => [...response.data])
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [category, sort]
+  )
+  useEffect(() => {
+    setList(category, sort)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, sort])
 
-  useEffect(() => {
-    // setList()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-  const testList: drawInfo[] = [
-    {
-      user_nm: "김학철",
-      draw_no: 1,
-      draw_drawing:
-        "https://images.pexels.com/photos/4319752/pexels-photo-4319752.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-      draw_date: new Date(),
-      category_nm: "동물",
-      like: true,
-    },
-    {
-      user_nm: "박소희",
-      draw_no: 2,
-      draw_drawing:
-        "https://images.pexels.com/photos/1402850/pexels-photo-1402850.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-      draw_date: new Date(),
-      category_nm: "과일",
-      like: false,
-    },
-    {
-      user_nm: "이찬석",
-      draw_no: 3,
-      draw_drawing:
-        "https://cdn.pixabay.com/photo/2021/08/23/01/03/cubic-house-6566412__340.jpg",
-      draw_date: new Date(),
-      category_nm: "물건",
-      like: true,
-    },
-  ]
   return (
     <>
       <div className='slide-container pt-5'>
@@ -139,20 +125,20 @@ export default function Slide({
             data-aos='fade-up'
             {...settings}
           >
-            {testList.map((item, index) => (
-              <div className='slider-item'>
+            {drawList.map((item, index) => (
+              <div className='slider-item' key={index}>
                 <div className='img-box'>
-                  <img src={item.draw_drawing} alt='' />
+                  <img src={item.drawDrawing} alt='' />
                 </div>
 
                 <div className='v-story-desc-list'>
-                  <p className='v-story-desc-tt'>{item.user_nm}</p>
-                  <p className='v-story-desc'>{item.category_nm}</p>
+                  <p className='v-story-desc-tt'>{item.userNM}</p>
+                  <p className='v-story-desc'>{item.categoryNM}</p>
                   {item.like ? (
                     <button
                       className='slide-like'
                       onClick={() => {
-                        setUnlike(item.draw_no)
+                        setUnlike(item.drawNo)
                       }}
                     >
                       <img src={likeIco} alt='' width={50} />
@@ -161,7 +147,7 @@ export default function Slide({
                     <button
                       className='slide-like'
                       onClick={() => {
-                        setLike(item.draw_no)
+                        setLike(item.drawNo)
                       }}
                     >
                       <img src={unlikeIco} alt='' width={50} />

@@ -1,15 +1,18 @@
 .buttons {
   text-align: center;
   margin-top: 50px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  bottom: 0;
 }
 .btn {
   text-align: center;
-  border: 4px solid #555;
   margin: 0 30px;
   padding: 0 50px;
-  background: none;
+  background-color: rgb(219, 238, 255);
   cursor: pointer;
-  border-radius: 20px;
+  border-radius: 20px 20px 0 0;
   /* width: 500px; */
   height: 70px;
   font-size: 30px;

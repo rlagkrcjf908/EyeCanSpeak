@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { BrowserRouter } from "react-router-dom"
 import RoutesSetup from "./routes/routesSetup"
 import { HelmetProvider, Helmet } from "react-helmet-async"
@@ -7,6 +7,7 @@ import "./styles/common/common.css"
 import "./App.css"
 import Mouse from "./components/common/mouse"
 import Position from "./components/common/position"
+import { CookiesProvider } from "react-cookie"
 
 function App() {
   return (
@@ -18,9 +19,11 @@ function App() {
             <title>ECS</title>
           </Helmet>
         </HelmetProvider>
-        <BrowserRouter>
-          <RoutesSetup></RoutesSetup>
-        </BrowserRouter>
+        <CookiesProvider>
+          <BrowserRouter>
+            <RoutesSetup></RoutesSetup>
+          </BrowserRouter>
+        </CookiesProvider>
         <Mouse></Mouse>
       </RecoilRoot>
     </>
