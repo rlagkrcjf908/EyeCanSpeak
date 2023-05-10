@@ -48,14 +48,15 @@ function SocketTest() {
   }, [webcamRef, setImgSrc, socketInstance])
   // 1초 마다 캡쳐화면 보내기
   useEffect(() => {
+    console.log(isSetting)
     if (socketInstance && isSetting) {
       setInterval(capture, 1000)
     }
-  }, [socketInstance])
+  }, [socketInstance, isSetting])
   // 소켓 연결
 
   useEffect(() => {
-    if (buttonStatus === true) {
+    if (isSetting === true) {
       const socket = io("https://k8d204.p.ssafy.io", {
         path: "/socket.io",
         // transports: ["websocket"],
@@ -80,7 +81,7 @@ function SocketTest() {
         socket.disconnect()
       }
     }
-  }, [buttonStatus])
+  }, [isSetting])
 
   return (
     <div className={style.App}>
