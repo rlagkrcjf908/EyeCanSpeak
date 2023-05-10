@@ -31,7 +31,7 @@
   left: calc(100% - 100px);
 }
 
-/* .container img,
+.container img,
 video,
 button {
   display: block;
@@ -40,8 +40,25 @@ button {
 .container video {
   position: absolute;
   right: 100%;
-} */
-.cam {
+}
+
+.text {
+  font-size: 50px;
+  text-align: center;
+  margin-top: 400px;
+  animation: show 1s ease infinite alternate;
+}
+
+@keyframes show {
+  from {
+    opacity: 0.3;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* .cam {
   position: absolute;
   top: 300px;
   left: 300px;
@@ -50,4 +67,4 @@ button {
   position: absolute;
   top: 300px;
   left: 300px;
-}
+} */
