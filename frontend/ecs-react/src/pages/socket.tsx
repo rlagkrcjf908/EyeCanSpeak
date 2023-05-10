@@ -54,7 +54,7 @@ function SocketTest() {
 
   useEffect(() => {
     if (buttonStatus === true) {
-      const socket = io("https://k8d204.p.ssafy.io:5000", {
+      const socket = io("https://k8d204.p.ssafy.io", {
         path: "/socket.io",
         // transports: ["websocket"],
         // cors: {
