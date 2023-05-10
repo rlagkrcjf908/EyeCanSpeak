@@ -6,25 +6,24 @@ import { RecoilRoot } from "recoil"
 import "./styles/common/common.css"
 import "./App.css"
 import Mouse from "./components/common/mouse"
-import { useCookies } from "react-cookie"
+import Position from "./components/common/position"
+import { CookiesProvider } from "react-cookie"
 
 function App() {
-  const [cookie, setCookie] = useCookies(["accessToken"])
-  useEffect(() => {}, [cookie])
-  useEffect(() => {
-    console.log(typeof cookie)
-  }, [])
   return (
     <>
       <RecoilRoot>
+        <Position></Position>
         <HelmetProvider>
           <Helmet>
             <title>ECS</title>
           </Helmet>
         </HelmetProvider>
-        <BrowserRouter>
-          <RoutesSetup></RoutesSetup>
-        </BrowserRouter>
+        <CookiesProvider>
+          <BrowserRouter>
+            <RoutesSetup></RoutesSetup>
+          </BrowserRouter>
+        </CookiesProvider>
         <Mouse></Mouse>
       </RecoilRoot>
     </>

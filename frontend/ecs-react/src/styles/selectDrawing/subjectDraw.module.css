@@ -49,10 +49,12 @@
 .card:hover .front {
   transform: rotateY(180deg);
 }
-.card:nth-child(even):hover .front {
+/* .card:nth-child(even):hover .front {
   transform: rotateY(-180deg);
+} */
+.hover .front {
+  transform: rotateY(180deg);
 }
-
 .back {
   /* background-size: contain;
   background-repeat: no-repeat; */
@@ -85,7 +87,9 @@
 .card:hover .back {
   transform: rotateY(0deg);
 }
-
+.hover .back {
+  transform: rotateY(0deg);
+}
 .subject {
   width: calc(40%);
   height: calc(40%);

@@ -16,6 +16,20 @@ export default function SelectSubjectDraw() {
     subjectNo: number
     subjectNM: string
   }
+
+  const handleMouseOver = () => {
+    const subjectCard = document.querySelector("#subjectCard")
+    subjectCard?.classList.add(`${style.hover}`)
+    console.log(1)
+    console.log(subjectCard?.className)
+  }
+  const handleMouseLeave = () => {
+    const subjectCard = document.querySelector("#subjectCard")
+    subjectCard?.classList.remove(`${style.hover}`)
+    console.log(2)
+    console.log(subjectCard?.className)
+  }
+
   // 서브젝트 리스트
   const [subjects, setSubjects] = useState<subjectTypes[]>([])
 
@@ -87,7 +101,12 @@ export default function SelectSubjectDraw() {
   }, [])
 
   return (
-    <div className={style.card}>
+    <div
+      className={style.card}
+      id='subjectCard'
+      onMouseOver={handleMouseOver}
+      onMouseLeave={handleMouseLeave}
+    >
       {/* 카드 앞면 */}
       <div
         className={style.front}
