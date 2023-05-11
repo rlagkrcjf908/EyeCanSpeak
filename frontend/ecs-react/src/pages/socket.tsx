@@ -1,5 +1,5 @@
 import style from "../styles/common/socket.module.css"
-import WebSocketCall from "../components/socket/WebSocketCall"
+import WebSocketCall from "../components/socket/webSocketCall"
 import { io, Socket } from "socket.io-client"
 import { useCallback, useRef, useEffect, useState } from "react"
 import Webcam from "react-webcam"
