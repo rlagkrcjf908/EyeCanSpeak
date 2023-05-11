@@ -163,9 +163,12 @@ def handle_image(image):
     example = user_object[userNo]
     X, Y, DIR = example.getPupilPoint(img)
     print(f"x: {X} y: {Y}, dir:{DIR}")
+    rX = X / img.shape[1]
+    rY = Y / img.shape[0]
+    print(f"rx: {rX} y: {rY}")
 
     # emit("image", {'image': image, 'id': request.sid, 'x': -1, 'y': -1, 'dir': -1}, room=room)
-    emit("image", {'image': image, 'id': request.sid, 'x': X, 'y': Y, 'dir': DIR}, room=room)
+    emit("image", {'image': image, 'id': request.sid, 'x': rX, 'y': rY, 'dir': DIR}, room=room)
     # emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 0}, room=room)
     # emit("image", {'id': request.sid, 'x': X, 'y': Y, 'dir': DIR}, room=room)
 
