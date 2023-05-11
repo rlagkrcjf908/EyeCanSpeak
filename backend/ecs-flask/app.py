@@ -146,7 +146,7 @@ def handle_image(image):
     if 'userNo' in image:
         userNo = image['userNo']
     else:
-        emit("image", {'id': request.sid, 'x': 0, 'y': 0, 'dir': 5}, room=room)
+        emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 5}, room=room)
         return
 
     # print("userNo:::", userNo)
