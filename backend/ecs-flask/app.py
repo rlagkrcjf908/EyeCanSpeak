@@ -139,32 +139,35 @@ def handle_message(data):
 @socketio.on('imageConversionByClient')
 def handle_image(image):
     """event listener when client types a message"""
-    print("imageConversionByClient::::", str(image))
+    # print("imageConversionByClient::::", str(image))
+    # print("imageConversionByClient::::")
 
     userNo = -1
     room = request.sid
-    # if 'userNo' in image:
-    #     userNo = image['userNo']
-    # else :
-    #     userNo = -2
-    #     user_object[userNo] = Example(point(0, 680, 0, 480))
-    #
-    # print("imageConversionByClient:::", userNo)
-    #
-    # # base64 String to Image
-    # base_str = image['buffer'].split(',')[1]
-    # im_bytes = base64.b64decode(base_str)
-    # im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
-    # img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
-    # # cv2.imshow("test", img)
-    #
-    # # Get pupil point
-    # example = user_object[userNo]
-    # X, Y, DIR = example.getPupilPoint(img)
-    # print(f"x: {X} y: {Y}, dir:{DIR}")
+    # print("room::", room)
+    if 'userNo' in image:
+        userNo = image['userNo']
+    else :
+        userNo = -2
+        # user_object[userNo] = Example(point(0, 680, 0, 480))
 
-    emit("image", {'image': image, 'id': request.sid, 'x': -1, 'y': -1, 'dir': -1}, room=room)
-    # emit("image", {'image': image, 'id': request.sid, 'x': X, 'y': Y, 'dir': DIR}, room=room)
+    print("imageConversionByClient:::", userNo)
+
+    # base64 String to Image
+    base_str = image['buffer'].split(',')[1]
+    im_bytes = base64.b64decode(base_str)
+    im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
+    img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
+    # cv2.imshow("test", img)
+
+    # Get pupil point
+    # example = user_object[userNo]
+    example = Example(point(0, 680, 0, 480))
+    X, Y, DIR = example.getPupilPoint(img)
+    print(f"x: {X} y: {Y}, dir:{DIR}")
+
+    # emit("image", {'image': image, 'id': request.sid, 'x': -1, 'y': -1, 'dir': -1}, room=room)
+    emit("image", {'image': image, 'id': request.sid, 'x': X, 'y': Y, 'dir': DIR}, room=room)
     # emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 0}, room=room)
     # emit("image", {'id': request.sid, 'x': X, 'y': Y, 'dir': DIR}, room=room)
 
