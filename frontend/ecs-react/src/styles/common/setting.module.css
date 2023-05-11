@@ -32,17 +32,6 @@
   left: calc(100% - 100px);
 }
 
-.container img,
-video,
-button {
-  display: block;
-}
-
-.container video {
-  position: absolute;
-  right: 100%;
-}
-
 .content {
   font-size: 50px;
   text-align: center;
@@ -63,13 +52,11 @@ button {
   }
 }
 
-/* .cam {
-  position: absolute;
-  top: 300px;
-  left: 300px;
+.cam {
+  display: block;
 }
-.container button {
+
+.cam {
   position: absolute;
-  top: 300px;
-  left: 300px;
-} */
+  right: 100%;
+}

@@ -14,14 +14,6 @@ function SocketTest() {
   const [isSetting, setIsSetting] = useRecoilState(settingState)
   const userNumber = useRecoilValue(userNo)
 
-  // 소켓 연결/해제 버튼
-  const handleClick = () => {
-    if (buttonStatus === false) {
-      setButtonStatus(true)
-    } else {
-      setButtonStatus(false)
-    }
-  }
   // 캠 화면
   const videoConstraints = {
     width: 1024,
@@ -42,10 +34,10 @@ function SocketTest() {
   // 1초 마다 캡쳐화면 보내기
   useEffect(() => {
     console.log(isSetting)
-    if (socketInstance && isSetting) {
+    if (socketInstance) {
       setInterval(capture, 1000)
     }
-  }, [socketInstance, isSetting])
+  }, [socketInstance])
   // 소켓 연결
 
   useEffect(() => {
@@ -77,7 +69,7 @@ function SocketTest() {
   }, [isSetting])
 
   return (
-    <div className={style.App}>
+    <>
       <Webcam
         muted={false}
         audio={false}
@@ -87,10 +79,11 @@ function SocketTest() {
         ref={webcamRef}
         screenshotFormat='image/jpeg'
         videoConstraints={videoConstraints}
+        className={style.cam}
       />
 
       {!loading && <WebSocketCall socket={socketInstance} />}
-    </div>
+    </>
   )
 }
 

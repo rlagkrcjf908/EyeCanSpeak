@@ -20,14 +20,10 @@ export default function SelectSubjectDraw() {
   const handleMouseOver = () => {
     const subjectCard = document.querySelector("#subjectCard")
     subjectCard?.classList.add(`${style.hover}`)
-    console.log(1)
-    console.log(subjectCard?.className)
   }
   const handleMouseLeave = () => {
     const subjectCard = document.querySelector("#subjectCard")
     subjectCard?.classList.remove(`${style.hover}`)
-    console.log(2)
-    console.log(subjectCard?.className)
   }
 
   // 서브젝트 리스트
