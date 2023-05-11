@@ -1,5 +1,5 @@
 import style from "../../styles/common/position.module.css"
-import { useRecoilState } from "recoil"
+import { useRecoilState, useRecoilValue } from "recoil"
 import {
   currerntXPosition,
   currerntYPosition,
@@ -8,26 +8,17 @@ import {
   socketXPosition,
   socketYPosition,
 } from "../../recoil/atoms/boxState"
-import { isClick } from "../../recoil/atoms/mouseState"
 import { useEffect } from "react"
 
 export default function Position() {
-  const [X, setX] = useRecoilState(socketXPosition)
-  const [Y, setY] = useRecoilState(socketYPosition)
+  const X = useRecoilValue(socketXPosition)
+  const Y = useRecoilValue(socketYPosition)
   const [currentXBox, setCurrentXBox] = useRecoilState(currerntXPosition)
   const [currentYBox, setCurrentYBox] = useRecoilState(currerntYPosition)
   const [nextX, setNextX] = useRecoilState(nextXPosition)
   const [nextY, setNextY] = useRecoilState(nextYPosition)
-  const window_width = window.screen.availWidth
-  const window_height = window.screen.availHeight
-  const [click, setClick] = useRecoilState(isClick)
+
   let box: any
-  //랜덤 좌표값 생성
-  const onClick = () => {
-    let randomX = Math.floor(Math.random() * Math.floor(window_width))
-    let randomY = Math.floor(Math.random() * Math.floor(window_height))
-    move(randomX, randomY)
-  }
 
   useEffect(() => {
     move(X, Y)
@@ -87,41 +78,36 @@ export default function Position() {
 
   const mouseClickEvents = ["mousedown", "click", "mouseup"]
 
-  // 클릭
-  function blinkhandler() {
-    box = document.querySelector("#box")
-    const x = box.getBoundingClientRect().x
-    const y = box.getBoundingClientRect().y
-    const element: any = document.elementFromPoint(x, y)
+  // // 클릭
+  // function blinkhandler() {
+  //   box = document.querySelector("#box")
+  //   const x = box.getBoundingClientRect().x
+  //   const y = box.getBoundingClientRect().y
+  //   const element: any = document.elementFromPoint(x, y)
 
-    if (element.className.indexOf("palette") === -1)
-      setClick((current) => !current)
+  //   if (element.className.indexOf("palette") === -1)
+  //     setClick((current) => !current)
 
-    mouseClickEvents.forEach((mouseEventType) =>
-      element.dispatchEvent(
-        new MouseEvent(mouseEventType, {
-          view: window,
-          bubbles: true,
-          cancelable: true,
-          buttons: 1,
-        })
-      )
-    )
-    // console.log("blinking")
-  }
+  //   mouseClickEvents.forEach((mouseEventType) =>
+  //     element.dispatchEvent(
+  //       new MouseEvent(mouseEventType, {
+  //         view: window,
+  //         bubbles: true,
+  //         cancelable: true,
+  //         buttons: 1,
+  //       })
+  //     )
+  //   )
+  // }
 
   return (
-    <>
-      <button onClick={onClick}>랜덤좌표</button>
-      <button onClick={blinkhandler}> 눈깜빡클릭</button>
-      <div
-        className={style.box}
-        id='box'
-        style={{
-          transform: `translate3d(calc(${nextX}px - 50%), calc(${nextY}px - 50%), 0)`,
-          transition: "all 0.2s",
-        }}
-      ></div>
-    </>
+    <div
+      className={style.box}
+      id='box'
+      style={{
+        transform: `translate3d(calc(${nextX}px - 50%), calc(${nextY}px - 50%), 0)`,
+        transition: "all 0.2s",
+      }}
+    ></div>
   )
 }
