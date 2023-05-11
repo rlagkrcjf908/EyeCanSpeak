@@ -107,16 +107,19 @@ def connected():
     print(room)
     print("client has connected")
 
+    example = Example(point(0, 680, 0, 480))
+    user_object[-2] = example
+
     join_room(room)
     emit("connect", {"data": f"id: {request.sid} is connected"}, room=room)
 
 
-@socketio.on('data')
-def handle_message(data):
-    """event listener when client types a message"""
-    print("data from the front end: ", str(data))
-    room = request.sid
-    emit("data", {'data': data, 'id': request.sid}, room=room)
+# @socketio.on('data')
+# def handle_message(data):
+#     """event listener when client types a message"""
+#     print("data from the front end: ", str(data))
+#     room = request.sid
+#     emit("data", {'data': data, 'id': request.sid}, room=room)
 
 @socketio.on('data')
 def handle_message(data):
@@ -135,7 +138,11 @@ def handle_image(image):
     """event listener when client types a message"""
     # print("image from the front end: ", str(image))
     room = request.sid
-    userNo = image['userNo']
+    if 'userNo' in image:
+        userNo = image['userNo']
+    else :
+        userNo = -2
+
     print("imageConversionByClient:::", userNo)
 
     # base64 String to Image

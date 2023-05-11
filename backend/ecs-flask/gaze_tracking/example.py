@@ -25,8 +25,8 @@ class Example(object):
 
     def calc_dir(self, x, y):
 
-        dw = self.w / 3
-        dh = self.h / 3
+        dw = self.W / 3
+        dh = self.H / 3
 
         if 0 <= x < dw and 0 <= y < dh: return 1
         elif dw <= x < dw*2 and 0 <= y < dh: return 2
@@ -85,7 +85,8 @@ class Example(object):
 
             # print(f'src.shape[0] : {src.shape[0]}, src.shape[1]: {src.shape[1]}\n')
 
-            nx = self.W - (x - self.minX) / self.diffX * self.W
+            # nx = self.W - (x - self.minX) / self.diffX * self.W
+            nx = (x - self.minX) / self.diffX * self.W
             ny = (y - self.minY) / self.diffY * self.H
             print(f'nX : {nx:.2f}, nY: {ny:.2f}\n')
             # src = cv2.circle(src, (int(nx), int(ny)), 5, (0, 255, 0), cv2.FILLED, cv2.LINE_4)
@@ -100,10 +101,10 @@ class Example(object):
         # cv2.waitKey(0)
         # cv2.destroyAllWindows()
 
-        nx = math.max(nx, 0)
-        nx = math.min(nx, self.W)
-        ny = math.max(ny, 0)
-        ny = math.min(ny, self.H)
+        nx = max(nx, 0)
+        nx = min(nx, self.W)
+        ny = max(ny, 0)
+        ny = min(ny, self.H)
         print(f'nX : {nx:.2f}, nY: {ny:.2f}\n')
 
         return nx, ny, self.calc_dir(nx, ny)
