@@ -27,9 +27,9 @@ class Example(object):
 
         dw = self.W / 3
         dh = self.H / 3
-        # print(f'dw : {dw} dh : {dh}')
-
-        if 0 <= x < dw and 0 <= y < dh: return 1
+        print(f'dw : {dw} dh : {dh}')
+        print(f'x : {x} y : {y}')
+        if (0 <= x < dw) and (0 <= y < dh): return 1
         elif dw <= x < dw*2 and 0 <= y < dh: return 2
         elif dw*2 <= x < dw*3 and 0 <= y < dh: return 3
 
@@ -44,6 +44,8 @@ class Example(object):
         return -1
 
     def getPupilPoint(self, image):
+        print(self.getPoint())
+
         gaze = GazeTracking()
         # src = np.zeros((self.H, self.W, 3), np.uint8)
 
@@ -84,7 +86,7 @@ class Example(object):
         if(type(left_pupil) != type(None) and type(right_pupil) != type(None)):
             x = (left_pupil[0] + right_pupil[0]) / 2
             y = (left_pupil[1] + right_pupil[1]) / 2
-            # print(f'X : {x}, Y: {y}')
+            print(f'X : {x}, Y: {y}')
             # print(f'self.minX : {self.minX}, self.diffX: {self.diffX }')
             # print(f'self.minY : {self.minY}, self.diffY: {self.diffY}')
 
@@ -110,6 +112,6 @@ class Example(object):
         nx = min(nx, self.W)
         ny = max(ny, 0)
         ny = min(ny, self.H)
-        # print(f'nX : {nx:.2f}, nY: {ny:.2f}\n')
+        print(f'nX : {nx:.2f}, nY: {ny:.2f}\n')
 
-        return nx, ny, self.calc_dir(nx, ny)
+        return self.W - nx, ny, self.calc_dir(nx, ny)

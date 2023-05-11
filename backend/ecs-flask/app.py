@@ -42,9 +42,7 @@ def calc_cood(points):
 def setObject(userNo):
 
     minX, maxX, minY, maxY = calc_cood(setting_point[userNo])
-
-    example = Example(point(minX, maxX, minY, maxY))
-    user_object[userNo] = example
+    user_object[userNo] = Example(point(minX, maxX, minY, maxY))
 
 
 #setting
@@ -60,6 +58,8 @@ def setting():
     image = request.json.get('imgSrc')
     # print(image)
 
+    print(f"userNo: {userNo}, index: {index}")
+
     base_str = image.split(',')[1]
     im_bytes = base64.b64decode(base_str)
     im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
@@ -67,7 +67,7 @@ def setting():
 
     x, y = getSettingPoint(img)
     if x == -1 or y == -1: return jsonify(400)
-    # print(x, y)
+    print(x, y)
 
     if index == 1:
         setting_point[userNo] = [(0, 0), (0, 0), (0, 0), (0, 0)]
@@ -76,7 +76,7 @@ def setting():
     if index == 4:
         setObject(userNo)
 
-    return jsonify(200)
+    return jsonify(200, x, y)
 
 def getSettingPoint(image):
 
@@ -108,10 +108,8 @@ def connected():
     print(room)
     print("client has connected")
 
-    example1 = Example(point(0, 680, 0, 480))
-    user_object[-1] = example1
-    example2 = Example(point(0, 680, 0, 480))
-    user_object[-2] = example2
+    user_object[-1] = Example(point(0, 680, 0, 480))
+    user_object[-2] = Example(point(314.5, 323.0, 231.0, 234.0))
 
     join_room(room)
     emit("connect", {"data": f"id: {request.sid} is connected"}, room=room)
@@ -141,14 +139,14 @@ def handle_message(data):
 def handle_image(image):
     """event listener when client types a message"""
     # print("imageConversionByClient::::", str(image))
-    # print("imageConversionByClient::::")
+    print("imageConversionByClient::::")
 
     userNo = -1
     room = request.sid
     if 'userNo' in image:
         userNo = image['userNo']
     else:
-        emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 5}, room=room)
+        emit("image", {'id': request.sid, 'x': 0, 'y': 0, 'dir': 5}, room=room)
         return
 
     # print("userNo:::", userNo)
@@ -161,15 +159,14 @@ def handle_image(image):
     # cv2.imshow("test", img)
 
     # Get pupil point
-    example = user_object[userNo]
-    X, Y, DIR = example.getPupilPoint(img)
+    X, Y, DIR = user_object[userNo].getPupilPoint(img)
     print(f"x: {X} y: {Y}, dir:{DIR}")
     rX = X / img.shape[1]
     rY = Y / img.shape[0]
     print(f"rx: {rX} y: {rY}")
 
     # emit("image", {'image': image, 'id': request.sid, 'x': -1, 'y': -1, 'dir': -1}, room=room)
-    emit("image", {'image': image, 'id': request.sid, 'x': rX, 'y': rY, 'dir': DIR}, room=room)
+    emit("image", {'id': request.sid, 'x': rX, 'y': rY, 'dir': DIR}, room=room)
     # emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 0}, room=room)
     # emit("image", {'id': request.sid, 'x': X, 'y': Y, 'dir': DIR}, room=room)
 
