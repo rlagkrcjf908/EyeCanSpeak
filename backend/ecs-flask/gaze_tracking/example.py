@@ -28,15 +28,19 @@ class Example(object):
         dw = self.W / 3
         dh = self.H / 3
         print(f'dw : {dw} dh : {dh}')
+
         if 0 <= x < dw and 0 <= y < dh: return 1
         elif dw <= x < dw*2 and 0 <= y < dh: return 2
         elif dw*2 <= x < dw*3 and 0 <= y < dh: return 3
+
         elif 0 <= x < dw and dh <= y < dh*2: return 4
         elif dw <= x < dw * 2 and dh <= y < dh*2: return 5
         elif dw * 2 <= x < dw * 3 and dh <= y < dh*2: return 6
+
         elif 0 <= x < dw and dh*2 <= y < dh*3: return 7
         elif dw <= x < dw * 2 and dh*2 <= y < dh*3: return 8
         elif dw * 2 <= x < dw * 3 and dh*2 <= y < dh*3: return 9
+
         return -1
 
     def getPupilPoint(self, image):

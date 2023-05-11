@@ -138,9 +138,9 @@ def handle_message(data):
 @socketio.on('imageConversionByClient')
 def handle_image(image):
     """event listener when client types a message"""
-    # print("image from the front end: ", str(image))
-    print("imageConversionByClient::::")
+    print("imageConversionByClient::::", str(image))
 
+    userNo = -1
     room = request.sid
     if 'userNo' in image:
         userNo = image['userNo']
