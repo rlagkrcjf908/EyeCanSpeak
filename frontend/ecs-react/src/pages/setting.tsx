@@ -43,23 +43,11 @@ export default function Setting() {
     const imageSrc: string | null = webcamRef.current.getScreenshot()
     if (!imageSrc) return
     const token = cookies.get("accessToken")
-    // const formData: FormData = new FormData()
-    // imgSrc.forEach((element) => {
-    //   formData.append("settingImg", element)
-    // })
     const response: AxiosResponse = await axios.post(
       // api 주소 적기
       // `https://k8d204.p.ssafy.io/api/setting`,
       `http://192.168.100.88:5000/setting`,
-      // { imgSrc }
       { userNo: userNumber, imgSrc: imageSrc, index: currentCircle + 1 }
-      // formData,
-      // {
-      //   headers: {
-      // "Content-Type": "multipart/form-data",
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      // }
     )
 
     if (response.data === 200) {

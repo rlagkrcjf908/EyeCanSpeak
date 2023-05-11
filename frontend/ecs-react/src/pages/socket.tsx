@@ -26,7 +26,6 @@ function SocketTest() {
   const videoConstraints = {
     width: 1024,
     height: 768,
-    // facingMode: { exact: "environment" }
   }
   // 연결 테스트
   const onClick = () => {
@@ -85,35 +84,18 @@ function SocketTest() {
 
   return (
     <div className={style.App}>
-      <h1>React/Flask App + socket.io</h1>
-      <div className={style.line}>
-        <HttpCall />
-      </div>
-      <button onClick={onClick}>클릭!</button>
-      <>
-        <Webcam
-          muted={false}
-          audio={false}
-          mirrored={true}
-          height={768}
-          width={1024}
-          ref={webcamRef}
-          screenshotFormat='image/jpeg'
-          videoConstraints={videoConstraints}
-        />
-        <button onClick={capture}>Capture photo</button>
-      </>
+      <Webcam
+        muted={false}
+        audio={false}
+        mirrored={true}
+        height={768}
+        width={1024}
+        ref={webcamRef}
+        screenshotFormat='image/jpeg'
+        videoConstraints={videoConstraints}
+      />
 
-      {!buttonStatus ? (
-        <button onClick={handleClick}>turn chat on</button>
-      ) : (
-        <>
-          <button onClick={handleClick}>turn chat off</button>
-          <div className={style.line}>
-            {!loading && <WebSocketCall socket={socketInstance} />}
-          </div>
-        </>
-      )}
+      {!loading && <WebSocketCall socket={socketInstance} />}
     </div>
   )
 }
