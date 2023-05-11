@@ -149,7 +149,7 @@ def handle_image(image):
     else :
         userNo = -2
 
-    print("imageConversionByClient:::", userNo)
+    print("userNo:::", userNo)
 
     # base64 String to Image
     base_str = image['buffer'].split(',')[1]
@@ -180,3 +180,5 @@ def disconnected():
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, host='0.0.0.0', port=5000)
+
+
