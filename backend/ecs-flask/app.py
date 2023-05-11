@@ -54,11 +54,11 @@ def setting():
     # room = request.sid
     # print(room)
     userNo = request.json.get('userNo')
-    print(userNo)
+    # print(userNo)
     index = request.json.get('index')
-    print(index)
+    # print(index)
     image = request.json.get('imgSrc')
-    print(image)
+    # print(image)
 
     base_str = image.split(',')[1]
     im_bytes = base64.b64decode(base_str)
@@ -67,7 +67,7 @@ def setting():
 
     x, y = getSettingPoint(img)
     if x == -1 or y == -1: return jsonify(400)
-    print(x, y)
+    # print(x, y)
 
     if index == 1:
         setting_point[userNo] = [(0, 0), (0, 0), (0, 0), (0, 0)]
@@ -132,7 +132,8 @@ def handle_message(data):
     x = random.randrange(1, 500)
     y = random.randrange(1, 500)
 
-    print("data from the front end: ", str(data))
+    # print("data from the front end: ", str(data))
+    print("data from the front end: ")
     room = request.sid
     emit("data", {'data': data, 'id': request.sid, 'x': x, 'y': y}, room=room)
 
@@ -149,7 +150,7 @@ def handle_image(image):
     else :
         userNo = -2
 
-    print("userNo:::", userNo)
+    # print("userNo:::", userNo)
 
     # base64 String to Image
     base_str = image['buffer'].split(',')[1]
