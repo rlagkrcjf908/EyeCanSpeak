@@ -3,8 +3,8 @@ import WebSocketCall from "../components/socket/WebSocketCall"
 import { io, Socket } from "socket.io-client"
 import { useCallback, useRef, useEffect, useState } from "react"
 import Webcam from "react-webcam"
-import { useRecoilState } from "recoil"
-import { settingState } from "../recoil/atoms/userState"
+import { useRecoilState, useRecoilValue } from "recoil"
+import { settingState, userNo } from "../recoil/atoms/userState"
 
 function SocketTest() {
   const [socketInstance, setSocketInstance] = useState<Socket>()
@@ -12,6 +12,8 @@ function SocketTest() {
   const [buttonStatus, setButtonStatus] = useState(true)
   const webcamRef = useRef<Webcam>(null)
   const [isSetting, setIsSetting] = useRecoilState(settingState)
+  const userNumber = useRecoilValue(userNo)
+
   // 소켓 연결/해제 버튼
   const handleClick = () => {
     if (buttonStatus === false) {
@@ -24,6 +26,14 @@ function SocketTest() {
   const videoConstraints = {
     width: 1024,
     height: 768,
+    // facingMode: { exact: "environment" }
+  }
+  // 연결 테스트
+  const onClick = () => {
+    console.log("socketInstance::::", socketInstance)
+    setInterval(() => {
+      capture()
+    }, 1000)
   }
   // 캠 화면 캡쳐하고 보냄
   const capture = useCallback(() => {
@@ -32,6 +42,7 @@ function SocketTest() {
     socketInstance?.emit("imageConversionByClient", {
       image: true,
       buffer: imageSrc,
+      userNo: userNumber,
     })
   }, [webcamRef, socketInstance])
   // 1초 마다 캡쳐화면 보내기
@@ -46,7 +57,7 @@ function SocketTest() {
   useEffect(() => {
     if (isSetting === true) {
       const socket = io("https://k8d204.p.ssafy.io", {
-        path: "/socket.io",
+        path: "/flask",
         // transports: ["websocket"],
         // cors: {
         //   origin: "http://localhost:3000/",
