@@ -144,12 +144,10 @@ def handle_image(image):
 
     userNo = -1
     room = request.sid
-    # print("room::", room)
     if 'userNo' in image:
         userNo = image['userNo']
     else :
         userNo = -2
-        # user_object[userNo] = Example(point(0, 680, 0, 480))
 
     print("imageConversionByClient:::", userNo)
 
@@ -161,8 +159,7 @@ def handle_image(image):
     # cv2.imshow("test", img)
 
     # Get pupil point
-    # example = user_object[userNo]
-    example = Example(point(0, 680, 0, 480))
+    example = user_object[userNo]
     X, Y, DIR = example.getPupilPoint(img)
     print(f"x: {X} y: {Y}, dir:{DIR}")
 
