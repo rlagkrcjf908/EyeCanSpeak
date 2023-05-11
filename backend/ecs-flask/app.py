@@ -139,12 +139,13 @@ def handle_message(data):
 def handle_image(image):
     """event listener when client types a message"""
     # print("imageConversionByClient::::", str(image))
+    room = request.sid
+
     print("imageConversionByClient::::")
     emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 5}, room=room)
     return
 
     userNo = -1
-    room = request.sid
     if 'userNo' in image:
         userNo = image['userNo']
     else:
