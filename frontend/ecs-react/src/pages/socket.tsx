@@ -1,5 +1,4 @@
 import style from "../styles/common/socket.module.css"
-import HttpCall from "../components/socket/HttpCall"
 import WebSocketCall from "../components/socket/WebSocketCall"
 import { io, Socket } from "socket.io-client"
 import { useCallback, useRef, useEffect, useState } from "react"
@@ -11,7 +10,6 @@ function SocketTest() {
   const [socketInstance, setSocketInstance] = useState<Socket>()
   const [loading, setLoading] = useState(true)
   const [buttonStatus, setButtonStatus] = useState(true)
-  const [imgSrc, setImgSrc] = useState<string | null>(null)
   const webcamRef = useRef<Webcam>(null)
   const [isSetting, setIsSetting] = useRecoilState(settingState)
   // 소켓 연결/해제 버튼
@@ -27,24 +25,15 @@ function SocketTest() {
     width: 1024,
     height: 768,
   }
-  // 연결 테스트
-  const onClick = () => {
-    console.log("socketInstance::::", socketInstance)
-    socketInstance && socketInstance.emit("test", "emit Test")
-    setInterval(() => {
-      capture()
-    }, 1000)
-  }
   // 캠 화면 캡쳐하고 보냄
   const capture = useCallback(() => {
     if (!webcamRef.current) return
     const imageSrc = webcamRef.current.getScreenshot()
-    setImgSrc(imageSrc)
     socketInstance?.emit("imageConversionByClient", {
       image: true,
       buffer: imageSrc,
     })
-  }, [webcamRef, setImgSrc, socketInstance])
+  }, [webcamRef, socketInstance])
   // 1초 마다 캡쳐화면 보내기
   useEffect(() => {
     console.log(isSetting)
