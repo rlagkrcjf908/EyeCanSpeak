@@ -141,37 +141,37 @@ def handle_image(image):
     # print("imageConversionByClient::::", str(image))
     room = request.sid
 
-    print("imageConversionByClient::::")
+    print("imageConversionByClient::::", room)
     emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 5}, room=room)
-    return
-
-    userNo = -1
-    if 'userNo' in image:
-        userNo = image['userNo']
-    else:
-        emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 5}, room=room)
-        return
-
-    # print("userNo:::", userNo)
-
-    # base64 String to Image
-    base_str = image['buffer'].split(',')[1]
-    im_bytes = base64.b64decode(base_str)
-    im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
-    img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
-    # cv2.imshow("test", img)
-
-    # Get pupil point
-    X, Y, DIR = user_object[userNo].getPupilPoint(img)
-    print(f"x: {X} y: {Y}, dir:{DIR}")
-    rX = X / img.shape[1]
-    rY = Y / img.shape[0]
-    print(f"rx: {rX} y: {rY}")
-
-    # emit("image", {'image': image, 'id': request.sid, 'x': -1, 'y': -1, 'dir': -1}, room=room)
-    emit("image", {'image': image, 'id': request.sid, 'x': rX, 'y': rY, 'dir': DIR}, room=room)
-    # emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 0}, room=room)
-    # emit("image", {'id': request.sid, 'x': X, 'y': Y, 'dir': DIR}, room=room)
+    # return
+    #
+    # userNo = -1
+    # if 'userNo' in image:
+    #     userNo = image['userNo']
+    # else:
+    #     emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 5}, room=room)
+    #     return
+    #
+    # # print("userNo:::", userNo)
+    #
+    # # base64 String to Image
+    # base_str = image['buffer'].split(',')[1]
+    # im_bytes = base64.b64decode(base_str)
+    # im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
+    # img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
+    # # cv2.imshow("test", img)
+    #
+    # # Get pupil point
+    # X, Y, DIR = user_object[userNo].getPupilPoint(img)
+    # print(f"x: {X} y: {Y}, dir:{DIR}")
+    # rX = X / img.shape[1]
+    # rY = Y / img.shape[0]
+    # print(f"rx: {rX} y: {rY}")
+    #
+    # # emit("image", {'image': image, 'id': request.sid, 'x': -1, 'y': -1, 'dir': -1}, room=room)
+    # emit("image", {'image': image, 'id': request.sid, 'x': rX, 'y': rY, 'dir': DIR}, room=room)
+    # # emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 0}, room=room)
+    # # emit("image", {'id': request.sid, 'x': X, 'y': Y, 'dir': DIR}, room=room)
 
 
 @socketio.on("disconnect")
