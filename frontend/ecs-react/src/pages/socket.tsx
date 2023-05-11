@@ -28,16 +28,10 @@ function SocketTest() {
     height: 768,
     // facingMode: { exact: "environment" }
   }
-  // 연결 테스트
-  const onClick = () => {
-    console.log("socketInstance::::", socketInstance)
-    setInterval(() => {
-      capture()
-    }, 1000)
-  }
   // 캠 화면 캡쳐하고 보냄
   const capture = useCallback(() => {
     if (!webcamRef.current) return
+    console.log("보냄")
     const imageSrc = webcamRef.current.getScreenshot()
     socketInstance?.emit("imageConversionByClient", {
       image: true,
@@ -57,7 +51,7 @@ function SocketTest() {
   useEffect(() => {
     if (isSetting === true) {
       const socket = io("https://k8d204.p.ssafy.io", {
-        path: "/flask",
+        path: "/socket.io",
         // transports: ["websocket"],
         // cors: {
         //   origin: "http://localhost:3000/",
