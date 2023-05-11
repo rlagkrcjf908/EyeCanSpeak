@@ -48,7 +48,7 @@ def setObject(userNo):
 
 
 #setting
-@app.route("/setting", methods = ['POST'])
+@app.route("/flask/setting", methods = ['POST'])
 def setting():
     # room = request.sid
     # print(room)
@@ -93,7 +93,7 @@ def getSettingPoint(image):
     return x, y
 
 
-@app.route("/http-call", methods = ['POST', 'GET'])
+@app.route("/flask/http-call", methods = ['POST', 'GET'])
 def http_call():
     """return JSON with string data as the value"""
     data = {'data': 'This text was fetched using an HTTP call to server on render'}
@@ -107,8 +107,10 @@ def connected():
     print(room)
     print("client has connected")
 
-    example = Example(point(0, 680, 0, 480))
-    user_object[-2] = example
+    example1 = Example(point(0, 680, 0, 480))
+    user_object[-1] = example1
+    example2 = Example(point(0, 680, 0, 480))
+    user_object[-2] = example2
 
     join_room(room)
     emit("connect", {"data": f"id: {request.sid} is connected"}, room=room)
