@@ -8,12 +8,14 @@ import "./App.css"
 import Mouse from "./components/common/mouse"
 import Position from "./components/common/position"
 import { CookiesProvider } from "react-cookie"
+import SocketTest from "./pages/socket"
 
 function App() {
   return (
     <>
       <RecoilRoot>
         <Position></Position>
+        <SocketTest />
         <HelmetProvider>
           <Helmet>
             <title>ECS</title>

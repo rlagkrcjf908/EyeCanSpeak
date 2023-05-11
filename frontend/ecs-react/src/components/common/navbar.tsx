@@ -32,9 +32,9 @@ export default function Navbar() {
     activeItem?.classList.remove(`${style.hover}`)
   }
 
-  useEffect(() => {
-    IsCookies()
-  }, [])
+  // useEffect(() => {
+  //   IsCookies()
+  // }, [])
   return (
     <div
       onMouseOver={handleMouseOver}

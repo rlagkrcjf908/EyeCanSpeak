@@ -21,9 +21,7 @@ export default function Position() {
   const window_width = window.screen.availWidth
   const window_height = window.screen.availHeight
   const [click, setClick] = useRecoilState(isClick)
-  console.log(window_width, window_height)
   let box: any
-
   //랜덤 좌표값 생성
   const onClick = () => {
     let randomX = Math.floor(Math.random() * Math.floor(window_width))

@@ -1,18 +1,17 @@
 import style from "../styles/common/socket.module.css"
-import HttpCall from "../components/socket/HttpCall"
 import WebSocketCall from "../components/socket/WebSocketCall"
 import { io, Socket } from "socket.io-client"
 import { useCallback, useRef, useEffect, useState } from "react"
 import Webcam from "react-webcam"
-import { useRecoilValue } from "recoil"
-import { userNo } from "../recoil/atoms/userState"
+import { useRecoilState, useRecoilValue } from "recoil"
+import { settingState, userNo } from "../recoil/atoms/userState"
 
 function SocketTest() {
   const [socketInstance, setSocketInstance] = useState<Socket>()
   const [loading, setLoading] = useState(true)
   const [buttonStatus, setButtonStatus] = useState(true)
-  const [imgSrc, setImgSrc] = useState<string | null>(null)
   const webcamRef = useRef<Webcam>(null)
+  const [isSetting, setIsSetting] = useRecoilState(settingState)
   const userNumber = useRecoilValue(userNo)
 
   // 소켓 연결/해제 버튼
@@ -40,23 +39,23 @@ function SocketTest() {
   const capture = useCallback(() => {
     if (!webcamRef.current) return
     const imageSrc = webcamRef.current.getScreenshot()
-    setImgSrc(imageSrc)
     socketInstance?.emit("imageConversionByClient", {
       image: true,
       buffer: imageSrc,
       userNo: userNumber,
     })
-  }, [webcamRef, setImgSrc, socketInstance])
+  }, [webcamRef, socketInstance])
   // 1초 마다 캡쳐화면 보내기
   useEffect(() => {
-    if (socketInstance) {
+    console.log(isSetting)
+    if (socketInstance && isSetting) {
       setInterval(capture, 1000)
     }
-  }, [socketInstance])
+  }, [socketInstance, isSetting])
   // 소켓 연결
 
   useEffect(() => {
-    if (buttonStatus === true) {
+    if (isSetting === true) {
       const socket = io("https://k8d204.p.ssafy.io", {
         path: "/flask",
         // transports: ["websocket"],
@@ -81,39 +80,22 @@ function SocketTest() {
         socket.disconnect()
       }
     }
-  }, [buttonStatus])
+  }, [isSetting])
 
   return (
     <div className={style.App}>
-      <h1>React/Flask App + socket.io</h1>
-      <div className={style.line}>
-        <HttpCall />
-      </div>
-      <button onClick={onClick}>클릭!</button>
-      <>
-        <Webcam
-          muted={false}
-          audio={false}
-          mirrored={true}
-          height={768}
-          width={1024}
-          ref={webcamRef}
-          screenshotFormat='image/jpeg'
-          videoConstraints={videoConstraints}
-        />
-        <button onClick={capture}>Capture photo</button>
-      </>
+      <Webcam
+        muted={false}
+        audio={false}
+        mirrored={true}
+        height={768}
+        width={1024}
+        ref={webcamRef}
+        screenshotFormat='image/jpeg'
+        videoConstraints={videoConstraints}
+      />
 
-      {!buttonStatus ? (
-        <button onClick={handleClick}>turn chat on</button>
-      ) : (
-        <>
-          <button onClick={handleClick}>turn chat off</button>
-          <div className={style.line}>
-            {!loading && <WebSocketCall socket={socketInstance} />}
-          </div>
-        </>
-      )}
+      {!loading && <WebSocketCall socket={socketInstance} />}
     </div>
   )
 }

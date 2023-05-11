@@ -14,3 +14,8 @@ export const userName = atom<string>({
   key: "userName",
   default: "",
 })
+
+export const settingState = atom<boolean>({
+  key: "settingState",
+  default: true,
+})
