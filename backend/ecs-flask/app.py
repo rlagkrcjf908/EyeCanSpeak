@@ -50,8 +50,8 @@ def setObject(userNo):
 #setting
 @app.route("/flask/setting", methods = ['POST'])
 def setting():
-    # room = request.sid
-    # print(room)
+    room = request.sid
+    print(room)
     userNo = request.json.get('userNo')
     print(userNo)
     index = request.json.get('index')
