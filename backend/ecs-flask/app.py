@@ -166,7 +166,7 @@ def handle_image(image):
     print(f"rx: {rX} y: {rY}")
 
     # emit("image", {'image': image, 'id': request.sid, 'x': -1, 'y': -1, 'dir': -1}, room=room)
-    emit("image", {'id': request.sid, 'x': rX, 'y': rY, 'dir': DIR}, room=room)
+    emit("image", {'image': image, 'id': request.sid, 'x': rX, 'y': rY, 'dir': DIR}, room=room)
     # emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 0}, room=room)
     # emit("image", {'id': request.sid, 'x': X, 'y': Y, 'dir': DIR}, room=room)
 
