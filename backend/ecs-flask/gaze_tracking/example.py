@@ -27,8 +27,8 @@ class Example(object):
 
         dw = self.W / 3
         dh = self.H / 3
-        print(f'dw : {dw} dh : {dh}')
-        print(f'x : {x} y : {y}')
+        # print(f'dw : {dw} dh : {dh}')
+        # print(f'x : {x} y : {y}')
         if (0 <= x < dw) and (0 <= y < dh): return 1
         elif dw <= x < dw*2 and 0 <= y < dh: return 2
         elif dw*2 <= x < dw*3 and 0 <= y < dh: return 3

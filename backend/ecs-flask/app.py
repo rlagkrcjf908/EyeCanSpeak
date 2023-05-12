@@ -78,12 +78,13 @@ def setting():
     index = request.json.get('index')
     image = request.json.get('imgSrc')
 
+
     # base64 String to Image
     base_str = image.split(',')[1]
     im_bytes = base64.b64decode(base_str)
     im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
     img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
-    # print("Image Shape: ", image.shape
+    print(img.shape)
 
     # 동공 좌표 가져오기
     x, y = getSettingPoint(img)
@@ -175,6 +176,7 @@ def handle_image(image):
     im_bytes = base64.b64decode(base_str)
     im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
     img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
+    print(img.shape)
     # cv2.imshow("test", img)
 
     # Get pupil point
