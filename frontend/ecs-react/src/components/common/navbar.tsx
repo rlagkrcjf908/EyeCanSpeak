@@ -2,9 +2,14 @@ import { Link, useNavigate } from "react-router-dom"
 import style from "../../styles/common/navbar.module.css"
 import { Cookies } from "react-cookie"
 import { useSetRecoilState } from "recoil"
-import { isLog, userName, userNo } from "../../recoil/atoms/userState"
+import {
+  isLog,
+  settingState,
+  userName,
+  userNo,
+} from "../../recoil/atoms/userState"
 import logo from "../../assets/image/ECS.png"
-import IsCookies from "../../services/isCookies"
+import { IsCookies, IsSocket } from "../../services/cookies"
 import { useEffect } from "react"
 export default function Navbar() {
   const navigate = useNavigate()
@@ -12,10 +17,12 @@ export default function Navbar() {
   const setUserNo = useSetRecoilState(userNo)
   const setUserName = useSetRecoilState(userName)
   const setLog = useSetRecoilState(isLog)
+  const setIsSetting = useSetRecoilState(settingState)
 
   const logout = () => {
     cookies.remove("accessToken")
     cookies.remove("refreshToken")
+    cookies.remove("isSocket")
     setUserNo(-1)
     setUserName("")
     setLog(false)
@@ -32,9 +39,10 @@ export default function Navbar() {
     activeItem?.classList.remove(`${style.hover}`)
   }
 
-  // useEffect(() => {
-  //   IsCookies()
-  // }, [])
+  useEffect(() => {
+    // IsCookies()
+    setIsSetting(IsSocket())
+  }, [])
   return (
     <div
       onMouseOver={handleMouseOver}
