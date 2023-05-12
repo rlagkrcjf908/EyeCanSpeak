@@ -44,7 +44,7 @@ function SocketTest() {
     if (isSetting === true) {
       const socket = io("https://k8d204.p.ssafy.io", {
         path: "/socket.io",
-        transports: ["websocket"],
+        // transports: ["websocket"],
         // cors: {
         //   origin: "http://localhost:3000/",
         // },
