@@ -8,6 +8,7 @@ import { useEffect } from "react"
 import { Cookies } from "react-cookie"
 import { isLog, userName, userNo } from "../recoil/atoms/userState"
 import { useRecoilState, useSetRecoilState } from "recoil"
+import eyes from "../assets/eye-unscreen.gif"
 
 export default function Main() {
   const setUserNo = useSetRecoilState(userNo)
