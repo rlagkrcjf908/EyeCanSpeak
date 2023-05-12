@@ -43,10 +43,8 @@ def calc_cood(points):
     return minX, maxX, minY, maxY
 
 def setObject(userNo):
-
     minX, maxX, minY, maxY = calc_cood(setting_point[userNo])
     user_object[userNo] = Example(point(minX, maxX, minY, maxY))
-
 
 #setting
 @app.route("/flask/setting", methods = ['POST'])
@@ -61,8 +59,6 @@ def setting():
     image = request.json.get('imgSrc')
     # print(image)
 
-    print(f"userNo: {userNo}, index: {index}")
-
     base_str = image.split(',')[1]
     im_bytes = base64.b64decode(base_str)
     im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
@@ -70,7 +66,6 @@ def setting():
 
     x, y = getSettingPoint(img)
     if x == -1 or y == -1: return jsonify(400)
-    print(x, y)
 
     if index == 1:
         setting_point[userNo] = [(0, 0), (0, 0), (0, 0), (0, 0)]
@@ -78,6 +73,9 @@ def setting():
     setting_point[userNo][index - 1] = (x, y)
     if index == 4:
         setObject(userNo)
+
+    print(f"userNo: {userNo}, index: {index}")
+    print(x, y)
 
     return jsonify(200, x, y)
 
@@ -95,7 +93,6 @@ def getSettingPoint(image):
         y = (left_pupil[1] + right_pupil[1]) / 2
 
     return x, y
-
 
 @app.route("/flask/http-call", methods = ['POST', 'GET'])
 def http_call():
@@ -145,34 +142,35 @@ def handle_image(image):
     room = request.sid
 
     print("imageConversionByClient::::", room)
-    emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 5}, room=room)
+    # emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 5}, room=room)
     # return
     #
-    # userNo = -1
-    # if 'userNo' in image:
-    #     userNo = image['userNo']
-    # else:
-    #     emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 5}, room=room)
-    #     return
-    #
-    # # print("userNo:::", userNo)
-    #
-    # # base64 String to Image
-    # base_str = image['buffer'].split(',')[1]
-    # im_bytes = base64.b64decode(base_str)
-    # im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
-    # img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
-    # # cv2.imshow("test", img)
-    #
-    # # Get pupil point
-    # X, Y, DIR = user_object[userNo].getPupilPoint(img)
-    # print(f"x: {X} y: {Y}, dir:{DIR}")
-    # rX = X / img.shape[1]
-    # rY = Y / img.shape[0]
-    # print(f"rx: {rX} y: {rY}")
+    userNo = -1
+    if 'userNo' in image:
+        userNo = image['userNo']
+    else:
+        emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 5}, room=room)
+        return
+
+    # print("userNo:::", userNo)
+
+    # base64 String to Image
+    base_str = image['buffer'].split(',')[1]
+    im_bytes = base64.b64decode(base_str)
+    im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
+    img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
+    # cv2.imshow("test", img)
+
+    # Get pupil point
+    X, Y, DIR = user_object[userNo].getPupilPoint(img)
+    print(f"x: {X} y: {Y}, dir:{DIR}")
+
+    rX = X / img.shape[1]
+    rY = Y / img.shape[0]
+    print(f"rx: {rX} y: {rY}")
     #
     # # emit("image", {'image': image, 'id': request.sid, 'x': -1, 'y': -1, 'dir': -1}, room=room)
-    # emit("image", {'image': image, 'id': request.sid, 'x': rX, 'y': rY, 'dir': DIR}, room=room)
+    emit("image", {'image': image, 'id': request.sid, 'x': rX, 'y': rY, 'dir': DIR}, room=room)
     # # emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 0}, room=room)
     # # emit("image", {'id': request.sid, 'x': X, 'y': Y, 'dir': DIR}, room=room)
 
