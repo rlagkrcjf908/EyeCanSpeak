@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom"
 import Navbar from "./navbar"
+import SettingBtn from "./settingBtn"
 
 const Layout = () => {
   return (
@@ -9,6 +10,7 @@ const Layout = () => {
       </header>
       <main>
         <Outlet />
+        <SettingBtn />
       </main>
     </>
   )
