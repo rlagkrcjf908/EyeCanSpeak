@@ -35,42 +35,67 @@ def calc_cood(points):
 
     for x, y in points:
 
-        if x > maxX: maxX = x
-        if x < minX: minX = x
-        if y > maxY: maxY = y
-        if y < minY: minY = y
+        if x > maxX: 
+            maxX = x
+        if x < minX: 
+            minX = x
+        if y > maxY: 
+            maxY = y
+        if y < minY: 
+            minY = y
 
     return minX, maxX, minY, maxY
 
 def setObject(userNo):
+    # setting 좌표로부터 x, y의 min, max 좌표 구하기
     minX, maxX, minY, maxY = calc_cood(setting_point[userNo])
+    # 사용자별 gazeTrackin Object를 Dictionary에 저장
     user_object[userNo] = Example(point(minX, maxX, minY, maxY))
 
+def getSettingPoint(image):
+    
+    # 이미지로부터 얼굴 분석
+    gaze = GazeTracking()
+    gaze.refresh(image)
+    
+    # 양쪽 눈 좌표 가지고 오기 
+    left_pupil = gaze.pupil_left_coords()
+    right_pupil = gaze.pupil_right_coords()
+
+    x, y = -1, -1
+    # 양쪽 눈의 좌표가 존재하는 경우, 각 눈의 평균값을 화면 좌표로 지정
+    if(type(left_pupil) != type(None) and type(right_pupil) != type(None)):
+        x = (left_pupil[0] + right_pupil[0]) / 2
+        y = (left_pupil[1] + right_pupil[1]) / 2
+
+    return x, y
 #setting
 @app.route("/flask/setting", methods = ['POST'])
 def setting():
-
-    # room = request.sid
-    # print(room)
+    
+    # Request Data
     userNo = request.json.get('userNo')
-    # print(userNo)
     index = request.json.get('index')
-    # print(index)
     image = request.json.get('imgSrc')
-    # print(image)
 
+    # base64 String to Image
     base_str = image.split(',')[1]
     im_bytes = base64.b64decode(base_str)
     im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
     img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
 
+    # 동공 좌표 가져오기
     x, y = getSettingPoint(img)
-    if x == -1 or y == -1: return jsonify(400)
+    if x == -1 or y == -1:
+        # 얼굴 인식하지 못하였을 경우
+        return jsonify(400)
 
+    # 사용자별 setting 좌표를 저장할 Dictionary 초기화
     if index == 1:
         setting_point[userNo] = [(0, 0), (0, 0), (0, 0), (0, 0)]
-
     setting_point[userNo][index - 1] = (x, y)
+    
+    # 세팅이 끝났을 경우
     if index == 4:
         setObject(userNo)
 
@@ -79,21 +104,8 @@ def setting():
 
     return jsonify(200, x, y)
 
-def getSettingPoint(image):
 
-    gaze = GazeTracking()
-    gaze.refresh(image)
-
-    left_pupil = gaze.pupil_left_coords()
-    right_pupil = gaze.pupil_right_coords()
-
-    x, y = -1, -1
-    if(type(left_pupil) != type(None) and type(right_pupil) != type(None)):
-        x = (left_pupil[0] + right_pupil[0]) / 2
-        y = (left_pupil[1] + right_pupil[1]) / 2
-
-    return x, y
-
+# API Test
 @app.route("/flask/http-call", methods = ['POST', 'GET'])
 def http_call():
     """return JSON with string data as the value"""
@@ -108,6 +120,7 @@ def connected():
     print(room)
     print("client has connected")
 
+    # Test용
     user_object[-1] = Example(point(0, 680, 0, 480))
     user_object[-2] = Example(point(314.5, 323.0, 231.0, 234.0))
 
@@ -135,6 +148,7 @@ def connected():
 #     room = request.sid
 #     emit("data", {'data': data, 'id': request.sid, 'x': x, 'y': y}, room=room)
 
+# 이미지 소켓 통신
 @socketio.on('imageConversionByClient')
 def handle_image(image):
     """event listener when client types a message"""
@@ -144,15 +158,16 @@ def handle_image(image):
     print("imageConversionByClient::::", room)
     # emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 5}, room=room)
     # return
-    #
-    userNo = -1
-    if 'userNo' in image:
-        userNo = image['userNo']
-    else:
-        emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 5}, room=room)
-        return
 
-    # print("userNo:::", userNo)
+    # userNo = -1
+    # #
+    # if 'userNo' in image:
+    #     userNo = image['userNo']
+    # else:
+    #     emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 5}, room=room)
+    #     return
+
+    userNo = image['userNo']
 
     # base64 String to Image
     base_str = image['buffer'].split(',')[1]
@@ -162,13 +177,14 @@ def handle_image(image):
     # cv2.imshow("test", img)
 
     # Get pupil point
+    # Setting에서 생성한 user별 gazeTracking 객체로부터 화면상 좌표 구하기
     X, Y, DIR = user_object[userNo].getPupilPoint(img)
-    print(f"x: {X} y: {Y}, dir:{DIR}")
 
+    # 좌표의 비율 값 구하기 (client에서 비율에 따른 화면상 좌표를 구하기 위해)
     rX = X / img.shape[1]
     rY = Y / img.shape[0]
-    print(f"rx: {rX} y: {rY}")
-    #
+    print(f"sid: {room}, x: {X} y: {Y},rx: {rX} y: {rY}, dir:{DIR}")
+
     # # emit("image", {'image': image, 'id': request.sid, 'x': -1, 'y': -1, 'dir': -1}, room=room)
     emit("image", {'image': image, 'id': request.sid, 'x': rX, 'y': rY, 'dir': DIR}, room=room)
     # # emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 0}, room=room)

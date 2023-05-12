@@ -43,8 +43,10 @@ class Example(object):
 
         return -1
 
+
+
     def getPupilPoint(self, image):
-        print(self.getPoint())
+
 
         gaze = GazeTracking()
         # src = np.zeros((self.H, self.W, 3), np.uint8)
