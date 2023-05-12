@@ -41,7 +41,7 @@ export default function Navbar() {
 
   useEffect(() => {
     // IsCookies()
-    setIsSetting(IsSocket())
+    // setIsSetting(IsSocket())
   }, [])
   return (
     <div
