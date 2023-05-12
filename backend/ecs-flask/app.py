@@ -11,6 +11,8 @@ from flask import Flask, request, jsonify
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from flask_cors import CORS
 
+import time
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -105,29 +107,12 @@ def setting():
 
     return jsonify(200, x, y)
 
-
 # API Test
 @app.route("/flask/http-call", methods = ['POST', 'GET'])
 def http_call():
     """return JSON with string data as the value"""
     data = {'data': 'This text was fetched using an HTTP call to server on render'}
     return jsonify(data)
-
-
-@socketio.on("connect")
-def connected():
-    """event listener when client connects to the server"""
-    room = request.sid
-    print(room)
-    print("client has connected")
-
-    # Test용
-    user_object[-1] = Example(point(0, 680, 0, 480))
-    user_object[-2] = Example(point(314.5, 323.0, 231.0, 234.0))
-
-    join_room(room)
-    emit("connect", {"data": f"id: {request.sid} is connected"}, room=room)
-
 
 # @socketio.on('data')
 # def handle_message(data):
@@ -192,6 +177,20 @@ def handle_image(image):
     # emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 0}, room=room)
     # emit("image", {'id': request.sid, 'x': X, 'y': Y, 'dir': DIR}, room=room)
 
+@socketio.on("connect")
+def connected():
+    """event listener when client connects to the server"""
+    room = request.sid
+    print(room)
+    print("client has connected")
+
+    # Test용
+    user_object[-1] = Example(point(0, 680, 0, 480))
+    user_object[-2] = Example(point(314.5, 323.0, 231.0, 234.0))
+
+    join_room(room)
+    emit("connect", {"data": f"id: {request.sid} is connected"}, room=room)
+
 @socketio.on("disconnect")
 def disconnected():
     """event listener when client disconnects to the server"""
@@ -200,8 +199,22 @@ def disconnected():
     leave_room(room)
     emit("disconnect", f"user {request.sid} disconnected", room=room)
 
+@socketio.on('test')
+def handle_message(data):
+    """event listener when client types a message"""
+    # print("data from the front end: ", str(data))
+    room = request.sid
+
+    base_str = data['buffer'].split(',')[1]
+    im_bytes = base64.b64decode(base_str)
+    im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
+    img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
+    cv2.imshow("test", img)
+
+    x, y = getSettingPoint(img)
+    print(x, y)
+
+    emit("test", {'id': request.sid, 'x': x, 'y': y}, room=room)
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, host='0.0.0.0', port=5000)
-
-
