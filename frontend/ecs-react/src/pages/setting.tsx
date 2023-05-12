@@ -3,8 +3,7 @@ import { useState, useEffect, useRef } from "react"
 import Webcam from "react-webcam"
 import { Cookies } from "react-cookie"
 import axios, { AxiosResponse } from "axios"
-import { useRecoilValue } from "recoil"
-import { useRecoilState } from "recoil"
+import { useRecoilValue, useSetRecoilState } from "recoil"
 import { settingState, userNo } from "../recoil/atoms/userState"
 import { useNavigate } from "react-router"
 import eye1 from "../assets/image/eye1.png"
@@ -21,7 +20,7 @@ export default function Setting() {
   const navigate = useNavigate()
   const [isEnd, setIsEnd] = useState(false)
   const eyes = [eye1, eye2, eye3, eye4]
-  const [isSetting, setIsSetting] = useRecoilState(settingState)
+  const setIsSetting = useSetRecoilState(settingState)
 
   // 동그라미 위치 (좌상/우상/좌하/우하)
   const circles = [
@@ -50,7 +49,7 @@ export default function Setting() {
       { userNo: userNumber, imgSrc: imageSrc, index: currentCircle + 1 }
     )
 
-    if (response.data === 200) {
+    if (response.data[0] === 200) {
       setCurrentCircle((c) => c + 1)
     }
     if (response.data === 400) {
@@ -67,7 +66,7 @@ export default function Setting() {
     if (count === -1) return
     const id = setInterval(() => {
       setCount((c) => c - 1)
-    }, 1000)
+    }, 300)
 
     if (count === 0) {
       clearInterval(id)
