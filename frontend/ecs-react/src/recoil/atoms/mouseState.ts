@@ -24,3 +24,8 @@ export const isClick = atom<boolean>({
   key: "isClick",
   default: false,
 })
+
+export const dirState = atom<number>({
+  key: "dirState",
+  default: -1,
+})
