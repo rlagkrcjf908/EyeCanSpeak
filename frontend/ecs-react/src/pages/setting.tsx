@@ -67,7 +67,7 @@ export default function Setting() {
     if (count === -1) return
     const id = setInterval(() => {
       setCount((c) => c - 1)
-    }, 1000)
+    }, 300)
 
     if (count === 0) {
       clearInterval(id)
