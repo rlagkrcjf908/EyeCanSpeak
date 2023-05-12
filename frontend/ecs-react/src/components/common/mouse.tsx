@@ -4,6 +4,7 @@ import { useRecoilState, useSetRecoilState } from "recoil"
 import {
   currerntXState,
   currerntYState,
+  dirState,
   isClick,
   nextXState,
   nextYState,
@@ -18,6 +19,7 @@ export default function Mouse() {
   const [top, setTop] = useState(0)
   const [dir, setDir] = useState(2)
   const setClick = useSetRecoilState(isClick)
+  const [mouseDir, setMouseDir] = useRecoilState(dirState)
 
   const window_width = window.screen.availWidth
   const window_height = window.screen.availHeight
@@ -69,6 +71,41 @@ export default function Mouse() {
       }
     }
   }
+
+  const mouseMove = () => {
+    mouse = document.querySelector(".mouse")
+
+    const x = mouse.getBoundingClientRect().x
+    const y = mouse.getBoundingClientRect().y
+
+    if (mouseDir === 1) {
+      setTop((current) => current - 20)
+      setLeft((current) => current - 20)
+    } else if (mouseDir === 2) {
+      setTop((current) => current - 20)
+    } else if (mouseDir === 3) {
+      setTop((current) => current + 20)
+      setLeft((current) => current + 20)
+    } else if (mouseDir === 4) {
+      setLeft((current) => current - 20)
+    } else if (mouseDir === 5) {
+      clickHandler()
+    } else if (mouseDir === 6) {
+      setLeft((current) => current + 20)
+    } else if (mouseDir === 7) {
+      setTop((current) => current + 20)
+      setLeft((current) => current - 20)
+    } else if (mouseDir === 8) {
+      setTop((current) => current + 20)
+    } else if (mouseDir === 9) {
+      setTop((current) => current + 20)
+      setLeft((current) => current + 20)
+    }
+  }
+
+  useEffect(() => {
+    mouseMove()
+  }, [mouseDir])
 
   const mouseClickEvents = ["mousedown", "click", "mouseup"]
 

@@ -32,16 +32,35 @@ function SocketTest() {
     })
   }, [webcamRef, socketInstance])
   // 1초 마다 캡쳐화면 보내기
-  useEffect(() => {
-    if (socketInstance) {
-      setInterval(capture, 1000)
-    }
-  }, [socketInstance])
+  // useEffect(() => {
+  //   if (socketInstance) {
+  //     setInterval(capture, 1000)
+  //   }
+  // }, [socketInstance])
+
+  // 속도 알아보기 위한 테스트
+  const socketTest = () => {
+    if (!webcamRef.current) return
+    // 시간
+    var today = Date.now()
+    console.log("test send")
+    console.log(today)
+    // 캡쳐 이미지
+    const imageSrc = webcamRef.current.getScreenshot()
+    // 소켓 보내기
+    socketInstance?.emit("test", {
+      image: true,
+      buffer: imageSrc,
+      userNo: userNumber,
+      timeStamp: today,
+    })
+  }
   // 소켓 연결
 
   useEffect(() => {
     if (isSetting === true) {
-      const socket = io("https://k8d204.p.ssafy.io", {
+      // const socket = io("https://k8d204.p.ssafy.io", {
+      const socket = io("http://192.168.100.88:5000", {
         path: "/socket.io",
         // transports: ["websocket"],
         // cors: {
@@ -83,7 +102,7 @@ function SocketTest() {
         videoConstraints={videoConstraints}
         className={style.cam}
       />
-
+      <button onClick={socketTest}>소켓테스트</button>
       {!loading && <WebSocketCall socket={socketInstance} />}
     </>
   )
