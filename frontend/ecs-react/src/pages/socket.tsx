@@ -16,8 +16,8 @@ function SocketTest() {
 
   // 캠 화면
   const videoConstraints = {
-    width: 1024,
-    height: 768,
+    width: 640,
+    height: 480,
     // facingMode: { exact: "environment" }
   }
   // 캠 화면 캡쳐하고 보냄
@@ -76,8 +76,8 @@ function SocketTest() {
         muted={false}
         audio={false}
         mirrored={true}
-        height={768}
-        width={1024}
+        width={640}
+        height={480}
         ref={webcamRef}
         screenshotFormat='image/jpeg'
         videoConstraints={videoConstraints}

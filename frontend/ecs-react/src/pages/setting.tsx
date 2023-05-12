@@ -32,8 +32,8 @@ export default function Setting() {
   ]
   // 캠 화면, 나중에 안보이게 수정
   const videoConstraints = {
-    width: 420,
-    height: 420,
+    width: 640,
+    height: 480,
   }
 
   // 캡쳐화면 imgSrc에 저장
@@ -106,8 +106,8 @@ export default function Setting() {
         muted={false}
         audio={false}
         mirrored={true}
-        height={400}
-        width={400}
+        width={640}
+        height={480}
         ref={webcamRef}
         screenshotFormat='image/jpeg'
         videoConstraints={videoConstraints}
