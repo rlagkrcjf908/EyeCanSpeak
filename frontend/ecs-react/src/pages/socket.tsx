@@ -23,7 +23,7 @@ function SocketTest() {
   // 캠 화면 캡쳐하고 보냄
   const capture = useCallback(() => {
     if (!webcamRef.current) return
-    console.log("보냄")
+    console.log("send")
     const imageSrc = webcamRef.current.getScreenshot()
     socketInstance?.emit("imageConversionByClient", {
       image: true,

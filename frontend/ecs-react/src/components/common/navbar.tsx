@@ -40,7 +40,6 @@ export default function Navbar() {
   }
 
   useEffect(() => {
-    console.log("?")
     // IsCookies()
     setIsSetting(IsSocket())
   }, [])
