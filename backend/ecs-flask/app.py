@@ -209,7 +209,6 @@ def handle_message(data):
     im_bytes = base64.b64decode(base_str)
     im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
     img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
-    cv2.imshow("test", img)
 
     x, y = getSettingPoint(img)
     print(x, y)
