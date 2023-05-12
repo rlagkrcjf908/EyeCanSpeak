@@ -78,6 +78,8 @@ def setting():
     index = request.json.get('index')
     image = request.json.get('imgSrc')
 
+    print("Image Shape: ", image.shape)
+
     # base64 String to Image
     base_str = image.split(',')[1]
     im_bytes = base64.b64decode(base_str)
@@ -166,7 +168,7 @@ def handle_image(image):
     # else:
     #     emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 5}, room=room)
     #     return
-
+    print("Image Shape: ", image.shape)
     userNo = image['userNo']
 
     # base64 String to Image
