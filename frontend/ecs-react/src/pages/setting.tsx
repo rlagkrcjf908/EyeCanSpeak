@@ -49,6 +49,7 @@ export default function Setting() {
       // `http://192.168.100.88:5000/setting`,
       { userNo: userNumber, imgSrc: imageSrc, index: currentCircle + 1 }
     )
+    console.log(response)
     if (response.data[0] === 200) {
       setCurrentCircle((c) => c + 1)
     }
@@ -66,7 +67,7 @@ export default function Setting() {
     if (count === -1) return
     const id = setInterval(() => {
       setCount((c) => c - 1)
-    }, 300)
+    }, 1000)
 
     if (count === 0) {
       clearInterval(id)
