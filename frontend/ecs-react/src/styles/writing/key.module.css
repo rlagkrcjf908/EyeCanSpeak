@@ -1,11 +1,14 @@
+.inputBox {
+  display: flex;
+  justify-content: center;
+}
+
 .keyboard {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: auto;
   width: 100%;
-}
-.hover {
 }
 .row {
   list-style: none;
@@ -61,24 +64,25 @@ li:active {
 
 #lang {
   width: 7em;
-  background: linear-gradient(0.25turn, rgb(176, 210, 255), rgb(123, 180, 255));
+  background-color: rgb(157, 199, 255);
 }
 #del {
   width: 7em;
 }
 .pinky {
-  background-color: rgb(123, 180, 255);
+  background-color: rgb(141, 177, 255);
 }
 #space {
   width: 41em;
-  background: linear-gradient(
+  /* background: linear-gradient(
     0.25turn,
     rgb(123, 180, 255),
     rgb(176, 210, 255),
     rgb(210, 234, 255),
     rgb(236, 246, 255),
     rgb(176, 210, 255)
-  );
+  ); */
+  background-color: rgb(223, 240, 255);
 }
 #space:hover {
   transition: 0.3s;
@@ -89,15 +93,21 @@ li:active {
 }
 
 .middle {
-  background-color: rgb(176, 210, 255);
+  background-color: rgb(191, 218, 253);
 }
 
 .pointer1st {
-  background-color: rgb(210, 234, 255);
+  background-color: rgb(197, 228, 255);
 }
 
 .pointer2nd {
-  background-color: rgb(236, 246, 255);
+  background-color: rgb(198, 227, 253);
+}
+
+.mic {
+  background: none;
+  width: 20px;
+  height: 80px;
 }
 
 /* ----------------------------------------------

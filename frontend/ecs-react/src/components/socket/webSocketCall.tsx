@@ -11,12 +11,12 @@ export default function WebSocketCall({ socket }: { socket?: Socket }) {
   useEffect(() => {
     socket?.on("image", (data) => {
       setX(Math.floor(data.x * window_width))
-      setY(Math.floor(data.y * (window_height - 100)))
+      setY(Math.floor(data.y * window_height))
       console.log("dir", data.dir)
       console.log(
         "X, Y",
         Math.floor(data.x * window_width),
-        Math.floor(data.y * (window_height - 100))
+        Math.floor(data.y * window_height)
       )
     })
     return () => {

@@ -72,7 +72,7 @@ export default function RecommendWord() {
   return (
     <div className={style.container}>
       <button onClick={handleScrollLeft}>
-        <img src={prev} alt='prev' />
+        <img src={prev} alt='prev' style={{ background: "none" }} />
       </button>
       <div ref={scrollRef}>
         {words &&
@@ -85,7 +85,7 @@ export default function RecommendWord() {
           })}
       </div>
       <button onClick={handleScrollRight}>
-        <img src={next} alt='next' />
+        <img src={next} alt='next' style={{ background: "none" }} />
       </button>
     </div>
   )
