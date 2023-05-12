@@ -3,15 +3,15 @@ import WebSocketCall from "../components/socket/webSocketCall"
 import { io, Socket } from "socket.io-client"
 import { useCallback, useRef, useEffect, useState } from "react"
 import Webcam from "react-webcam"
-import { useRecoilState, useRecoilValue } from "recoil"
+import { useRecoilValue } from "recoil"
 import { settingState, userNo } from "../recoil/atoms/userState"
+import { Cookies } from "react-cookie"
 
 function SocketTest() {
   const [socketInstance, setSocketInstance] = useState<Socket>()
   const [loading, setLoading] = useState(true)
-  const [buttonStatus, setButtonStatus] = useState(true)
   const webcamRef = useRef<Webcam>(null)
-  const [isSetting, setIsSetting] = useRecoilState(settingState)
+  const isSetting = useRecoilValue(settingState)
   const userNumber = useRecoilValue(userNo)
 
   // 캠 화면
@@ -33,7 +33,6 @@ function SocketTest() {
   }, [webcamRef, socketInstance])
   // 1초 마다 캡쳐화면 보내기
   useEffect(() => {
-    console.log(isSetting)
     if (socketInstance) {
       setInterval(capture, 1000)
     }
@@ -49,6 +48,9 @@ function SocketTest() {
         //   origin: "http://localhost:3000/",
         // },
       })
+
+      const cookies = new Cookies()
+      cookies.set("isSocket", true)
 
       setSocketInstance(socket)
 
