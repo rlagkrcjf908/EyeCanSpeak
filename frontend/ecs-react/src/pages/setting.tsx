@@ -50,7 +50,7 @@ export default function Setting() {
       { userNo: userNumber, imgSrc: imageSrc, index: currentCircle + 1 }
     )
 
-    if (response.data === 200) {
+    if (response.data[0] === 200) {
       setCurrentCircle((c) => c + 1)
     }
     if (response.data === 400) {
