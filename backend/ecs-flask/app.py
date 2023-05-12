@@ -78,13 +78,12 @@ def setting():
     index = request.json.get('index')
     image = request.json.get('imgSrc')
 
-    print("Image Shape: ", image.shape)
-
     # base64 String to Image
     base_str = image.split(',')[1]
     im_bytes = base64.b64decode(base_str)
     im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
     img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
+    # print("Image Shape: ", image.shape
 
     # 동공 좌표 가져오기
     x, y = getSettingPoint(img)
@@ -168,7 +167,7 @@ def handle_image(image):
     # else:
     #     emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 5}, room=room)
     #     return
-    print("Image Shape: ", image.shape)
+    # print("Image Shape: ", image.shape)
     userNo = image['userNo']
 
     # base64 String to Image
