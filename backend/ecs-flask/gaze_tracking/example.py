@@ -57,8 +57,8 @@ class Example(object):
         # We send this frame to GazeTracking to analyze it
         gaze.refresh(image)
 
-        frame = gaze.annotated_frame()
-        text = ""
+        # frame = gaze.annotated_frame()
+        # text = ""
 
         # if gaze.is_blinking():
         #     text = "Blinking"
@@ -88,7 +88,7 @@ class Example(object):
         if(type(left_pupil) != type(None) and type(right_pupil) != type(None)):
             x = (left_pupil[0] + right_pupil[0]) / 2
             y = (left_pupil[1] + right_pupil[1]) / 2
-            print(f'X : {x}, Y: {y}')
+            # print(f'X : {x}, Y: {y}')
             # print(f'self.minX : {self.minX}, self.diffX: {self.diffX }')
             # print(f'self.minY : {self.minY}, self.diffY: {self.diffY}')
 
@@ -97,6 +97,7 @@ class Example(object):
             # nx = self.W - (x - self.minX) / self.diffX * self.W
             nx = (x - self.minX) / self.diffX * self.W
             ny = (y - self.minY) / self.diffY * self.H
+            print(f"getPupilPoint::: x: {x} y: {y},nx: {nx} ny: {ny}")
             # print(f'nX : {nx:.2f}, nY: {ny:.2f}\n')
             # src = cv2.circle(src, (int(nx), int(ny)), 5, (0, 255, 0), cv2.FILLED, cv2.LINE_4)
             # cv2.imshow("draw", src)
@@ -114,6 +115,6 @@ class Example(object):
         nx = min(nx, self.W)
         ny = max(ny, 0)
         ny = min(ny, self.H)
-        print(f'nX : {nx:.2f}, nY: {ny:.2f}\n')
+        # print(f'nX : {nx:.2f}, nY: {ny:.2f}\n')
 
         return self.W - nx, ny, self.calc_dir(nx, ny)

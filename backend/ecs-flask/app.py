@@ -183,7 +183,7 @@ def handle_image(image):
     # 좌표의 비율 값 구하기 (client에서 비율에 따른 화면상 좌표를 구하기 위해)
     rX = X / img.shape[1]
     rY = Y / img.shape[0]
-    print(f"sid: {room}, x: {X} y: {Y},rx: {rX} y: {rY}, dir:{DIR}")
+    print(f"SocketImage::: sid: {room}, x: {X} y: {Y},rx: {rX} y: {rY}, dir:{DIR}")
 
     # # emit("image", {'image': image, 'id': request.sid, 'x': -1, 'y': -1, 'dir': -1}, room=room)
     emit("image", {'image': image, 'id': request.sid, 'x': rX, 'y': rY, 'dir': DIR}, room=room)
