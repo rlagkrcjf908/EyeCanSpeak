@@ -59,8 +59,8 @@ function SocketTest() {
 
   useEffect(() => {
     if (isSetting === true) {
-      // const socket = io("https://k8d204.p.ssafy.io", {
-      const socket = io("http://192.168.100.88:5000", {
+      const socket = io("https://k8d204.p.ssafy.io", {
+      // const socket = io("http://192.168.100.88:5000", {
         path: "/socket.io",
         // transports: ["websocket"],
         // cors: {
