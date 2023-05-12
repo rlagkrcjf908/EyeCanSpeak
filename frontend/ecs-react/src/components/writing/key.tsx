@@ -7,8 +7,10 @@ import {
   textState,
 } from "../../recoil/atoms/writingState"
 import { getHistory, saveWord } from "../../services/writingApi"
-import style from "../../styles/writing/keyboard.module.css"
+import style from "../../styles/writing/key.module.css"
 import RecommendWord from "./recommendWord"
+import allow from "../../assets/icon/left-arrow.png"
+import Tts from "./tts"
 
 let inputWrapper: HangulImeInputWrapper | undefined = undefined
 
@@ -130,8 +132,8 @@ export default function Key() {
   }
 
   return (
-    <div className={style.section}>
-      <div>
+    <div>
+      <div className={style.inputBox}>
         {/* input */}
         <input
           ref={inputRef}
@@ -143,6 +145,7 @@ export default function Key() {
           onChange={onChange}
           onKeyDown={(e) => handleKeyDown(e)}
         />
+        <Tts sentence={text} isKorean={isKorean} />
       </div>
       {/* 추천단어 */}
       <RecommendWord />
@@ -195,6 +198,17 @@ export default function Key() {
             </li>
             <li onClick={handleClick} className={style.pinky} id={style.back}>
               BACK
+              <img
+                src={allow}
+                alt=''
+                width={40}
+                style={{
+                  display: "block",
+                  position: "relative",
+                  bottom: "20px",
+                  left: "60px",
+                }}
+              ></img>
             </li>
           </ul>
           <ul className={`${style.row} ${style["row-1"]}`}>

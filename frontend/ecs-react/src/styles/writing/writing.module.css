@@ -1,17 +1,18 @@
 .section {
-  background-color: white !important;
+  background: linear-gradient(to top, white, #eef8ff);
   width: 100vw;
   height: calc(100vh - 80px);
-  text-align: center;
-  padding: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .section input {
   border: 3px solid black;
-  width: 80vw;
+  width: 65vw;
   height: 80px;
-  margin: auto;
-  padding: 10px;
+  margin-right: 50px;
+  padding: 30px;
   font-size: 2rem;
 }
 

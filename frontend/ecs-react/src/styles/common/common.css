@@ -12,6 +12,11 @@ body {
 button:focus {
   outline: none;
 }
+li,
+span,
+button {
+  user-select: none;
+}
 
 html,
 body,
