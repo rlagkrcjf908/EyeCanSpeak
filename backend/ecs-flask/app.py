@@ -83,6 +83,7 @@ def setting():
     im_bytes = base64.b64decode(base_str)
     im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
     img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
+    print("Setting Image Shape: ", img.shape)
 
     # 동공 좌표 가져오기
     x, y = getSettingPoint(img)
@@ -166,7 +167,7 @@ def handle_image(image):
     # else:
     #     emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 5}, room=room)
     #     return
-    # print("Image Shape: ", image.shape)
+
     userNo = image['userNo']
 
     # base64 String to Image
@@ -174,6 +175,7 @@ def handle_image(image):
     im_bytes = base64.b64decode(base_str)
     im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
     img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
+    print("Image Shape: ", img.shape)
     # cv2.imshow("test", img)
 
     # Get pupil point
@@ -185,11 +187,10 @@ def handle_image(image):
     rY = Y / img.shape[0]
     print(f"SocketImage::: sid: {room}, x: {X} y: {Y}, rx: {rX}, y: {rY}, dir:{DIR}")
 
-    # # emit("image", {'image': image, 'id': request.sid, 'x': -1, 'y': -1, 'dir': -1}, room=room)
+    # emit("image", {'image': image, 'id': request.sid, 'x': -1, 'y': -1, 'dir': -1}, room=room)
     emit("image", {'id': request.sid, 'x': rX, 'y': rY, 'dir': DIR}, room=room)
-    # # emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 0}, room=room)
-    # # emit("image", {'id': request.sid, 'x': X, 'y': Y, 'dir': DIR}, room=room)
-
+    # emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 0}, room=room)
+    # emit("image", {'id': request.sid, 'x': X, 'y': Y, 'dir': DIR}, room=room)
 
 @socketio.on("disconnect")
 def disconnected():
