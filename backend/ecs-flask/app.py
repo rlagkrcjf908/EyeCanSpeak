@@ -178,8 +178,6 @@ def handle_image(image):
 
     # Get pupil point
     # Setting에서 생성한 user별 gazeTracking 객체로부터 화면상 좌표 구하기
-    X, Y = getSettingPoint(img)
-    print(f"SocketImage:::getSettingPoint::: x: {X} y: {Y}")
     X, Y, DIR = user_object[userNo].getPupilPoint(img)
 
     # 좌표의 비율 값 구하기 (client에서 비율에 따른 화면상 좌표를 구하기 위해)
