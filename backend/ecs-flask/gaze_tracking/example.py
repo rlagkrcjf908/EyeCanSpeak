@@ -43,10 +43,7 @@ class Example(object):
 
         return -1
 
-
-
     def getPupilPoint(self, image):
-
 
         gaze = GazeTracking()
         # src = np.zeros((self.H, self.W, 3), np.uint8)
@@ -97,7 +94,7 @@ class Example(object):
             # nx = self.W - (x - self.minX) / self.diffX * self.W
             nx = (x - self.minX) / self.diffX * self.W
             ny = (y - self.minY) / self.diffY * self.H
-            print(f"getPupilPoint::: x: {x} y: {y},nx: {nx} ny: {ny}")
+            print(f"getPupilPoint::: x: {x}, y: {y}, nx: {nx}, ny: {ny}")
             # print(f'nX : {nx:.2f}, nY: {ny:.2f}\n')
             # src = cv2.circle(src, (int(nx), int(ny)), 5, (0, 255, 0), cv2.FILLED, cv2.LINE_4)
             # cv2.imshow("draw", src)
