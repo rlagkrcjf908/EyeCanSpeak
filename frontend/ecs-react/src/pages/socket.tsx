@@ -3,7 +3,7 @@ import WebSocketCall from "../components/socket/webSocketCall"
 import { io, Socket } from "socket.io-client"
 import { useRef, useEffect, useState } from "react"
 import Webcam from "react-webcam"
-import { useRecoilState, useRecoilValue } from "recoil"
+import { constSelector, useRecoilState, useRecoilValue } from "recoil"
 import { settingState, userNo } from "../recoil/atoms/userState"
 import { Cookies } from "react-cookie"
 import { base64toFile } from "../services/baseToFile"
@@ -54,8 +54,7 @@ function SocketTest() {
     var file = base64toFile(imageSrc, "image_file.png")
 
     const formdata = new FormData()
-    formdata.append("image", file)
-    formdata.append("buffer", file)
+    formdata.append("data", JSON.stringify({ image: true, buffer: file, userNo: -1 }))
 
     const response: AxiosResponse = await axios.post(
       "http://192.168.100.207:5000/flask/position",
@@ -66,6 +65,8 @@ function SocketTest() {
         },
       }
     )
+
+    console.log(response)
   }
 
   useEffect(() => {
