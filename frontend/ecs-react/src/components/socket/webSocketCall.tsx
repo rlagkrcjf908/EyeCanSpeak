@@ -21,7 +21,7 @@ export default function WebSocketCall({
 
   useEffect(() => {
     socket?.on("image", (data) => {
-      setX(Math.floor(window_width - data.x * window_width))
+      setX(Math.floor((1 - data.x) * window_width))
       setY(Math.floor(data.y * window_height))
       console.log("dir", data.dir)
       console.log(
