@@ -13,11 +13,9 @@
 }
 
 .iconBtn:hover {
-  animation: move 1s ease;
+  animation: move 1s ease forwards;
 }
 @keyframes move {
-  from {
-  }
   to {
     transform: rotate(145deg);
     scale: 1.1;
