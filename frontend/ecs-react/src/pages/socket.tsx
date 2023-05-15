@@ -103,9 +103,7 @@ function SocketTest() {
         videoConstraints={videoConstraints}
         className={style.cam}
       />
-      <button className='clickCapture' onClick={capture}>
-        소켓테스트
-      </button>
+
       {!loading && <WebSocketCall socket={socketInstance} capture={capture} />}
     </>
   )
