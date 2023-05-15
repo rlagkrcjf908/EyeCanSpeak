@@ -3,7 +3,13 @@ import { useSetRecoilState } from "recoil"
 import { socketXPosition, socketYPosition } from "../../recoil/atoms/boxState"
 import { Socket } from "socket.io-client"
 
-export default function WebSocketCall({ socket }: { socket?: Socket }) {
+export default function WebSocketCall({
+  socket,
+  capture,
+}: {
+  socket?: Socket
+  capture: any
+}) {
   const setX = useSetRecoilState(socketXPosition)
   const setY = useSetRecoilState(socketYPosition)
   const window_width = window.screen.availWidth
@@ -18,6 +24,7 @@ export default function WebSocketCall({ socket }: { socket?: Socket }) {
         Math.floor(data.x * window_width),
         Math.floor(data.y * window_height)
       )
+      capture()
     })
     return () => {
       socket?.off("image", () => {
