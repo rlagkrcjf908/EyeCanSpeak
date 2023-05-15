@@ -1,7 +1,7 @@
 import style from "../styles/common/socket.module.css"
 import WebSocketCall from "../components/socket/webSocketCall"
 import { io, Socket } from "socket.io-client"
-import { useCallback, useRef, useEffect, useState } from "react"
+import { useRef, useEffect, useState } from "react"
 import Webcam from "react-webcam"
 import { useRecoilValue } from "recoil"
 import { settingState, userNo } from "../recoil/atoms/userState"
@@ -13,8 +13,7 @@ function SocketTest() {
   const webcamRef = useRef<Webcam>(null)
   const isSetting = useRecoilValue(settingState)
   const userNumber = useRecoilValue(userNo)
-
-  const [start, setStart] = useState(true)
+  const [start, setStart] = useState(false)
 
   // 캠 화면
   const videoConstraints = {
@@ -23,31 +22,24 @@ function SocketTest() {
     // facingMode: { exact: "environment" }
   }
   // 캠 화면 캡쳐하고 보냄
-  const capture = useCallback(() => {
+  const capture = () => {
     if (!webcamRef.current) return
+    const imageSrc = webcamRef.current.getScreenshot()
 
+    if (imageSrc == null) return
     console.log("send")
-    const imageSrc =
-      "https://cdn.pixabay.com/photo/2017/03/05/23/14/girl-2120196_960_720.jpg"
     socketInstance?.emit("imageConversionByClient", {
       image: true,
       buffer: imageSrc,
-      userNo: 2,
+      userNo: userNumber,
     })
-  }, [webcamRef, socketInstance])
-
-  // 1초 마다 캡쳐화면 보내기
-  useEffect(() => {
-    if (socketInstance) {
-      capture()
-    }
-  }, [socketInstance])
+  }
 
   // 소켓 연결
   useEffect(() => {
-    if (isSetting === true) {
-      // const socket = io("https://k8d204.p.ssafy.io", {
-      const socket = io("http://192.168.100.207:5000", {
+    if (isSetting) {
+      const socket = io("https://k8d204.p.ssafy.io", {
+        // const socket = io("http://192.168.100.207:5000", {
         path: "/socket.io",
         // transports: ["websocket"],
         // cors: {
@@ -62,8 +54,9 @@ function SocketTest() {
 
       socket.on("connect", () => {
         console.log("connect")
-        console.log(socket.connected)
-        if (socket.connected) capture()
+        if (socket.connected) {
+          setStart(true)
+        }
       })
 
       setLoading(false)
@@ -78,6 +71,25 @@ function SocketTest() {
     }
   }, [isSetting])
 
+  useEffect(() => {
+    if (start) {
+      setTimeout(capture, 3000)
+      capture()
+    }
+  }, [start])
+
+  const click = () => {
+    var element = document.querySelector("clickCapture")
+    element?.dispatchEvent(
+      new MouseEvent("click", {
+        view: window,
+        bubbles: true,
+        cancelable: true,
+        buttons: 1,
+      })
+    )
+  }
+
   return (
     <>
       <Webcam
@@ -91,8 +103,10 @@ function SocketTest() {
         videoConstraints={videoConstraints}
         className={style.cam}
       />
-      <button onClick={capture}>소켓테스트</button>
-      {!loading && <WebSocketCall socket={socketInstance} />}
+      <button className='clickCapture' onClick={capture}>
+        소켓테스트
+      </button>
+      {!loading && <WebSocketCall socket={socketInstance} capture={capture} />}
     </>
   )
 }
