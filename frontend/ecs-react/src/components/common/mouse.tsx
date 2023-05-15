@@ -12,8 +12,8 @@ import {
 } from "../../recoil/atoms/mouseState"
 
 export default function Mouse() {
-  const setCurrentX = useSetRecoilState(currerntXState)
-  const setCurrentY = useSetRecoilState(currerntYState)
+  const [currentX, setCurrentX] = useRecoilState(currerntXState)
+  const [currentY, setCurrentY] = useRecoilState(currerntYState)
   const [nextX, setNextX] = useRecoilState(nextXState)
   const [nextY, setNextY] = useRecoilState(nextYState)
   const [left, setLeft] = useState(0)
@@ -130,6 +130,37 @@ export default function Mouse() {
 
   const mouseClickEvents = ["mousedown", "click", "mouseup"]
 
+  // 마우스오버
+  const hoverHandler = () => {
+    const element: any = document.elementFromPoint(nextX, nextY)
+    if (!element) return
+
+    element.dispatchEvent(
+      new MouseEvent("mouseover", {
+        view: window,
+        bubbles: true,
+        cancelable: true,
+        buttons: 1,
+      })
+    )
+  }
+  // 마우스리브하면 움직이기 전 좌표에 있던 요소의 className에 hover 지우기
+  const leaveHandler = () => {
+    const element: any = document.elementFromPoint(left, top)
+    if (!element) return
+    const className = element.className.replace("_hover__", "")
+    element.className = className
+  }
+  // 위치 변할때 마다 마우스오버
+  useEffect(() => {
+    mouse = document.querySelector(".mouse")
+    if (!mouse) return
+
+    leaveHandler()
+    hoverHandler()
+  }, [left, top, nextX, nextY])
+
+  // 클릭
   function clickHandler() {
     mouse = document.querySelector(".mouse")
 
