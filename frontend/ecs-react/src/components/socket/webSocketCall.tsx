@@ -1,7 +1,8 @@
 import { useEffect } from "react"
-import { useSetRecoilState } from "recoil"
+import { useRecoilState, useSetRecoilState } from "recoil"
 import { socketXPosition, socketYPosition } from "../../recoil/atoms/boxState"
 import { Socket } from "socket.io-client"
+import { dirState, getDirState } from "../../recoil/atoms/mouseState"
 
 export default function WebSocketCall({
   socket,
@@ -14,9 +15,13 @@ export default function WebSocketCall({
   const setY = useSetRecoilState(socketYPosition)
   const window_width = window.screen.availWidth
   const window_height = window.screen.availHeight
+
+  const [dir, setDir] = useRecoilState(dirState)
+  const [isChange, setIsChange] = useRecoilState(getDirState)
+
   useEffect(() => {
     socket?.on("image", (data) => {
-      setX(Math.floor(data.x * window_width))
+      setX(Math.floor(window_width - data.x * window_width))
       setY(Math.floor(data.y * window_height))
       console.log("dir", data.dir)
       console.log(
@@ -24,6 +29,8 @@ export default function WebSocketCall({
         Math.floor(data.x * window_width),
         Math.floor(data.y * window_height)
       )
+      setDir(data.dir)
+      setIsChange((c) => !c)
       capture()
     })
     return () => {

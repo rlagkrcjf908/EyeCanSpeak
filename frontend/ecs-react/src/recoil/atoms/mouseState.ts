@@ -29,3 +29,8 @@ export const dirState = atom<number>({
   key: "dirState",
   default: -1,
 })
+
+export const getDirState = atom<boolean>({
+  key: "getDirState",
+  default: true,
+})
