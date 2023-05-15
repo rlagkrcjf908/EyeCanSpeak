@@ -1,7 +1,7 @@
 import style from "../styles/common/socket.module.css"
 import WebSocketCall from "../components/socket/webSocketCall"
 import { io, Socket } from "socket.io-client"
-import { useCallback, useRef, useEffect, useState } from "react"
+import { useRef, useEffect, useState } from "react"
 import Webcam from "react-webcam"
 import { useRecoilValue } from "recoil"
 import { settingState, userNo } from "../recoil/atoms/userState"
@@ -13,6 +13,7 @@ function SocketTest() {
   const webcamRef = useRef<Webcam>(null)
   const isSetting = useRecoilValue(settingState)
   const userNumber = useRecoilValue(userNo)
+  const [start, setStart] = useState(false)
 
   // 캠 화면
   const videoConstraints = {
@@ -21,46 +22,24 @@ function SocketTest() {
     // facingMode: { exact: "environment" }
   }
   // 캠 화면 캡쳐하고 보냄
-  const capture = useCallback(() => {
+  const capture = () => {
     if (!webcamRef.current) return
-    console.log("send")
     const imageSrc = webcamRef.current.getScreenshot()
+
+    if (imageSrc == null) return
+    console.log("send")
     socketInstance?.emit("imageConversionByClient", {
       image: true,
       buffer: imageSrc,
       userNo: userNumber,
     })
-  }, [webcamRef, socketInstance])
-  // 1초 마다 캡쳐화면 보내기
-  // useEffect(() => {
-  //   if (socketInstance) {
-  //     setInterval(capture, 1000)
-  //   }
-  // }, [socketInstance])
-
-  // 속도 알아보기 위한 테스트
-  const socketTest = () => {
-    if (!webcamRef.current) return
-    // 시간
-    var today = Date.now()
-    console.log("test send")
-    console.log(today)
-    // 캡쳐 이미지
-    const imageSrc = webcamRef.current.getScreenshot()
-    // 소켓 보내기
-    socketInstance?.emit("test", {
-      image: true,
-      buffer: imageSrc,
-      userNo: userNumber,
-      timeStamp: today,
-    })
   }
-  // 소켓 연결
 
+  // 소켓 연결
   useEffect(() => {
-    if (isSetting === true) {
+    if (isSetting) {
       const socket = io("https://k8d204.p.ssafy.io", {
-      // const socket = io("http://192.168.100.88:5000", {
+        // const socket = io("http://192.168.100.207:5000", {
         path: "/socket.io",
         // transports: ["websocket"],
         // cors: {
@@ -75,6 +54,9 @@ function SocketTest() {
 
       socket.on("connect", () => {
         console.log("connect")
+        if (socket.connected) {
+          setStart(true)
+        }
       })
 
       setLoading(false)
@@ -89,6 +71,25 @@ function SocketTest() {
     }
   }, [isSetting])
 
+  useEffect(() => {
+    if (start) {
+      setTimeout(capture, 3000)
+      capture()
+    }
+  }, [start])
+
+  const click = () => {
+    var element = document.querySelector("clickCapture")
+    element?.dispatchEvent(
+      new MouseEvent("click", {
+        view: window,
+        bubbles: true,
+        cancelable: true,
+        buttons: 1,
+      })
+    )
+  }
+
   return (
     <>
       <Webcam
@@ -102,8 +103,10 @@ function SocketTest() {
         videoConstraints={videoConstraints}
         className={style.cam}
       />
-      <button onClick={socketTest}>소켓테스트</button>
-      {!loading && <WebSocketCall socket={socketInstance} />}
+      <button className='clickCapture' onClick={capture}>
+        소켓테스트
+      </button>
+      {!loading && <WebSocketCall socket={socketInstance} capture={capture} />}
     </>
   )
 }
