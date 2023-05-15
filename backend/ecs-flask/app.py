@@ -153,6 +153,7 @@ def handle_image(image):
     #     emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 5}, room=room)
     #     return
 
+    # print(image)
     userNo = image['userNo']
 
     # base64 String to Image
@@ -160,7 +161,7 @@ def handle_image(image):
     im_bytes = base64.b64decode(base_str)
     im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
     img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
-    print("Image Shape: ", img.shape)
+    # print("Image Shape: ", img.shape)
     # cv2.imshow("test", img)
 
     # Get pupil point

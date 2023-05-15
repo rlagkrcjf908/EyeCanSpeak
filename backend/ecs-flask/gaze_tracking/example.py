@@ -92,7 +92,7 @@ class Example(object):
             # print(f'src.shape[0] : {src.shape[0]}, src.shape[1]: {src.shape[1]}\n')
 
             # nx = self.W - (x - self.minX) / self.diffX * self.W
-            nx = self.W - (x - self.minX) / self.diffX * self.W
+            nx = (x - self.minX) / self.diffX * self.W
             ny = (y - self.minY) / self.diffY * self.H
             print(f"getPupilPoint::: x: {x}, y: {y}, nx: {nx}, ny: {ny}")
             # print(f'nX : {nx:.2f}, nY: {ny:.2f}\n')
@@ -114,4 +114,4 @@ class Example(object):
         ny = min(ny, self.H)
         # print(f'nX : {nx:.2f}, nY: {ny:.2f}\n')
 
-        return nx, ny, self.calc_dir(nx, ny)
+        return self.W - nx, ny, self.calc_dir(nx, ny)
