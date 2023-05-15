@@ -18,9 +18,12 @@ export default function Mouse() {
   const [nextY, setNextY] = useRecoilState(nextYState)
   const [left, setLeft] = useState(0)
   const [top, setTop] = useState(0)
-  const [dir, setDir] = useRecoilState(dirState)
+  const dir = useRecoilValue(dirState)
   const dirIsChange = useRecoilValue(getDirState)
   const setClick = useSetRecoilState(isClick)
+  const [dir1, setDir1] = useState<number>(0)
+  const [dir2, setDir2] = useState<number>(0)
+  const [dir3, setDir3] = useState<number>(0)
 
   const window_width = window.screen.availWidth
   const window_height = window.screen.availHeight
@@ -119,6 +122,10 @@ export default function Mouse() {
   }
 
   useEffect(() => {
+    setDir1(() => dir2)
+    setDir2(() => dir3)
+    setDir3(() => dir)
+    if (dir1 === 5 && dir2 === 5 && dir3 === 5) clickHandler()
     move()
   }, [dir, dirIsChange])
 
@@ -135,7 +142,6 @@ export default function Mouse() {
       setClick((current) => !current)
     const element2: any = document.querySelector(".fancy-button1")
     const element3: any = document.querySelector(".fancy-button2")
-    console.log(element)
 
     mouseClickEvents.forEach((mouseEventType) =>
       element.dispatchEvent(
