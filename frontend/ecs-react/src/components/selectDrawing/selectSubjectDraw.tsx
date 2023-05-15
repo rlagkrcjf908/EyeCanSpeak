@@ -33,7 +33,12 @@ export default function SelectSubjectDraw() {
   const [subject, setSubject] = useState<string>("")
 
   // 카테고리 리스트
-  const [category, setCategory] = useState<categoryTypes[]>([])
+  const [category, setCategory] = useState<categoryTypes[]>([
+    { categoryNo: 0, categoryNM: "string" },
+    { categoryNo: 0, categoryNM: "string" },
+    { categoryNo: 0, categoryNM: "string" },
+    { categoryNo: 0, categoryNM: "string" },
+  ])
 
   // 선택된 카테고리
   const [selectedCategory, setSelectedCategory] = useState<number>(-1)
@@ -103,18 +108,14 @@ export default function SelectSubjectDraw() {
       onMouseOver={handleMouseOver}
       onMouseLeave={handleMouseLeave}
     >
+      <h3 className={style.title}>주제선택하기</h3>
       {/* 카드 앞면 */}
       <div
         className={style.front}
         style={{ backgroundImage: `url(${Subject})` }}
-      >
-        주제선택하기
-      </div>
+      ></div>
       {isSelectCategory ? (
-        <div
-          className={style.back}
-          style={{ backgroundImage: `url(${Subject})` }}
-        >
+        <div className={style.back}>
           {/* subject고르기 */}
           <div className={style.subjectItem}>
             <p>{subject && subject}</p>
