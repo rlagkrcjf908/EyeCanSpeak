@@ -40,8 +40,8 @@ function SocketTest() {
   // 소켓 연결
   useEffect(() => {
     if (isSetting) {
-      // const socket = io("https://k8d204.p.ssafy.io", {
-      const socket = io("http://192.168.100.207:5000", {
+      const socket = io("https://k8d204.p.ssafy.io", {
+        // const socket = io("http://192.168.100.207:5000", {
         path: "/socket.io",
         // transports: ["websocket"],
         // cors: {
