@@ -38,7 +38,6 @@ export default function Mouse() {
   // }
 
   const move = () => {
-    console.log(dir + "!!!!!!")
     mouse = document.querySelector(".mouse")
 
     const x = mouse.getBoundingClientRect().x
