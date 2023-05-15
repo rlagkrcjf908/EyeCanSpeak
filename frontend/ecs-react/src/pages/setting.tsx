@@ -49,7 +49,6 @@ export default function Setting() {
       // `http://192.168.100.88:5000/setting`,
       { userNo: userNumber, imgSrc: imageSrc, index: currentCircle + 1 }
     )
-    console.log(response)
     if (response.data[0] === 200) {
       setCurrentCircle((c) => c + 1)
     }

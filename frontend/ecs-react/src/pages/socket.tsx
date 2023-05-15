@@ -3,7 +3,7 @@ import WebSocketCall from "../components/socket/webSocketCall"
 import { io, Socket } from "socket.io-client"
 import { useRef, useEffect, useState } from "react"
 import Webcam from "react-webcam"
-import { useRecoilValue } from "recoil"
+import { useRecoilState, useRecoilValue } from "recoil"
 import { settingState, userNo } from "../recoil/atoms/userState"
 import { Cookies } from "react-cookie"
 
@@ -14,6 +14,8 @@ function SocketTest() {
   const isSetting = useRecoilValue(settingState)
   const userNumber = useRecoilValue(userNo)
   const [start, setStart] = useState(false)
+
+  const [isSet, setIsSet] = useRecoilState(settingState)
 
   // 캠 화면
   const videoConstraints = {
@@ -49,6 +51,7 @@ function SocketTest() {
 
       const cookies = new Cookies()
       cookies.set("isSocket", true)
+      console.log(cookies.get("isSocket"))
 
       setSocketInstance(socket)
 
@@ -77,6 +80,11 @@ function SocketTest() {
       capture()
     }
   }, [start])
+
+  useEffect(() => {
+    const cookies = new Cookies()
+    if (cookies.get("isSocket")) setIsSet(true)
+  }, [])
 
   const click = () => {
     var element = document.querySelector("clickCapture")

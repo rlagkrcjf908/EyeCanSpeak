@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom"
 import style from "../../styles/common/navbar.module.css"
 import { Cookies } from "react-cookie"
-import { useSetRecoilState } from "recoil"
+import { useRecoilState, useSetRecoilState } from "recoil"
 import {
   isLog,
   settingState,
