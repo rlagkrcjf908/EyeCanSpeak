@@ -1,3 +1,10 @@
+.continer {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .btnBox {
   text-align: center;
   margin: 30px auto 0 auto;

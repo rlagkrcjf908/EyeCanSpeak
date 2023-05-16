@@ -1,6 +1,9 @@
 .container {
   width: 100vw;
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .circle {
   position: absolute;
@@ -35,7 +38,6 @@
 .content {
   font-size: 50px;
   text-align: center;
-  margin-top: 200px;
 }
 .text {
   animation: show 1s infinite alternate;
