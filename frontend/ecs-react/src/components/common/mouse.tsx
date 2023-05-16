@@ -167,6 +167,7 @@ export default function Mouse() {
     const x = mouse.getBoundingClientRect().x
     const y = mouse.getBoundingClientRect().y
     const element: any = document.elementFromPoint(x, y)
+    console.log(element)
 
     if (element.className.indexOf("palette") === -1)
       setClick((current) => !current)
