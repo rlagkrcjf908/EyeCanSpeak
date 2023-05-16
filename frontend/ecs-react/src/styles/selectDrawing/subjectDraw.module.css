@@ -12,6 +12,7 @@
   margin: auto;
   perspective: 1000px;
   position: relative;
+  user-select: none;
 }
 .title {
   font-size: 2em;
@@ -45,9 +46,9 @@
   padding-top: 10%;
 }
 
-.card:hover .front {
+/* .card:hover .front {
   transform: rotateY(180deg);
-}
+} */
 
 .hover .front {
   transform: rotateY(180deg);
@@ -77,9 +78,9 @@
   background-color: rgba(26, 87, 230, 0.25);
 }
 
-.card:hover .back {
+/* .card:hover .back {
   transform: rotateY(0deg);
-}
+} */
 .hover .back {
   transform: rotateY(0deg);
 }

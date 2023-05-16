@@ -146,7 +146,7 @@ export default function Mouse() {
   }
   // 마우스리브하면 움직이기 전 좌표에 있던 요소의 className에 hover 지우기
   const leaveHandler = () => {
-    const element: any = document.elementFromPoint(left, top)
+    const element: any = document.elementFromPoint(currentX, currentY)
     if (!element) return
     const className = element.className.replace("_hover__", "")
     element.className = className
