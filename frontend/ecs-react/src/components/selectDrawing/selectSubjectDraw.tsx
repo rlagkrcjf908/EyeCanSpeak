@@ -28,12 +28,7 @@ export default function SelectSubjectDraw() {
   const [subject, setSubject] = useState<string>("")
 
   // 카테고리 리스트
-  const [category, setCategory] = useState<categoryTypes[]>([
-    { categoryNo: 1, categoryNM: "string" },
-    { categoryNo: 1, categoryNM: "string" },
-    { categoryNo: 1, categoryNM: "string" },
-    { categoryNo: 1, categoryNM: "string" },
-  ])
+  const [category, setCategory] = useState<categoryTypes[]>([])
 
   // 선택된 카테고리
   const [selectedCategory, setSelectedCategory] = useState<number>(-1)
