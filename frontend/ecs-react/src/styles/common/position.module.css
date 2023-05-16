@@ -9,9 +9,3 @@
   pointer-events: none;
   border-radius: 50%;
 }
-
-.hover {
-  width: 70px;
-  height: 70px;
-  background-color: rgba(160, 16, 233, 0.5);
-}

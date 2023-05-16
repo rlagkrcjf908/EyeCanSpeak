@@ -13,11 +13,10 @@
   height: 600px;
   margin: auto;
   cursor: pointer;
-  overflow: hidden;
   border-radius: 20px;
   text-decoration: none;
   color: black;
-  background-color: white;
+  background-color: #eef8ff;
   font-weight: bold;
 }
 
@@ -27,7 +26,7 @@
 
 .card__background h1 {
   position: absolute;
-  top: 15%;
+  top: 0%;
 }
 .card__background {
   width: 500px;
@@ -51,18 +50,17 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
   opacity: 0.5;
   z-index: -1;
   border-radius: 20px;
 }
 .card__background:hover {
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 
 .card_hover {
   display: block;
 }
 .hover {
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
