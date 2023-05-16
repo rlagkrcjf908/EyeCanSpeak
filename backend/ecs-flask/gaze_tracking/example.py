@@ -119,3 +119,4 @@ class Example(object):
         # print(f'nX : {nx:.2f}, nY: {ny:.2f}\n')
 
         return self.W - nx, ny, self.calc_dir(nx, ny)
+

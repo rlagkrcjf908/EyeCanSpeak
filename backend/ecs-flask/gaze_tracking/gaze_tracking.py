@@ -19,6 +19,8 @@ class GazeTracking(object):
         self.eye_right = None
         self.calibration = Calibration()
 
+        self.margin_x = 0
+        self.margin_y = 0
         # _face_detector is used to detect faces
         self._face_detector = dlib.get_frontal_face_detector()
 
@@ -67,6 +69,7 @@ class GazeTracking(object):
         """
         self.frame = frame
         self._analyze()
+        # self.print_ratio()
 
     def pupil_left_coords(self):
         """Returns the coordinates of the left pupil"""
@@ -101,6 +104,37 @@ class GazeTracking(object):
             pupil_left = self.eye_left.pupil.y / (self.eye_left.center[1] * 2 - 10)
             pupil_right = self.eye_right.pupil.y / (self.eye_right.center[1] * 2 - 10)
             return (pupil_left + pupil_right) / 2
+
+    def horizontal_face_ratio(self):
+        """Returns a number between 0.0 and 1.0 that indicates the
+        horizontal direction of the gaze. The extreme right is 0.0,
+        the center is 0.5 and the extreme left is 1.0
+        """
+
+        if self.pupils_located:
+            try:
+                pupil_left = (self.eye_left.pupil.x + (self.eye_left.origin[0] - self.eye_left.face_origin[0])) / \
+                    (self.eye_left.face_center[0] * 2 - self.margin_x)
+                pupil_right = (self.eye_right.pupil.x + (self.eye_right.origin[0] - self.eye_right.face_origin[0])) / \
+                    (self.eye_right.face_center[0] * 2 - self.margin_x)
+                return (pupil_left + pupil_right) / 2
+            except Exception:
+                return None
+    def vertical_face_ratio(self):
+        """Returns a number between 0.0 and 1.0 that indicates the
+        vertical direction of the gaze. The extreme top is 0.0,
+        the center is 0.5 and the extreme bottom is 1.0
+        """
+
+        if self.pupils_located:
+            try:
+                pupil_left = (self.eye_left.pupil.y + (self.eye_left.origin[1] - self.eye_left.face_origin[1])) / \
+                    (self.eye_left.face_center[1] * 2 - self.margin_y)
+                pupil_right = (self.eye_right.pupil.y + (self.eye_right.origin[1] - self.eye_right.face_origin[1])) / \
+                    (self.eye_right.face_center[1] * 2 - self.margin_y)
+                return (pupil_left + pupil_right) / 2
+            except Exception:
+                return None
 
     def is_right(self):
         """Returns true if the user is looking to the right"""

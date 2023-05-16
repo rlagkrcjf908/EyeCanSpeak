@@ -71,6 +71,65 @@ def getSettingPoint(image):
         y = (left_pupil[1] + right_pupil[1]) / 2
 
     return x, y
+
+
+def print_ratio(gaze):
+
+    hor_ratio = gaze.horizontal_ratio()
+    ver_ratio = gaze.vertical_ratio()
+    if type(hor_ratio) != type(None):
+        hor_ratio = round(hor_ratio, 2)
+    if type(ver_ratio) != type(None):
+        ver_ratio = round(ver_ratio, 2)
+
+    hor_face_ratio = gaze.horizontal_face_ratio()
+    ver_face_ratio = gaze.vertical_face_ratio()
+    if type(hor_face_ratio) != type(None):
+        hor_face_ratio = round(hor_face_ratio, 2)
+    if type(ver_face_ratio) != type(None):
+        ver_face_ratio = round(ver_face_ratio, 2)
+
+    margin_x = 0
+    margin_y = 0
+    if type(hor_ratio) != type(None) and type(ver_ratio) != type(None):
+        print("Eye base")
+        print(f'hor:{hor_ratio} ver:{ver_ratio}')
+        print(
+            f'{gaze.eye_left.pupil.x}   {gaze.eye_right.pupil.x}   {gaze.eye_left.pupil.y}   {gaze.eye_right.pupil.y}')
+        print(
+            f'{gaze.eye_left.center[0] * 2 - margin_x} {gaze.eye_right.center[0] * 2 - margin_x} {gaze.eye_left.center[1] * 2 - margin_y} {gaze.eye_right.center[1] * 2 - margin_y}')
+
+        print(
+            f'{gaze.eye_left.center[0]} {gaze.eye_right.center[0]} {gaze.eye_left.center[1]} {gaze.eye_right.center[1]}')
+        print(f'{gaze.eye_left.frame.shape}')
+
+    if type(hor_face_ratio) != type(None) and type(ver_face_ratio) != type(None):
+        print("Face base")
+        print(f'hor:{hor_face_ratio} ver:{ver_face_ratio}')
+        print(
+            f'{gaze.eye_left.pupil.x + gaze.eye_left.face_origin[0]}   {gaze.eye_right.pupil.x + gaze.eye_right.face_origin[0]}   {gaze.eye_left.pupil.y + gaze.eye_left.face_origin[1]}   {gaze.eye_right.pupil.y + gaze.eye_right.face_origin[1]}')
+        print(
+            f'{gaze.eye_left.face_center[0] * 2 - margin_x} {gaze.eye_right.face_center[0] * 2 - margin_x} {gaze.eye_left.face_center[1] * 2 - margin_y} {gaze.eye_right.face_center[1] * 2 - margin_y}')
+
+        print(
+            f'{gaze.eye_left.face_center[0]} {gaze.eye_right.face_center[0]} {gaze.eye_left.face_center[1]} {gaze.eye_right.face_center[1]}')
+        print(f'{gaze.eye_left.face_frame.shape}')
+
+def getSettingRatio(image):
+    ''' 
+    이미지로부터 현재 동공의 위치를 얼굴 이미지 내에서의 위치 비 계산
+    '''
+    # 이미지로부터 얼굴 분석
+    gaze = GazeTracking()
+    gaze.refresh(image)
+
+    # 양쪽 눈 비율 가지고 오기
+    hor_face_ratio = gaze.horizontal_face_ratio()
+    ver_face_ratio = gaze.vertical_face_ratio()
+
+    print_ratio(gaze)
+    return hor_face_ratio, ver_face_ratio
+
 #setting
 @app.route("/flask/setting", methods = ['POST'])
 def setting():
@@ -105,6 +164,7 @@ def setting():
     print(f"userNo: {userNo}, index: {index}")
     print(x, y)
 
+    getSettingRatio(img)
     return jsonify(200, x, y)
 
 # API Test
@@ -114,25 +174,7 @@ def http_call():
     data = {'data': 'This text was fetched using an HTTP call to server on render'}
     return jsonify(data)
 
-# @socketio.on('data')
-# def handle_message(data):
-#     """event listener when client types a message"""
-#     print("data from the front end: ", str(data))
-#     room = request.sid
-#     emit("data", {'data': data, 'id': request.sid}, room=room)
 
-# @socketio.on('data')
-# def handle_message(data):
-#     """event listener when client types a message"""
-#     # 랜덤x,y
-#
-#     x = random.randrange(1, 500)
-#     y = random.randrange(1, 500)
-#
-#     # print("data from the front end: ", str(data))
-#     print("data from the front end: ")
-#     room = request.sid
-#     emit("data", {'data': data, 'id': request.sid, 'x': x, 'y': y}, room=room)
 
 # 이미지 소켓 통신
 @socketio.on('imageConversionByClient')
@@ -174,9 +216,13 @@ def handle_image(image):
     print(f"SocketImage::: sid: {room}, x: {X} y: {Y}, rx: {rX}, y: {rY}, dir:{DIR}")
 
     # emit("image", {'image': image, 'id': request.sid, 'x': -1, 'y': -1, 'dir': -1}, room=room)
-    emit("image", {'id': request.sid, 'x': rX, 'y': rY, 'dir': DIR}, room=room)
+    emit("image", {'image': image, 'id': request.sid, 'x': rX, 'y': rY, 'dir': DIR}, room=room)
     # emit("image", {'image': image, 'id': request.sid, 'x': 0, 'y': 0, 'dir': 0}, room=room)
     # emit("image", {'id': request.sid, 'x': X, 'y': Y, 'dir': DIR}, room=room)
+
+    getSettingRatio(img)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
 
 @socketio.on("connect")
 def connected():

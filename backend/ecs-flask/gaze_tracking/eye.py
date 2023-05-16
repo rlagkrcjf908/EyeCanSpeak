@@ -17,6 +17,11 @@ class Eye(object):
         self.frame = None
         self.origin = None
         self.center = None
+
+        self.face_frame = None
+        self.face_origin = None
+        self.face_center = None
+
         self.pupil = None
         self.landmark_points = None
 
@@ -33,6 +38,37 @@ class Eye(object):
         x = int((p1.x + p2.x) / 2)
         y = int((p1.y + p2.y) / 2)
         return (x, y)
+
+    def _face_isolate(self, frame, landmarks):
+
+        region = np.array([(landmarks.part(point).x, landmarks.part(point).y) for point in range(0, 67)])
+        region = region.astype(np.int32)
+        self.face_landmark_points = region
+
+        # Applying a mask to get only the eye
+        height, width = frame.shape[:2]
+        black_frame = np.zeros((height, width), np.uint8)
+        mask = np.full((height, width), 255, np.uint8)
+        cv2.fillPoly(mask, [region], (0, 0, 0))
+        face = cv2.bitwise_not(black_frame, frame.copy(), mask=mask)
+
+        margin_x = 0
+        margin_y = 0
+        # Cropping on the eye
+        min_x = np.min(region[:, 0]) - margin_x
+        max_x = np.max(region[:, 0]) + margin_x
+        min_y = np.min(region[:, 1]) - margin_y
+        max_y = np.max(region[:, 1]) + margin_y
+
+        self.face_frame = face[min_y:max_y, min_x:max_x]
+        self.face_origin = (min_x, min_y)
+
+        height, width = self.face_frame.shape[:2]
+        self.face_center = (width / 2, height / 2)
+
+        # cv2.imshow("face", self.face_frame)
+
+        color = (255, 255, 255)
 
     def _isolate(self, frame, landmarks, points):
         """Isolate an eye, to have a frame without other part of the face.
@@ -116,4 +152,6 @@ class Eye(object):
             calibration.evaluate(self.frame, side)
 
         threshold = calibration.threshold(side)
-        self.pupil = Pupil(self.frame, threshold)
+        self.pupil = Pupil(self.frame, threshold, side)
+
+        self._face_isolate(original_frame, landmarks)
