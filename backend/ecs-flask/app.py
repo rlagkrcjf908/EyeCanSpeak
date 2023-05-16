@@ -9,10 +9,6 @@ from gaze_tracking import GazeTracking
 from flask import Flask, request, jsonify
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from flask_cors import CORS
-from PIL import Image
-
-import time
-from datetime import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -70,7 +66,7 @@ def getSettingPoint(image):
         x = (left_pupil[0] + right_pupil[0]) / 2
         y = (left_pupil[1] + right_pupil[1]) / 2
 
-    return x, y, -1
+    return x, y
 #setting
 @app.route("/flask/setting", methods = ['POST'])
 def setting():
@@ -134,20 +130,12 @@ def http_call():
 #     room = request.sid
 #     emit("data", {'data': data, 'id': request.sid, 'x': x, 'y': y}, room=room)
 
-#--------------------api tet----------------------------------------
+
 # Image api _ base64
 @app.route("/flask/position", methods = ['POST'])
 def image_base64():
-    start=time.time()
 
     image=request.json
-
-    userNo = -1
-
-    if 'userNo' in image:
-        userNo = image['userNo']
-    else:
-        return
 
     userNo = image['userNo']
 
@@ -156,51 +144,18 @@ def image_base64():
     im_bytes = base64.b64decode(base_str)
     im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
     img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
-    print("Image Shape: ", img.shape)
 
     # Get pupil point
     # Setting에서 생성한 user별 gazeTracking 객체로부터 화면상 좌표 구하기
-    X, Y, DIR = getSettingPoint(img)
+    X, Y, DIR = user_object[userNo].getPupilPoint(img)
 
     # 좌표의 비율 값 구하기 (client에서 비율에 따른 화면상 좌표를 구하기 위해)
     rX = X / img.shape[1]
     rY = Y / img.shape[0]
 
-    print(f"rxrY:::  rX: {rX} rY: {rY} time: {time.time()-start} sec")
-    return jsonify("success", rX , rY)
+    return jsonify({'x': rX, "y": rY, "dir": DIR})
 
-# Image api _ formdata
-@app.route("/flask/position2", methods = ['POST'])
-def image_formdata():
-    start=time.time()
 
-    userNo=request.form.get('userNo')
-    image=request.files.get('buffer')
-
-    img=np.array(Image.open(image))
-    print("Image Shape: ", img.shape)
-
-    X, Y, DIR = getSettingPoint(img)
-
-    rX = X / img.shape[1]
-    rY = Y / img.shape[0]
-
-    print(f"rxrY:::  rX: {rX} rY: {rY} time: {time.time()-start} sec")
-
-    return jsonify("success", rX , rY)
-
-# Image api _ binary
-@app.route("/flask/position3", methods = ['POST'])
-def image_binary():
-
-    userNo=request.form.get('userNo')
-    image=request.form.get('buffer')
-
-    print(image)
-
-    return jsonify("success")
-
-#------------------------------------------------------------
 
 # 이미지 소켓 통신
 @socketio.on('imageConversionByClient')
