@@ -5,15 +5,12 @@ import { HelmetProvider, Helmet } from "react-helmet-async"
 import { RecoilRoot } from "recoil"
 import "./styles/common/common.css"
 import "./App.css"
-import Mouse from "./components/common/mouse"
-import Position from "./components/common/position"
 import { CookiesProvider } from "react-cookie"
 
 function App() {
   return (
     <>
       <RecoilRoot>
-        <Position></Position>
         <HelmetProvider>
           <Helmet>
             <title>ECS</title>
@@ -24,7 +21,6 @@ function App() {
             <RoutesSetup></RoutesSetup>
           </BrowserRouter>
         </CookiesProvider>
-        <Mouse></Mouse>
       </RecoilRoot>
     </>
   )
