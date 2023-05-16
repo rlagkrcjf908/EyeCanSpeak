@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom"
 import Navbar from "./navbar"
 import SettingBtn from "./settingBtn"
+import Connect from "../../pages/connect"
 
 const Layout = () => {
   return (
@@ -11,6 +12,7 @@ const Layout = () => {
       <main>
         <Outlet />
         <SettingBtn />
+        <Connect />
       </main>
     </>
   )

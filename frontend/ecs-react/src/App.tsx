@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { BrowserRouter } from "react-router-dom"
 import RoutesSetup from "./routes/routesSetup"
 import { HelmetProvider, Helmet } from "react-helmet-async"
@@ -8,14 +8,12 @@ import "./App.css"
 import Mouse from "./components/common/mouse"
 import Position from "./components/common/position"
 import { CookiesProvider } from "react-cookie"
-import SocketTest from "./pages/socket"
 
 function App() {
   return (
     <>
       <RecoilRoot>
         <Position></Position>
-        <SocketTest />
         <HelmetProvider>
           <Helmet>
             <title>ECS</title>

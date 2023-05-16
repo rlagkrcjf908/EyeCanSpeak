@@ -10,13 +10,13 @@ import Writing from "../pages/writing"
 import EditDraw from "../pages/editDraw"
 import NotFound from "../pages/404NotFound"
 import Setting from "../pages/setting"
-import SocketTest from "../pages/socket"
+import Connect from "../pages/connect"
 export default function routesSetup() {
   return (
     <Routes>
       <Route path='/' element={<Main />} />
       <Route path='/setting' element={<Setting />} />
-      <Route path='/socketTest' element={<SocketTest />} />
+      <Route path='/connect' element={<Connect />} />
       <Route element={<Layout />}>
         <Route path='/selectMain' element={<SelectMain />} />
         <Route path='/writing' element={<Writing />} />

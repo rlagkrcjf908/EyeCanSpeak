@@ -8,12 +8,12 @@ function IsCookies() {
   }
 }
 
-function IsSocket() {
+function IsSetting() {
   const cookies = new Cookies()
-  if (cookies.get("isSocket") === undefined) {
+  if (cookies.get("isSetting") === undefined) {
     return false
   }
   return true
 }
 
-export { IsCookies, IsSocket }
+export { IsCookies, IsSetting }
