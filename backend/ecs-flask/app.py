@@ -3,16 +3,12 @@ import io
 import random
 import cv2
 import numpy as np
-from PIL import Image
 from gaze_tracking.example import Example
 from gaze_tracking import GazeTracking
 
 from flask import Flask, request, jsonify
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from flask_cors import CORS
-
-import time
-from datetime import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -133,6 +129,33 @@ def http_call():
 #     print("data from the front end: ")
 #     room = request.sid
 #     emit("data", {'data': data, 'id': request.sid, 'x': x, 'y': y}, room=room)
+
+
+# Image api _ base64
+@app.route("/flask/position", methods = ['POST'])
+def image_base64():
+
+    image=request.json
+
+    userNo = image['userNo']
+
+    # base64 String to Image
+    base_str = image['buffer'].split(',')[1]
+    im_bytes = base64.b64decode(base_str)
+    im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
+    img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
+
+    # Get pupil point
+    # Setting에서 생성한 user별 gazeTracking 객체로부터 화면상 좌표 구하기
+    X, Y, DIR = user_object[userNo].getPupilPoint(img)
+
+    # 좌표의 비율 값 구하기 (client에서 비율에 따른 화면상 좌표를 구하기 위해)
+    rX = X / img.shape[1]
+    rY = Y / img.shape[0]
+
+    return jsonify({'x': rX, "y": rY, "dir": DIR})
+
+
 
 # 이미지 소켓 통신
 @socketio.on('imageConversionByClient')
