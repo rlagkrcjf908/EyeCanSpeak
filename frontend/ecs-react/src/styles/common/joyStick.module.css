@@ -7,10 +7,13 @@
 }
 
 .item {
-  background-color: rgb(255, 126, 126);
-  width: 30px;
-  height: 30px;
-  margin: 5px;
+  background-color: rgb(216, 216, 216);
+  width: 35px;
+  height: 35px;
+  margin: 2px;
+}
+.dir {
+  background-color: rgb(255, 89, 89);
 }
 .top1 {
   border-radius: 90px 0 0 0;
