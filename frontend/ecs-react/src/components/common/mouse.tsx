@@ -22,9 +22,6 @@ export default function Mouse() {
   const dir = useRecoilValue(dirState)
   const dirIsChange = useRecoilValue(getDirState)
   const setClick = useSetRecoilState(isClick)
-  const [dir1, setDir1] = useState<number>(0)
-  const [dir2, setDir2] = useState<number>(0)
-  const [dir3, setDir3] = useState<number>(0)
 
   const notice_text = "화면 안에서 이동해주세요"
   const [notice, setNotice] = useState("")
@@ -45,15 +42,15 @@ export default function Mouse() {
   }
 
   const move = (dir: number) => {
-    if (dir === -2 || dir === 5) {
+    if (dir === -2) {
       return
     }
     mouse = document.querySelector(".mouse")
 
     const x = mouse.getBoundingClientRect().x
     const y = mouse.getBoundingClientRect().y
-
-    if (dir === 1 && y - dist >= -20 && x - dist >= -20) {
+    if (dir === 5) clickHandler()
+    else if (dir === 1 && y - dist >= -20 && x - dist >= -20) {
       // 왼쪽 위
       setTop((current) => current - dist) // 위로 이동
       setLeft((current) => current - dist) // 왼쪽으로 이동
@@ -121,13 +118,6 @@ export default function Mouse() {
   }
 
   useEffect(() => {
-    setDir1(() => dir2)
-    setDir2(() => dir)
-    if (dir1 === 5 && dir2 === 5) {
-      setDir1(-1)
-      setDir2(-1)
-      clickHandler()
-    }
     move(dir)
   }, [dir, dirIsChange])
 
