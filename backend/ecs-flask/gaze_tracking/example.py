@@ -128,9 +128,15 @@ class Example(object):
         hor_face_ratio = gaze.horizontal_face_ratio()
         ver_face_ratio = gaze.vertical_face_ratio()
 
-        if (type(hor_face_ratio) == type(None) or type(ver_face_ratio) == type(None)):
+        left_pupil = gaze.pupil_left_coords()
+        right_pupil = gaze.pupil_right_coords()
+
+        print(f'before hor:{hor_face_ratio} ver:{ver_face_ratio}')
+
+        if(type(left_pupil)==type(None) or type(right_pupil)==type(None) or type(hor_face_ratio) == type(None) or type(ver_face_ratio) == type(None)):
             hor_face_ratio = (self.minX + self.maxX) / 2
             ver_face_ratio = (self.minY + self.maxY) / 2
+            return hor_face_ratio, ver_face_ratio, 5
 
         print(f'hor:{hor_face_ratio} ver:{ver_face_ratio}')
         return hor_face_ratio, ver_face_ratio, self.calc_dir2(hor_face_ratio, ver_face_ratio)
