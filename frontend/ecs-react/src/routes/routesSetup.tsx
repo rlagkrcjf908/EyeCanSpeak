@@ -13,6 +13,7 @@ import Setting from "../pages/setting"
 import Connect from "../pages/connect"
 import DistSmall from "../components/common/distSmall"
 import DistBig from "../components/common/distBig"
+import SaveModal from "../components/modal/saveModal"
 export default function routesSetup() {
   return (
     <Routes>
