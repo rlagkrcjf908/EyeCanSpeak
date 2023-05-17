@@ -29,7 +29,7 @@ export default function Mouse() {
   const notice_text = "화면 안에서 이동해주세요"
   const [notice, setNotice] = useState("")
   const window_width = window.screen.availWidth - 20
-  const window_height = window.screen.availHeight - 150
+  const window_height = window.screen.availHeight - 50
 
   const dist = useRecoilValue(distState)
 
