@@ -53,7 +53,7 @@ export default function Mouse() {
     const x = mouse.getBoundingClientRect().x
     const y = mouse.getBoundingClientRect().y
 
-    if (dir === 1 && y - dist >= 0 && x - dist >= 0) {
+    if (dir === 1 && y - dist >= -20 && x - dist >= -20) {
       // 왼쪽 위
       setTop((current) => current - dist) // 위로 이동
       setLeft((current) => current - dist) // 왼쪽으로 이동
@@ -61,13 +61,13 @@ export default function Mouse() {
       setCurrentY(nextY)
       setNextY((current) => current - dist)
       setNextX((current) => current - dist)
-    } else if (dir === 2 && y - dist >= 0) {
+    } else if (dir === 2 && y - dist >= -20) {
       // 중간 위
       setTop((current) => current - dist)
       setCurrentX(nextX)
       setCurrentY(nextY)
       setNextY((current) => current - dist)
-    } else if (dir === 3 && y - dist >= 0 && x + dist < window_width) {
+    } else if (dir === 3 && y - dist >= -20 && x + dist < window_width) {
       // 오른쪽 위
       setTop((current) => current - dist)
       setLeft((current) => current + dist)
@@ -75,7 +75,7 @@ export default function Mouse() {
       setCurrentY(nextY)
       setNextY((current) => current - dist)
       setNextX((current) => current + dist)
-    } else if (dir === 4 && x - dist >= 0) {
+    } else if (dir === 4 && x - dist >= -20) {
       // 중간 왼쪽
       setLeft((current) => current - dist)
       setCurrentX(nextX)
@@ -87,7 +87,7 @@ export default function Mouse() {
       setCurrentX(nextX)
       setCurrentY(nextY)
       setNextX((current) => current + dist)
-    } else if (dir === 7 && y + dist < window_height && x - dist >= 0) {
+    } else if (dir === 7 && y + dist < window_height && x - dist >= -20) {
       // 아래 왼쪽
       setTop((current) => current + dist)
       setLeft((current) => current - dist)
