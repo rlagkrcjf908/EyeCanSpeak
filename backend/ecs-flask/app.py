@@ -1,6 +1,5 @@
 import base64
-import io
-import random
+
 import cv2
 import numpy as np
 from gaze_tracking.example import Example
@@ -130,44 +129,6 @@ def getSettingRatio(image):
     return hor_face_ratio, ver_face_ratio
 
 
-# setting
-# @app.route("/flask/setting", methods = ['POST'])
-# def setting():
-#
-#     # Request Data
-#     userNo = request.json.get('userNo')
-#     index = request.json.get('index')
-#     image = request.json.get('imgSrc')
-#
-#     # base64 String to Image
-#     base_str = image.split(',')[1]
-#     im_bytes = base64.b64decode(base_str)
-#     im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
-#     img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
-#     print("Setting Image Shape: ", img.shape)
-#
-#     # 동공 좌표 가져오기
-#     x, y = getSettingPoint(img)
-#     if x == -1 or y == -1:
-#         # 얼굴 인식하지 못하였을 경우
-#         return jsonify(400)
-#
-#     # 사용자별 setting 좌표를 저장할 Dictionary 초기화
-#     if index == 1:
-#         setting_point[userNo] = [(0, 0), (0, 0), (0, 0), (0, 0)]
-#     setting_point[userNo][index - 1] = (x, y)
-#
-#     # 세팅이 끝났을 경우
-#     if index == 4:
-#         setObject(userNo)
-#
-#     print(f"userNo: {userNo}, index: {index}")
-#     print(x, y)
-#
-#     hor_face_ratio,ver_face_ratio=getSettingRatio(img)
-#     dir=cal_dir(hor_face_ratio, ver_face_ratio)
-#     return jsonify(200, x, y)
-
 @app.route("/flask/setting", methods=['POST'])
 def setting():
     # Request Data
@@ -217,7 +178,7 @@ def http_call():
 
 # Image api _ base64
 @app.route("/flask/position", methods=['POST'])
-def image_base64():
+def handle_image_api():
     image = request.json
 
     # userNo = -1
