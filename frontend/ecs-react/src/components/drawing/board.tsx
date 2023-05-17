@@ -74,8 +74,8 @@ function Board({ width, height }: CanvasProps) {
       context.lineWidth = size // 선 굵기
 
       context.beginPath()
-      context.moveTo(currentX, currentY)
-      context.lineTo(nextX, nextY)
+      context.moveTo(currentX - 18, currentY + 21)
+      context.lineTo(nextX - 18, nextY + 21)
       context.closePath()
 
       context.stroke()
@@ -136,35 +136,37 @@ function Board({ width, height }: CanvasProps) {
   }
 
   return (
-    <>
+    <div className={style.container}>
       <Modal
         categoryNo={params.categoryNo}
         blob={imageBlob}
         isEdit={false}
         drawNo='-1'
       ></Modal>
-      <div className={style.container}>
-        <div
-          className={style.board}
-          style={{
-            backgroundColor: "white",
-          }}
-        >
-          <canvas
-            ref={canvasRef}
-            height={height}
-            width={width}
-            id='canvas'
-          ></canvas>
-        </div>
-        <div style={{ textAlign: "center" }}>
-          <Palette changeColor={changeColor} changeSize={changeSize} />
-          <button className={style.btn} onClick={saveDraw}>
-            저장
-          </button>
+      <div>
+        <div className={style.wrapper}>
+          <div
+            className={style.board}
+            style={{
+              backgroundColor: "white",
+            }}
+          >
+            <canvas
+              ref={canvasRef}
+              height={height}
+              width={width}
+              id='canvas'
+            ></canvas>
+          </div>
+          <div style={{ textAlign: "center" }}>
+            <Palette changeColor={changeColor} changeSize={changeSize} />
+            <button className={style.btn} onClick={saveDraw}>
+              저장
+            </button>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 Board.defaultProps = {

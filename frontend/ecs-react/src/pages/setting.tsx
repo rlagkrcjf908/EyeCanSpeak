@@ -24,12 +24,12 @@ export default function Setting() {
   const setIsSetting = useSetRecoilState(settingState)
 
   // 동그라미 위치 (좌상/우상/좌하/우하)
-  const circles = [
-    { top: "0", left: "0" },
-    { top: "0", left: "calc(100% - 100px)" },
-    { top: "calc(100% - 100px)", left: "0" },
-    { top: "calc(100% - 100px)", left: "calc(100% - 100px)" },
-  ]
+  // const circles = [
+  //   { top: "0", left: "0" },
+  //   { top: "0", left: "calc(100% - 100px)" },
+  //   { top: "calc(100% - 100px)", left: "0" },
+  //   { top: "calc(100% - 100px)", left: "calc(100% - 100px)" },
+  // ]
   // 캠 화면, 나중에 안보이게 수정
   const videoConstraints = {
     width: 640,
@@ -93,15 +93,11 @@ export default function Setting() {
       setCount(-1)
     }
   }, [currentCircle])
+  const width = window.screen.availWidth
+  const height = window.screen.availHeight
 
   return (
     <div className={style.container}>
-      {count !== -1 ? (
-        <div className={style.circle} style={circles[currentCircle]}>
-          {count === 0 ? <img src={camera} alt='' width={35}></img> : count}
-        </div>
-      ) : null}
-
       <Webcam
         className={style.cam}
         muted={false}
@@ -113,19 +109,25 @@ export default function Setting() {
         screenshotFormat='image/jpeg'
         videoConstraints={videoConstraints}
       />
+      {count !== -1 ? (
+        <div className={style.circle}>
+          {count === 0 ? <img src={camera} alt='' width={35}></img> : count}
+        </div>
+      ) : null}
+
       {isEnd ? (
         <div className={`${style.content} ${style.finish}`}>
           설정이 완료되었습니다.
         </div>
       ) : (
         <div className={style.content}>
-          <img
+          {/* <img
             src={eyes[currentCircle]}
             alt=''
             width={300}
             style={{ margin: "auto", display: "block" }}
-          ></img>
-          <div className={style.text}>빨간 원을 쳐다봐주세요</div>
+          ></img> */}
+          <div className={style.text}>빨간 원을 보세요</div>
         </div>
       )}
     </div>

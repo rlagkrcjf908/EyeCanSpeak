@@ -25,6 +25,8 @@ export default function Mouse() {
   const [dir2, setDir2] = useState<number>(0)
   const [dir3, setDir3] = useState<number>(0)
 
+  const notice_text = "화면 안에서 이동해주세요"
+  const [notice, setNotice] = useState("")
   const window_width = window.screen.availWidth
   const window_height = window.screen.availHeight
 
@@ -32,12 +34,16 @@ export default function Mouse() {
 
   let mouse: any
 
-  // const onClick = (selected: number) => {
-  //   setDir(selected)
-  //   move(selected)
-  // }
+  const onClick = (selected: number) => {
+    // setDir(selected)
+    move(selected)
+  }
 
-  const move = () => {
+  const initNotice = () => {
+    setNotice("")
+  }
+
+  const move = (dir: number) => {
     mouse = document.querySelector(".mouse")
 
     const x = mouse.getBoundingClientRect().x
@@ -47,32 +53,33 @@ export default function Mouse() {
       // 왼쪽 위
       if (x < 0 || y < 0) console.log("화면 안에서 이동해주세요")
       else {
-        setTop((current) => current - dist)
-        setLeft((current) => current - dist)
+        setTop((current) => current - dist) // 위로 이동
+        setLeft((current) => current - dist) // 왼쪽으로 이동
         setCurrentX(nextX)
         setCurrentY(nextY)
         setNextY((current) => current - dist)
+        setNextX((current) => current - dist)
       }
     } else if (dir === 2) {
       // 중간 위
-
       setTop((current) => current - dist)
       setCurrentX(nextX)
       setCurrentY(nextY)
-      setNextY((current) => current + dist)
+      setNextY((current) => current - dist)
     } else if (dir === 3) {
       // 오른쪽 위
       setTop((current) => current - dist)
       setLeft((current) => current + dist)
       setCurrentX(nextX)
       setCurrentY(nextY)
-      setNextX((current) => current - dist)
+      setNextY((current) => current - dist)
+      setNextX((current) => current + dist)
     } else if (dir === 4) {
       // 중간 왼쪽
       setLeft((current) => current - dist)
       setCurrentX(nextX)
       setCurrentY(nextY)
-      setNextX((current) => current + dist)
+      setNextX((current) => current - dist)
     } else if (dir === 5) {
       // 중간 클릭...?
       // setLeft((current) => current + 20)
@@ -81,51 +88,52 @@ export default function Mouse() {
       // setNextX((current) => current + 20)
     } else if (dir === 6) {
       // 중간 오른쪽
-
       setLeft((current) => current + dist)
       setCurrentX(nextX)
       setCurrentY(nextY)
       setNextX((current) => current + dist)
     } else if (dir === 7) {
       // 아래 왼쪽
-
       setTop((current) => current + dist)
       setLeft((current) => current - dist)
       setCurrentX(nextX)
       setCurrentY(nextY)
-      setNextX((current) => current + dist)
+      setNextY((current) => current + dist)
+      setNextX((current) => current - dist)
     } else if (dir === 8) {
       // 아래 중간
-
       setTop((current) => current + dist)
       setCurrentX(nextX)
       setCurrentY(nextY)
-      setNextX((current) => current + dist)
+      setNextY((current) => current + dist)
     } else if (dir === 9) {
       //아래 오른쪽
-
       setTop((current) => current + dist)
       setLeft((current) => current + dist)
       setCurrentX(nextX)
       setCurrentY(nextY)
+      setNextY((current) => current + dist)
       setNextX((current) => current + dist)
     }
 
-    // if (
-    //   x < window_width ||
-    //   x >= window_width ||
-    //   y < window_height ||
-    //   y >= window_height
-    // )
-    // alert("화면 벗어남")
+    if (x < 0 || x >= window_width || y < 0 || y >= window_height) {
+      setNotice(notice_text)
+      setTimeout(initNotice, 2000)
+      return
+    }
   }
 
   useEffect(() => {
     setDir1(() => dir2)
     setDir2(() => dir3)
     setDir3(() => dir)
-    if (dir1 === 5 && dir2 === 5 && dir3 === 5) clickHandler()
-    move()
+    if (dir1 === 5 && dir2 === 5 && dir3 === 5) {
+      setDir1(-1)
+      setDir2(-1)
+      setDir3(-1)
+      clickHandler()
+    }
+    move(dir)
   }, [dir, dirIsChange])
 
   const mouseClickEvents = ["mousedown", "click", "mouseup"]
@@ -255,23 +263,24 @@ export default function Mouse() {
         </div>
       </div>
 
-      {/* <div className='controller'>
+      <div className='controller'>
         <div>
-          <button onClick={() => onClick(0)}>top</button>
+          <button onClick={() => onClick(2)}>top</button>
         </div>
         <div>
-          <button onClick={() => onClick(1)}>bottom</button>
+          <button onClick={() => onClick(8)}>bottom</button>
         </div>
         <div>
-          <button onClick={() => onClick(2)}>left</button>
+          <button onClick={() => onClick(4)}>left</button>
         </div>
         <div>
-          <button onClick={() => onClick(3)}>right</button>
+          <button onClick={() => onClick(6)}>right</button>
         </div>
         <div>
           <button onClick={clickHandler}>click</button>
         </div>
-      </div> */}
+      </div>
+      <div className='notice'>{notice}</div>
     </>
   )
 }
