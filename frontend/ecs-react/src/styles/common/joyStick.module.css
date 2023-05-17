@@ -1,0 +1,41 @@
+.joyStick {
+  position: fixed;
+  left: 30px;
+  bottom: 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.item {
+  background-color: rgb(255, 126, 126);
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+}
+.top1 {
+  border-radius: 90px 0 0 0;
+}
+.top2 {
+  /* border-radius: ; */
+}
+.top3 {
+  border-radius: 0 20px 0 0;
+}
+.center1 {
+  border-radius: 0 0 0 0;
+}
+.center2 {
+  border-radius: 0 0 0 0;
+}
+.center3 {
+  border-radius: 0 0 0 0;
+}
+.bottom1 {
+  border-radius: 0 0 0 20px;
+}
+.bottom2 {
+  border-radius: 0 0 0 0;
+}
+.bottom3 {
+  border-radius: 0 0 20px 0;
+}
