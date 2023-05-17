@@ -127,7 +127,12 @@ export default function Mouse() {
     setDir1(() => dir2)
     setDir2(() => dir3)
     setDir3(() => dir)
-    if (dir1 === 5 && dir2 === 5 && dir3 === 5) clickHandler()
+    if (dir1 === 5 && dir2 === 5 && dir3 === 5) {
+      setDir1(-1)
+      setDir2(-1)
+      setDir3(-1)
+      clickHandler()
+    }
     move(dir)
   }, [dir, dirIsChange])
 
