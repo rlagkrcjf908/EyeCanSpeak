@@ -68,11 +68,9 @@ function Board({ width, height }: CanvasProps) {
 
     if (initStart && context) {
       let backImg = new Image()
-      console.log(bgImage)
       backImg.crossOrigin = "anonymous"
       backImg.src = bgImage + "?timestamp=" + new Date().getTime() // 핵심(url 뒤에 캐시막기용 파라미터 추가)
 
-      console.log(backImg.src)
       backImg.onload = function () {
         context.drawImage(backImg, 0, 0, canvas.width + 5, canvas.height)
       }
@@ -150,7 +148,6 @@ function Board({ width, height }: CanvasProps) {
 
   //------------------------------------------------------
   const saveDraw = async () => {
-    console.log(categoryNo)
     const canvas: any = document.getElementById("canvas")
 
     await canvas.toBlob((blob: any) => {

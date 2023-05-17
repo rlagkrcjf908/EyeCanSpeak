@@ -1,4 +1,5 @@
 .openModal {
+  z-index: 3000;
   text-align: center;
   position: fixed;
   left: 0;

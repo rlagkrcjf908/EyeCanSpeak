@@ -31,7 +31,6 @@ function Connect() {
 
   // 캠 화면 캡쳐하고 보냄
   const capture = async () => {
-    console.log("send")
     if (!webcamRef.current) return
     const imageSrc = webcamRef.current.getScreenshot()
     if (imageSrc) send(imageSrc)
@@ -45,16 +44,10 @@ function Connect() {
       { image: true, buffer: imageSrc, userNo: userNumber }
     )
     if (response.status === 200) {
-      console.log(response.data)
       const data = response.data
       setX(Math.floor((1 - data.x) * window_width))
       setY(Math.floor(data.y * window_height))
-      console.log("dir", data.dir)
-      console.log(
-        "X, Y",
-        Math.floor(data.x * window_width),
-        Math.floor(data.y * window_height)
-      )
+
       setDir(data.dir)
       setIsChange((c) => !c)
       capture()

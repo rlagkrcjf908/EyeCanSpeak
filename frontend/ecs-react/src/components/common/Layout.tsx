@@ -3,7 +3,6 @@ import Navbar from "./navbar"
 import SettingBtn from "./settingBtn"
 import Connect from "../../pages/connect"
 import Mouse from "./mouse"
-import Position from "./position"
 import JoyStick from "./joyStick"
 
 const Layout = () => {
@@ -16,7 +15,7 @@ const Layout = () => {
         <Outlet />
         <SettingBtn />
         <Connect />
-        <Mouse /> <Position />
+        <Mouse />
         <JoyStick />
       </main>
     </>

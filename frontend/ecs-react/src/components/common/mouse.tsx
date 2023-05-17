@@ -50,7 +50,7 @@ export default function Mouse() {
     const x = mouse.getBoundingClientRect().x
     const y = mouse.getBoundingClientRect().y
     if (dir === 5) clickHandler()
-    else if (dir === 1 && y - dist >= -20 && x - dist >= -20) {
+    else if (dir === 1 && y - dist >= -90 && x - dist >= -20) {
       // 왼쪽 위
       setTop((current) => current - dist) // 위로 이동
       setLeft((current) => current - dist) // 왼쪽으로 이동
@@ -192,7 +192,6 @@ export default function Mouse() {
       fancyButtons.addEventListener(
         "animationend",
         () => {
-          console.log("click")
           fancyButtons.classList.remove("active")
         },
         { once: true }
@@ -206,7 +205,6 @@ export default function Mouse() {
       fancyButtons2.addEventListener(
         "animationend",
         () => {
-          console.log("click")
           fancyButtons2.classList.remove("active")
         },
         { once: true }

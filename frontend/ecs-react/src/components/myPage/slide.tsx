@@ -218,7 +218,6 @@ export default function Slide({
             <button
               className={style.btn}
               onClick={() => {
-                console.log(drawList[currentPage].drawNo)
                 setModal(true)
               }}
             >

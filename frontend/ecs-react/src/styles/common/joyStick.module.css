@@ -1,4 +1,5 @@
 .joyStick {
+  z-index: 3001;
   position: fixed;
   left: 30px;
   bottom: 30px;

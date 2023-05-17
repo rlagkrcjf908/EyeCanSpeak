@@ -43,7 +43,7 @@ export default function Navbar() {
       className={style.header}
     >
       <div className={style.logo}>
-        <Link to='/' className={style.logoItem}>
+        <Link to='/selectMain' className={style.logoItem}>
           <img src={logo} alt='logo' />
         </Link>
       </div>
