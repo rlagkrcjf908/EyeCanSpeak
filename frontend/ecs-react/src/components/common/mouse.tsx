@@ -102,8 +102,8 @@ export default function Mouse() {
       setNextY((current) => current + dist)
     } else if (
       dir === 9 &&
-      y + dist > window_height &&
-      x + dist > window_width
+      y + dist < window_height &&
+      x + dist < window_width
     ) {
       //아래 오른쪽
       setTop((current) => current + dist)
