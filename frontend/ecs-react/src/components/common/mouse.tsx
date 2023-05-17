@@ -27,8 +27,8 @@ export default function Mouse() {
 
   const notice_text = "화면 안에서 이동해주세요"
   const [notice, setNotice] = useState("")
-  const window_width = window.screen.availWidth
-  const window_height = window.screen.availHeight
+  const window_width = window.screen.availWidth - 20
+  const window_height = window.screen.availHeight - 150
 
   const dist = 20
 
@@ -44,29 +44,29 @@ export default function Mouse() {
   }
 
   const move = (dir: number) => {
+    if (dir === -2) {
+      return
+    }
     mouse = document.querySelector(".mouse")
 
     const x = mouse.getBoundingClientRect().x
     const y = mouse.getBoundingClientRect().y
 
-    if (dir === 1) {
+    if (dir === 1 && y - dist >= 0 && x - dist >= 0) {
       // 왼쪽 위
-      if (x < 0 || y < 0) console.log("화면 안에서 이동해주세요")
-      else {
-        setTop((current) => current - dist) // 위로 이동
-        setLeft((current) => current - dist) // 왼쪽으로 이동
-        setCurrentX(nextX)
-        setCurrentY(nextY)
-        setNextY((current) => current - dist)
-        setNextX((current) => current - dist)
-      }
-    } else if (dir === 2) {
+      setTop((current) => current - dist) // 위로 이동
+      setLeft((current) => current - dist) // 왼쪽으로 이동
+      setCurrentX(nextX)
+      setCurrentY(nextY)
+      setNextY((current) => current - dist)
+      setNextX((current) => current - dist)
+    } else if (dir === 2 && y - dist >= 0) {
       // 중간 위
       setTop((current) => current - dist)
       setCurrentX(nextX)
       setCurrentY(nextY)
       setNextY((current) => current - dist)
-    } else if (dir === 3) {
+    } else if (dir === 3 && y - dist >= 0 && x + dist < window_width) {
       // 오른쪽 위
       setTop((current) => current - dist)
       setLeft((current) => current + dist)
@@ -74,25 +74,19 @@ export default function Mouse() {
       setCurrentY(nextY)
       setNextY((current) => current - dist)
       setNextX((current) => current + dist)
-    } else if (dir === 4) {
+    } else if (dir === 4 && x - dist >= 0) {
       // 중간 왼쪽
       setLeft((current) => current - dist)
       setCurrentX(nextX)
       setCurrentY(nextY)
       setNextX((current) => current - dist)
-    } else if (dir === 5) {
-      // 중간 클릭...?
-      // setLeft((current) => current + 20)
-      // setCurrentX(nextX)
-      // setCurrentY(nextY)
-      // setNextX((current) => current + 20)
-    } else if (dir === 6) {
+    } else if (dir === 6 && x + dist < window_width) {
       // 중간 오른쪽
       setLeft((current) => current + dist)
       setCurrentX(nextX)
       setCurrentY(nextY)
       setNextX((current) => current + dist)
-    } else if (dir === 7) {
+    } else if (dir === 7 && y + dist < window_height && x - dist >= 0) {
       // 아래 왼쪽
       setTop((current) => current + dist)
       setLeft((current) => current - dist)
@@ -100,13 +94,17 @@ export default function Mouse() {
       setCurrentY(nextY)
       setNextY((current) => current + dist)
       setNextX((current) => current - dist)
-    } else if (dir === 8) {
+    } else if (dir === 8 && y + dist < window_height) {
       // 아래 중간
       setTop((current) => current + dist)
       setCurrentX(nextX)
       setCurrentY(nextY)
       setNextY((current) => current + dist)
-    } else if (dir === 9) {
+    } else if (
+      dir === 9 &&
+      y + dist > window_height &&
+      x + dist > window_width
+    ) {
       //아래 오른쪽
       setTop((current) => current + dist)
       setLeft((current) => current + dist)
@@ -114,9 +112,7 @@ export default function Mouse() {
       setCurrentY(nextY)
       setNextY((current) => current + dist)
       setNextX((current) => current + dist)
-    }
-
-    if (x < 0 || x >= window_width || y < 0 || y >= window_height) {
+    } else {
       setNotice(notice_text)
       setTimeout(initNotice, 2000)
       return
@@ -125,12 +121,10 @@ export default function Mouse() {
 
   useEffect(() => {
     setDir1(() => dir2)
-    setDir2(() => dir3)
-    setDir3(() => dir)
-    if (dir1 === 5 && dir2 === 5 && dir3 === 5) {
+    setDir2(() => dir)
+    if (dir1 === 5 && dir2 === 5) {
       setDir1(-1)
       setDir2(-1)
-      setDir3(-1)
       clickHandler()
     }
     move(dir)

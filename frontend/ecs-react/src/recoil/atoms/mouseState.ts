@@ -2,12 +2,12 @@ import { atom } from "recoil"
 
 export const currerntXState = atom<number>({
   key: "currerntXState",
-  default: -1,
+  default: 0,
 })
 
 export const currerntYState = atom<number>({
   key: "currerntYState",
-  default: -1,
+  default: 0,
 })
 
 export const nextXState = atom<number>({
@@ -27,7 +27,7 @@ export const isClick = atom<boolean>({
 
 export const dirState = atom<number>({
   key: "dirState",
-  default: -1,
+  default: -2,
 })
 
 export const getDirState = atom<boolean>({
