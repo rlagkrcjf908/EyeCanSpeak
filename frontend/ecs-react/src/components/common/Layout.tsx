@@ -6,6 +6,7 @@ import Mouse from "./mouse"
 import Position from "./position"
 
 const Layout = () => {
+  console.log("????????????")
   return (
     <>
       <header>

@@ -5,6 +5,7 @@ import {
   currerntXState,
   currerntYState,
   dirState,
+  distState,
   getDirState,
   isClick,
   nextXState,
@@ -30,7 +31,7 @@ export default function Mouse() {
   const window_width = window.screen.availWidth - 20
   const window_height = window.screen.availHeight - 150
 
-  const dist = 20
+  const dist = useRecoilValue(distState)
 
   let mouse: any
 

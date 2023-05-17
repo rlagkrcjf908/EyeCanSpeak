@@ -34,3 +34,8 @@ export const getDirState = atom<boolean>({
   key: "getDirState",
   default: true,
 })
+
+export const distState = atom<number>({
+  key: "distState",
+  default: 130,
+})
