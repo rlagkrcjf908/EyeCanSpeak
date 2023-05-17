@@ -27,6 +27,10 @@ class Example(object):
 
         dw = self.W / 3
         dh = self.H / 3
+
+        x = int(x)
+        y = int(y)
+
         # print(f'dw : {dw} dh : {dh}')
         # print(f'x : {x} y : {y}')
         if (x < dw) and (y < dh): return 1
@@ -115,3 +119,52 @@ class Example(object):
         # print(f'nX : {nx:.2f}, nY: {ny:.2f}\n')
 
         return self.W - nx, ny, self.calc_dir(nx, ny)
+
+    def getRatio(self, image):
+        gaze = GazeTracking()
+        gaze.refresh(image)
+
+        # 양쪽 눈 비율 가지고 오기
+        hor_face_ratio = gaze.horizontal_face_ratio()
+        ver_face_ratio = gaze.vertical_face_ratio()
+
+        left_pupil = gaze.pupil_left_coords()
+        right_pupil = gaze.pupil_right_coords()
+
+        print(f'before hor:{hor_face_ratio} ver:{ver_face_ratio}')
+
+        if(type(left_pupil)==type(None) or type(right_pupil)==type(None) or type(hor_face_ratio) == type(None) or type(ver_face_ratio) == type(None)):
+            hor_face_ratio = (self.minX + self.maxX) / 2
+            ver_face_ratio = (self.minY + self.maxY) / 2
+            return hor_face_ratio, ver_face_ratio, 5
+
+        print(f'hor:{hor_face_ratio} ver:{ver_face_ratio}')
+        return hor_face_ratio, ver_face_ratio, self.calc_dir2(hor_face_ratio, ver_face_ratio)
+
+    def calc_dir2(self, x, y):
+
+        x = float(x)
+        y = float(y)
+
+        if (x < self.minX) and (y < self.minY):
+            return 1
+        elif self.minX <= x < self.maxX and y < self.minY:
+            return 2
+        elif self.maxX <= x and y < self.minY:
+            return 3
+
+        elif x < self.minX and self.minY <= y < self.maxY:
+            return 4
+        elif self.minX <= x < self.maxX and self.minY <= y < self.maxY:
+            return 5
+        elif self.maxX <= x and self.minY <= y < self.maxY:
+            return 6
+
+        elif x < self.minX and self.maxY <= y:
+            return 7
+        elif self.minX <= x < self.maxX and self.maxY <= y:
+            return 8
+        elif self.maxX <= x and self.maxY <= y:
+            return 9
+
+        return -1

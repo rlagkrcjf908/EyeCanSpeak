@@ -8,13 +8,13 @@ class Pupil(object):
     the position of the pupil
     """
 
-    def __init__(self, eye_frame, threshold):
+    def __init__(self, eye_frame, threshold, side):
         self.iris_frame = None
         self.threshold = threshold
         self.x = None
         self.y = None
 
-        self.detect_iris(eye_frame)
+        self.detect_iris(eye_frame, side)
 
     @staticmethod
     def image_processing(eye_frame, threshold):
@@ -34,7 +34,7 @@ class Pupil(object):
 
         return new_frame
 
-    def detect_iris(self, eye_frame):
+    def detect_iris(self, eye_frame, side):
         """Detects the iris and estimates the position of the iris by
         calculating the centroid.
 
@@ -52,3 +52,16 @@ class Pupil(object):
             self.y = int(moments['m01'] / moments['m00'])
         except (IndexError, ZeroDivisionError):
             pass
+
+        # src = eye_frame
+        # cv2.drawContours(src, contours, 0, (0, 0, 255), 1)
+        # color = (255, 255, 255)
+        # if(type(self.x) != type(None) and type(self.y) != type(None)):
+        #     # print(src.shape)
+        #     # print(self.x, self.y)
+        #     cv2.line(src, (self.x, self.y), (self.x, self.y), color, 1)
+        #
+        # if side == 0:
+        #     cv2.imshow("left", src)
+        # elif side == 1:
+        #     cv2.imshow("right", src)
