@@ -23,7 +23,8 @@
 } */
 
 .circle {
-  position: fixed;
+  /* position: fixed; */
+  margin: 0 auto 20px auto;
   width: 70px;
   height: 70px;
   /* margin: 10px; */
@@ -37,18 +38,17 @@
   font-size: 2em;
   font-weight: bold;
 }
-
+.box {
+}
 .content {
   font-size: 50px;
   text-align: center;
-  margin-top: 250px;
+  /* margin-top: 250px; */
 }
 .text {
   animation: show 1s infinite alternate;
 }
-.finish {
-  margin-top: 40vh;
-}
+
 @keyframes show {
   from {
     opacity: 0.3;
