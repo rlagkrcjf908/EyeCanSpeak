@@ -44,7 +44,7 @@ export default function Mouse() {
   }
 
   const move = (dir: number) => {
-    if (dir === -2) {
+    if (dir === -2 || dir === 5) {
       return
     }
     mouse = document.querySelector(".mouse")
