@@ -25,6 +25,8 @@ export default function Mouse() {
   const [dir2, setDir2] = useState<number>(0)
   const [dir3, setDir3] = useState<number>(0)
 
+  const notice_text = "화면 안에서 이동해주세요"
+  const [notice, setNotice] = useState("")
   const window_width = window.screen.availWidth
   const window_height = window.screen.availHeight
 
@@ -35,6 +37,10 @@ export default function Mouse() {
   const onClick = (selected: number) => {
     // setDir(selected)
     move(selected)
+  }
+
+  const initNotice = () => {
+    setNotice("")
   }
 
   const move = (dir: number) => {
@@ -110,13 +116,11 @@ export default function Mouse() {
       setNextX((current) => current + dist)
     }
 
-    // if (
-    //   x < window_width ||
-    //   x >= window_width ||
-    //   y < window_height ||
-    //   y >= window_height
-    // )
-    // alert("화면 벗어남")
+    if (x < 0 || x >= window_width || y < 0 || y >= window_height) {
+      setNotice(notice_text)
+      setTimeout(initNotice, 2000)
+      return
+    }
   }
 
   useEffect(() => {
@@ -271,6 +275,7 @@ export default function Mouse() {
           <button onClick={clickHandler}>click</button>
         </div>
       </div>
+      <div className='notice'>{notice}</div>
     </>
   )
 }

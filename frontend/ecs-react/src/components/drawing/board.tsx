@@ -136,35 +136,37 @@ function Board({ width, height }: CanvasProps) {
   }
 
   return (
-    <>
+    <div className={style.container}>
       <Modal
         categoryNo={params.categoryNo}
         blob={imageBlob}
         isEdit={false}
         drawNo='-1'
       ></Modal>
-      <div className={style.container}>
-        <div
-          className={style.board}
-          style={{
-            backgroundColor: "white",
-          }}
-        >
-          <canvas
-            ref={canvasRef}
-            height={height}
-            width={width}
-            id='canvas'
-          ></canvas>
-        </div>
-        <div style={{ textAlign: "center" }}>
-          <Palette changeColor={changeColor} changeSize={changeSize} />
-          <button className={style.btn} onClick={saveDraw}>
-            저장
-          </button>
+      <div>
+        <div className={style.wrapper}>
+          <div
+            className={style.board}
+            style={{
+              backgroundColor: "white",
+            }}
+          >
+            <canvas
+              ref={canvasRef}
+              height={height}
+              width={width}
+              id='canvas'
+            ></canvas>
+          </div>
+          <div style={{ textAlign: "center" }}>
+            <Palette changeColor={changeColor} changeSize={changeSize} />
+            <button className={style.btn} onClick={saveDraw}>
+              저장
+            </button>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 Board.defaultProps = {
