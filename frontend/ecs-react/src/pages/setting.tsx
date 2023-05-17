@@ -6,6 +6,7 @@ import axios, { AxiosResponse } from "axios"
 import { useRecoilValue, useSetRecoilState } from "recoil"
 import { settingState, userNo } from "../recoil/atoms/userState"
 import { useNavigate } from "react-router"
+import eye from "../assets/image/eye.png"
 import eye1 from "../assets/image/eye1.png"
 import eye2 from "../assets/image/eye2.png"
 import eye3 from "../assets/image/eye3.png"
@@ -117,18 +118,25 @@ export default function Setting() {
         <div className={style.content}>설정이 완료되었습니다.</div>
       ) : count > -1 ? (
         <div className={style.box}>
+          <img
+            src={eye}
+            width={200}
+            alt=''
+            style={{ display: "block", margin: "0 auto" }}
+          ></img>
           <div className={style.circle}>
             {count === 0 ? <img src={camera} alt='' width={35}></img> : count}
           </div>
-          <div className={style.content}>
-            {/* <img
+          {/* <div className={style.content}> */}
+          {/* <img
               src={eyes[currentCircle]}
               alt=''
               width={300}
               style={{ margin: "auto", display: "block" }}
             ></img> */}
-            <div className={style.text}>빨간 원을 쳐다봐주세요</div>
-          </div>
+          <div className={style.text}>빨간 원을 쳐다봐주세요</div>
+          <div className={style.text2}>{4 - currentCircle}번 더 촬영할게요</div>
+          {/* </div> */}
         </div>
       ) : (
         <div>

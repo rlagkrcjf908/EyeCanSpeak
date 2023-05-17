@@ -41,11 +41,19 @@
 .box {
 }
 .content {
-  font-size: 50px;
+  font-size: 40px;
   text-align: center;
   /* margin-top: 250px; */
 }
 .text {
+  text-align: center;
+  font-size: 40px;
+}
+
+.text2 {
+  text-align: center;
+  font-size: 30px;
+  color: rgb(148, 148, 148);
   animation: show 1s infinite alternate;
 }
 
