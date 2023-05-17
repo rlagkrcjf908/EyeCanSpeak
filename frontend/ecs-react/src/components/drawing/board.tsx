@@ -74,8 +74,8 @@ function Board({ width, height }: CanvasProps) {
       context.lineWidth = size // 선 굵기
 
       context.beginPath()
-      context.moveTo(currentX, currentY)
-      context.lineTo(nextX, nextY)
+      context.moveTo(currentX - 18, currentY + 21)
+      context.lineTo(nextX - 18, nextY + 21)
       context.closePath()
 
       context.stroke()

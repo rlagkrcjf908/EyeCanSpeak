@@ -45,8 +45,8 @@ export default function Setting() {
     const token = cookies.get("accessToken")
     const response: AxiosResponse = await axios.post(
       // api 주소 적기
-      `https://k8d204.p.ssafy.io/flask/setting`,
-      // `http://192.168.100.207:5000/flask/setting`,
+      // `https://k8d204.p.ssafy.io/flask/setting`,
+      `http://192.168.100.207:5000/flask/setting`,
       { userNo: userNumber, imgSrc: imageSrc, index: currentCircle + 1 }
     )
     if (response.data[0] === 200) {
