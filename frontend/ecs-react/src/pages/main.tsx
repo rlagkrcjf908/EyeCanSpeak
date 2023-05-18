@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { parseJwt } from "../services/jwtDecode"
-import Content from "../components/main/content"
+import Content from "../components/main/content2"
 import MainBtn from "../components/main/mainBtn"
 import Title from "../components/main/title"
 import style from "../styles/main/main.module.css"
