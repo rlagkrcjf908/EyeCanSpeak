@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { parseJwt } from "../services/jwtDecode"
-import MainBtn from "../components/main/mainBtn"
+import button from "../assets/image/kakao_button.png"
 import Title from "../components/main/title"
 import style from "../styles/main/main.module.css"
 import { useEffect } from "react"
@@ -39,7 +39,7 @@ export default function Main() {
         <Title></Title>
         {/* <Content></Content> */}
         {log ? (
-          <div>
+          <div className={style.box}>
             <div className={style.btnBox}>
               <button
                 className={style.btn}
@@ -52,7 +52,13 @@ export default function Main() {
             </div>
           </div>
         ) : (
-          <MainBtn></MainBtn>
+          <div className={style.box}>
+            <div style={{ textAlign: "center" }}>
+              <button style={{ background: "none" }}>
+                <img src={button} alt='' style={{ cursor: "pointer" }}></img>
+              </button>
+            </div>
+          </div>
         )}
       </div>
       <div
