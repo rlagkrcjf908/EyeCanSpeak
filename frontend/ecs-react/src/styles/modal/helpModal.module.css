@@ -9,9 +9,9 @@
   background-color: aliceblue;
   animation: show 0.5s ease, hide 0.5s 4.7s ease;
 }
-.wrapper {
+.section {
   margin: 100px;
-  width: 1400px;
+  width: 1300px;
   display: grid;
   text-align: center;
   grid-template-columns: 1fr 1fr 1fr;
@@ -19,6 +19,10 @@
 
 .box {
   margin: 0 20px;
+}
+
+.text {
+  text-align: center;
 }
 
 @keyframes show {
