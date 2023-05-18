@@ -7,7 +7,7 @@
   width: 100vw;
   height: 100vh;
   background-color: aliceblue;
-  animation: show 0.5s ease, hide 0.5s 5s ease;
+  animation: show 0.5s ease, hide 0.5s 4.7s ease;
 }
 .wrapper {
   margin: 100px;
