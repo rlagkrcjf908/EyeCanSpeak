@@ -13,8 +13,8 @@ import {
 } from "../../recoil/atoms/mouseState"
 
 export default function Mouse() {
-  const [currentX, setCurrentX] = useRecoilState(currerntXState)
-  const [currentY, setCurrentY] = useRecoilState(currerntYState)
+  const setCurrentX = useSetRecoilState(currerntXState)
+  const setCurrentY = useSetRecoilState(currerntYState)
   const [nextX, setNextX] = useRecoilState(nextXState)
   const [nextY, setNextY] = useRecoilState(nextYState)
   const [left, setLeft] = useState(0)

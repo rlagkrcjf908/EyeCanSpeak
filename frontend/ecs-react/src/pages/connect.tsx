@@ -53,18 +53,18 @@ function Connect() {
       capture()
     }
   }
-
+  useEffect(() => {
+    console.log("connect")
+    const cookies = new Cookies()
+    if (cookies.get("isSetting")) setIsSetting(true)
+  }, [])
   useEffect(() => {
     if (start && isSetting) {
+      console.log("Start")
       setTimeout(capture, 1000)
       setStart(false)
     }
   }, [start, isSetting])
-
-  useEffect(() => {
-    const cookies = new Cookies()
-    if (cookies.get("isSetting")) setIsSetting(true)
-  }, [])
 
   return (
     <>
