@@ -18,3 +18,10 @@
   height: 100px;
   margin: 0 auto;
 }
+.helpIcon {
+  cursor: pointer;
+  position: fixed;
+  margin: 30px;
+  bottom: 0;
+  right: 0;
+}
