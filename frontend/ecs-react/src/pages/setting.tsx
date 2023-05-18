@@ -84,13 +84,13 @@ export default function Setting() {
   // 모든 원 초점 맞추면 2초 뒤 페이지 넘어감
   useEffect(() => {
     if (currentCircle === 4) {
+      const cookies = new Cookies()
+      cookies.set("isSetting", true)
       setIsEnd(true)
       setTimeout(() => {
         navigate("/selectMain")
       }, 2000)
       setIsSetting(true)
-      const cookies = new Cookies()
-      cookies.set("isSetting", true)
       setCount(-1)
     }
   }, [currentCircle])
