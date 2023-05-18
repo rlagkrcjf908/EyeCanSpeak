@@ -42,7 +42,7 @@ function Connect() {
       // "https://k8d204.p.ssafy.io/flask/position",
       // "https://ecs_fastapi:5000/flask/position",
       // "http://192.168.100.207:5000/flask/position",
-      "https://ecs_flask:5000/flask/position",
+      "http://ecs_flask:5000/flask/position",
       { image: true, buffer: imageSrc, userNo: userNumber }
     )
     if (response.status === 200) {

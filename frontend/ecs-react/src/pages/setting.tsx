@@ -48,7 +48,7 @@ export default function Setting() {
       // "https://ecs_fastapi:5000/flask/setting",
       // `https://k8d204.p.ssafy.io/flask/setting`,
       // `http://192.168.100.207:5000/flask/setting`,
-      "https://ecs_flask:5000/flask/position",
+      "http://ecs_flask:5000/flask/position",
       { userNo: userNumber, imgSrc: imageSrc, index: currentCircle + 1 }
     )
     if (response.data[0] === 200) {
