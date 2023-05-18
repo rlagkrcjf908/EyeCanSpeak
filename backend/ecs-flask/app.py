@@ -141,7 +141,6 @@ def setting():
     im_bytes = base64.b64decode(base_str)
     im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
     img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
-    print("Setting Image Shape: ", img.shape)
 
     # 비율 가져오기
     hor_face_ratio, ver_face_ratio = getSettingRatio(img)
@@ -161,7 +160,6 @@ def setting():
     if index == 4:
         setObject(userNo)
 
-    print(f"setting point: {setting_point[userNo]}")
     print(f"userNo: {userNo}, index: {index}")
     print(x, y)
 
