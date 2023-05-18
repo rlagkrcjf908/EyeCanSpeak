@@ -45,8 +45,8 @@ export default function Setting() {
     if (!imageSrc) return
     const response: AxiosResponse = await axios.post(
       // api 주소 적기
-      "https://ecs_fastapi:5000/flask/setting",
-      // `https://k8d204.p.ssafy.io/flask/setting`,
+      // "https://ecs_fastapi:5000/flask/setting",
+      `https://k8d204.p.ssafy.io/flask/setting`,
       // `http://192.168.100.207:5000/flask/setting`,
       { userNo: userNumber, imgSrc: imageSrc, index: currentCircle + 1 }
     )
@@ -60,7 +60,7 @@ export default function Setting() {
   }
 
   // 캡쳐보내기
-  const sendImage = async () => {}
+  const sendImage = async () => { }
 
   /* circles 인덱스번호*6초 후에 각 위치의 동그라미 나타나고 5초부터 0초까지 카운트다운, 카운트가 다 끝나기 전에 화면 캡쳐*/
   useEffect(() => {
