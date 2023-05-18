@@ -40,7 +40,7 @@ function Connect() {
     // base64로 보냄
     const response: AxiosResponse = await axios.post(
       // "https://k8d204.p.ssafy.io/flask/position",
-      "http://ecs_fastapi:5000/flask/position",
+      "https://ecs_fastapi:5000/flask/position",
       // "http://192.168.100.207:5000/flask/position",
       { image: true, buffer: imageSrc, userNo: userNumber }
     )
