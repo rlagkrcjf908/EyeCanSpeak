@@ -1,5 +1,6 @@
 .container {
   margin: 100px;
+  width: 900px;
   /* border: 1px solid black; */
   display: grid;
   text-align: center;
@@ -13,4 +14,6 @@
   margin: 0 auto;
   background-color: rgb(77, 77, 177);
   margin-bottom: 20px;
+}
+.box {
 }

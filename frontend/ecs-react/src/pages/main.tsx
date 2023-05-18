@@ -28,22 +28,26 @@ export default function Main() {
   }, [])
   return (
     <div className={style.continer}>
-      <div>
+      <div className={style.wrapper}>
         <Title></Title>
         <Content></Content>
         {log ? (
-          <div className={style.btnBox}>
-            <button
-              className={style.btn}
-              onClick={() => {
-                navigate("/setting")
-              }}
-            >
-              시작하기
-            </button>
+          <div>
+            <div className={style.btnBox}>
+              <button
+                className={style.btn}
+                onClick={() => {
+                  navigate("/setting")
+                }}
+              >
+                시작하기
+              </button>
+            </div>
           </div>
         ) : (
-          <MainBtn></MainBtn>
+          <div className={style.btnContainer}>
+            <MainBtn></MainBtn>
+          </div>
         )}
       </div>
     </div>
