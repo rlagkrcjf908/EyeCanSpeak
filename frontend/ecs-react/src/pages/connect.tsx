@@ -60,7 +60,7 @@ function Connect() {
   }, [])
   useEffect(() => {
     if (start && isSetting) {
-      setTimeout(capture, 1000)
+      setInterval(capture, 1000)
       setStart(false)
     }
   }, [start, isSetting])
