@@ -31,11 +31,8 @@ function Connect() {
 
   // 캠 화면 캡쳐하고 보냄
   const capture = async () => {
-    console.log("capturing video")
     if (!webcamRef.current) return
-    console.log("webcam true")
     const imageSrc = webcamRef.current.getScreenshot()
-    console.log("imageSrc: " + imageSrc)
     if (imageSrc) send(imageSrc)
   }
 
@@ -57,13 +54,11 @@ function Connect() {
     }
   }
   useEffect(() => {
-    console.log("connect")
     const cookies = new Cookies()
     if (cookies.get("isSetting")) setIsSetting(true)
   }, [])
   useEffect(() => {
     if (start && isSetting) {
-      console.log("Start")
       setTimeout(capture, 1000)
       setStart(false)
     }
