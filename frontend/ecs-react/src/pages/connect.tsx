@@ -31,8 +31,11 @@ function Connect() {
 
   // 캠 화면 캡쳐하고 보냄
   const capture = async () => {
+    console.log("capturing video")
     if (!webcamRef.current) return
+    console.log("webcam true")
     const imageSrc = webcamRef.current.getScreenshot()
+    console.log("imageSrc: " + imageSrc)
     if (imageSrc) send(imageSrc)
   }
 

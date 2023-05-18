@@ -54,7 +54,6 @@ export default function Mouse() {
     const x = mouse.getBoundingClientRect().x
     const y = mouse.getBoundingClientRect().y
     if (dir === 5) return
-    // else
     if (dir === 1 && y - dist >= -20 && x - dist >= -20) {
       // 왼쪽 위
       setTop((current) => current - dist) // 위로 이동
@@ -261,7 +260,7 @@ export default function Mouse() {
         </div>
       </div>
 
-      <div className='controller'>
+      {/* <div className='controller'>
         <div>
           <button onClick={() => onClick(2)}>top</button>
         </div>
@@ -277,7 +276,7 @@ export default function Mouse() {
         <div>
           <button onClick={clickHandler}>click</button>
         </div>
-      </div>
+      </div> */}
       <div className='notice'>{notice}</div>
     </>
   )
