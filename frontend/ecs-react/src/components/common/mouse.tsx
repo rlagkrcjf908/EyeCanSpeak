@@ -53,8 +53,8 @@ export default function Mouse() {
 
     const x = mouse.getBoundingClientRect().x
     const y = mouse.getBoundingClientRect().y
-    // if (dir === 5) clickHandler()
-    // else
+    if (dir === 5) return
+
     if (dir === 1 && y - dist >= -20 && x - dist >= -20) {
       // 왼쪽 위
       setTop((current) => current - dist) // 위로 이동
