@@ -9,3 +9,8 @@ export const deleteModal = atom<boolean>({
   key: "deleteModal",
   default: false,
 })
+
+export const helpModal = atom<boolean>({
+  key: "helpModal",
+  default: false,
+})
