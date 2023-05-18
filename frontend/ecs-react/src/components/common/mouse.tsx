@@ -261,7 +261,7 @@ export default function Mouse() {
         </div>
       </div>
 
-      <div className='controller'>
+      {/* <div className='controller'>
         <div>
           <button onClick={() => onClick(2)}>top</button>
         </div>
@@ -277,7 +277,7 @@ export default function Mouse() {
         <div>
           <button onClick={clickHandler}>click</button>
         </div>
-      </div>
+      </div> */}
       <div className='notice'>{notice}</div>
     </>
   )
