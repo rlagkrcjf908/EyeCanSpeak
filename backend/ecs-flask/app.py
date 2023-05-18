@@ -201,33 +201,6 @@ def handle_image_api():
     return jsonify({'x': X, "y": Y, "dir": DIR})
 
 
-
-# Image api _ base64
-@app.route("/flask/position", methods = ['POST'])
-def image_base64():
-
-    image=request.json
-
-    userNo = image['userNo']
-
-    # base64 String to Image
-    base_str = image['buffer'].split(',')[1]
-    im_bytes = base64.b64decode(base_str)
-    im_arr = np.frombuffer(im_bytes, dtype=np.uint8)
-    img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
-
-    # Get pupil point
-    # Setting에서 생성한 user별 gazeTracking 객체로부터 화면상 좌표 구하기
-    X, Y, DIR = user_object[userNo].getPupilPoint(img)
-
-    # 좌표의 비율 값 구하기 (client에서 비율에 따른 화면상 좌표를 구하기 위해)
-    rX = X / img.shape[1]
-    rY = Y / img.shape[0]
-
-    return jsonify({'x': rX, "y": rY, "dir": DIR})
-
-
-
 # 이미지 소켓 통신
 @socketio.on('imageConversionByClient')
 def handle_image(image):
