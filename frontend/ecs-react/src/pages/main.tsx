@@ -53,7 +53,13 @@ export default function Main() {
           </div>
         ) : (
           <div className={style.box}>
-            <div style={{ textAlign: "center" }}>
+            <div
+              style={{ textAlign: "center" }}
+              onClick={() => {
+                window.location.href =
+                  "https://k8d204.p.ssafy.io/api/oauth2/authorization/kakao"
+              }}
+            >
               <button style={{ background: "none" }}>
                 <img src={button} alt='' style={{ cursor: "pointer" }}></img>
               </button>
