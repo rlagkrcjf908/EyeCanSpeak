@@ -68,11 +68,12 @@ $color: #555;
 .pens {
   width: 100%;
   margin: 20px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 .pen {
   cursor: pointer;
   margin: 0 20px;
-  display: inline;
   padding: 10px 40px;
   border: 4px solid $color;
   border-radius: 10px;
