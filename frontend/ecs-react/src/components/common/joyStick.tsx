@@ -46,40 +46,9 @@ export default function JoyStick() {
           className={`${style["item"]} ${style[classNames[index]]} ${
             style[item.color]
           }`}
+          key={index}
         ></button>
       ))}
-
-      {/* {colors.map((item, index) => (
-        <div>{colors.length}</div>
-      ))} */}
-
-      {/* <button
-        className={`${style["item"]} ${style["top1"]} ${style[colors[0]]}`}
-      ></button>
-      <button
-        className={`${style["item"]} ${style["top2"]} ${style[colors[1]]}`}
-      ></button>
-      <button
-        className={`${style["item"]} ${style["top3"]} ${style[colors[2]]}`}
-      ></button>
-      <button
-        className={`${style["item"]} ${style["center1"]} ${style[colors[3]]}`}
-      ></button>
-      <button
-        className={`${style["item"]} ${style["center2"]} ${style[colors[4]]}`}
-      ></button>
-      <button
-        className={`${style["item"]} ${style["center3"]} ${style[colors[5]]}`}
-      ></button>
-      <button
-        className={`${style["item"]} ${style["bottom1"]} ${style[colors[6]]}`}
-      ></button>
-      <button
-        className={`${style["item"]} ${style["bottom2"]} ${style[colors[7]]}`}
-      ></button>
-      <button
-        className={`${style["item"]} ${style["bottom3"]} ${style[colors[8]]}`}
-      ></button> */}
     </div>
   )
 }

@@ -13,8 +13,8 @@ import {
 } from "../../recoil/atoms/mouseState"
 
 export default function Mouse() {
-  const [currentX, setCurrentX] = useRecoilState(currerntXState)
-  const [currentY, setCurrentY] = useRecoilState(currerntYState)
+  const setCurrentX = useSetRecoilState(currerntXState)
+  const setCurrentY = useSetRecoilState(currerntYState)
   const [nextX, setNextX] = useRecoilState(nextXState)
   const [nextY, setNextY] = useRecoilState(nextYState)
   const [left, setLeft] = useState(0)
@@ -31,11 +31,6 @@ export default function Mouse() {
   const dist = useRecoilValue(distState)
 
   let mouse: any
-
-  const onClick = (selected: number) => {
-    // setDir(selected)
-    move(selected)
-  }
 
   const initNotice = () => {
     setNotice("")
@@ -246,23 +241,6 @@ export default function Mouse() {
         </div>
       </div>
 
-      <div className='controller'>
-        <div>
-          <button onClick={() => onClick(2)}>top</button>
-        </div>
-        <div>
-          <button onClick={() => onClick(8)}>bottom</button>
-        </div>
-        <div>
-          <button onClick={() => onClick(4)}>left</button>
-        </div>
-        <div>
-          <button onClick={() => onClick(6)}>right</button>
-        </div>
-        <div>
-          <button onClick={clickHandler}>click</button>
-        </div>
-      </div>
       <div className='notice'>{notice}</div>
     </>
   )
