@@ -131,9 +131,7 @@ class Example(object):
         left_pupil = gaze.pupil_left_coords()
         right_pupil = gaze.pupil_right_coords()
 
-        print(f'before hor:{hor_face_ratio} ver:{ver_face_ratio}')
-
-        if(type(left_pupil)==type(None) or type(right_pupil)==type(None) or type(hor_face_ratio) == type(None) or type(ver_face_ratio) == type(None)):
+        if(gaze.is_blinking() or type(left_pupil)==type(None) or type(right_pupil)==type(None) or type(hor_face_ratio) == type(None) or type(ver_face_ratio) == type(None)):
             hor_face_ratio = (self.minX + self.maxX) / 2
             ver_face_ratio = (self.minY + self.maxY) / 2
             return hor_face_ratio, ver_face_ratio, 5
