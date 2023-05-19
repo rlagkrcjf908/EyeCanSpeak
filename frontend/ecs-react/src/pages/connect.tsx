@@ -33,7 +33,10 @@ function Connect() {
     if (!webcamRef.current) return
     const imageSrc = webcamRef.current.getScreenshot()
     if (imageSrc !== null) send(imageSrc)
-    else capture()
+    else {
+      console.log("image null")
+      capture()
+    }
   }
 
   const send = async (imageSrc: string) => {
