@@ -495,7 +495,7 @@ export default function Key() {
               className={style.pinky}
               id={style.enter}
             >
-              ENTER
+              SAVE
             </li>
           </ul>
           <ul className={`${style.row} ${style["row-3"]}`}>
