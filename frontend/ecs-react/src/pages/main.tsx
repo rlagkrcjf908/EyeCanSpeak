@@ -5,17 +5,15 @@ import Title from "../components/main/title"
 import style from "../styles/main/main.module.css"
 import { useEffect, useState } from "react"
 import { Cookies } from "react-cookie"
-import { useRecoilState } from "recoil"
+import { selector, useRecoilState } from "recoil"
 import HelpModal from "../components/modal/helpModal"
 import helpIcon from "../assets/help-bubble.png"
 import { helpModal } from "../recoil/atoms/modalState"
 export default function Main() {
   const navigate = useNavigate()
   const cookies = new Cookies()
-  const userNo = sessionStorage.getItem("userNo")
 
-  const log = sessionStorage.getItem("log")
-
+  const [isLog, setIsLog] = useState(false)
   const [modal, setModal] = useRecoilState(helpModal)
 
   const closeModal = () => {
@@ -23,6 +21,8 @@ export default function Main() {
   }
 
   useEffect(() => {
+    const userNo = sessionStorage.getItem("userNo")
+    if (userNo !== null) setIsLog(true)
     console.log(userNo)
     const token = cookies.get("accessToken")
     if (token !== undefined) {
@@ -35,7 +35,7 @@ export default function Main() {
     <div className={style.continer}>
       <div className={style.wrapper}>
         <Title></Title>
-        {userNo !== null ? (
+        {isLog ? (
           <div className={style.box}>
             <div className={style.btnBox}>
               <button
