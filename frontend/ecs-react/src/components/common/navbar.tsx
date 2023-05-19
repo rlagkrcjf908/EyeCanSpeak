@@ -1,24 +1,19 @@
 import { Link, useNavigate } from "react-router-dom"
 import style from "../../styles/common/navbar.module.css"
 import { Cookies } from "react-cookie"
-import { useSetRecoilState } from "recoil"
-import { isLog, userName, userNo } from "../../recoil/atoms/userState"
 import logo from "../../assets/image/ECS.png"
 import { useEffect } from "react"
 export default function Navbar() {
   const navigate = useNavigate()
   const cookies = new Cookies()
-  const setUserNo = useSetRecoilState(userNo)
-  const setUserName = useSetRecoilState(userName)
-  const setLog = useSetRecoilState(isLog)
-
   const logout = () => {
     cookies.remove("accessToken")
     cookies.remove("refreshToken")
     cookies.remove("isSetting")
-    setUserNo(-1)
-    setUserName("")
-    setLog(false)
+    sessionStorage.removeItem("userNo")
+    sessionStorage.removeItem("userName")
+    sessionStorage.removeItem("log")
+
     navigate("/")
   }
   // 마우스 오버

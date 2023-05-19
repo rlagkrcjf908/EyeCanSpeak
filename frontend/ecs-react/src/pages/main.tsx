@@ -14,6 +14,8 @@ export default function Main() {
   const cookies = new Cookies()
   const userNo = sessionStorage.getItem("userNo")
 
+  const log = sessionStorage.getItem("log")
+
   const [modal, setModal] = useRecoilState(helpModal)
 
   const closeModal = () => {
