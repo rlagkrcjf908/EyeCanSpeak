@@ -5,18 +5,15 @@ import Title from "../components/main/title"
 import style from "../styles/main/main.module.css"
 import { useEffect } from "react"
 import { Cookies } from "react-cookie"
-import { isLog, userName, userNo } from "../recoil/atoms/userState"
 import { useRecoilState, useSetRecoilState } from "recoil"
 import HelpModal from "../components/modal/helpModal"
 import helpIcon from "../assets/help-bubble.png"
 import { helpModal } from "../recoil/atoms/modalState"
 export default function Main() {
-  const setUserNo = useSetRecoilState(userNo)
-  const setUserName = useSetRecoilState(userName)
-  const [log, setLog] = useRecoilState(isLog)
-
   const navigate = useNavigate()
   const cookies = new Cookies()
+
+  const log = sessionStorage.getItem("log")
 
   const [modal, setModal] = useRecoilState(helpModal)
 
@@ -28,9 +25,9 @@ export default function Main() {
     const token = cookies.get("accessToken")
     if (token !== undefined) {
       const obj = parseJwt(token)
-      setUserNo(obj.no)
-      setUserName(obj.name)
-      setLog(true)
+      sessionStorage.setItem("userNo", obj.no)
+      sessionStorage.setItem("userName", obj.name)
+      sessionStorage.setItem("log", "true")
     }
   }, [])
   return (
@@ -38,7 +35,7 @@ export default function Main() {
       <div className={style.wrapper}>
         <Title></Title>
         {/* <Content></Content> */}
-        {log ? (
+        {log === "true" ? (
           <div className={style.box}>
             <div className={style.btnBox}>
               <button

@@ -2,7 +2,7 @@ import style from "../styles/common/socket.module.css"
 import { useRef, useEffect, useState } from "react"
 import Webcam from "react-webcam"
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
-import { settingState, userNo } from "../recoil/atoms/userState"
+import { settingState } from "../recoil/atoms/userState"
 import { Cookies } from "react-cookie"
 import axios, { AxiosResponse } from "axios"
 import { socketXPosition, socketYPosition } from "../recoil/atoms/boxState"
@@ -11,7 +11,6 @@ import { dirState, getDirState } from "../recoil/atoms/mouseState"
 function Connect() {
   const webcamRef = useRef<Webcam>(null)
   const [isSetting, setIsSetting] = useRecoilState(settingState)
-  const userNumber = useRecoilValue(userNo)
   const [start, setStart] = useState(true)
 
   const setX = useSetRecoilState(socketXPosition)
@@ -42,7 +41,11 @@ function Connect() {
       "https://k8d204.p.ssafy.io/flask/position",
       // "https://ecs_fastapi:5000/flask/position",
       // "http://192.168.100.207:5000/flask/position",
-      { image: true, buffer: imageSrc, userNo: userNumber }
+      {
+        image: true,
+        buffer: imageSrc,
+        userNo: sessionStorage.getItem("userNo"),
+      }
     )
     if (response.status === 200) {
       const data = response.data
