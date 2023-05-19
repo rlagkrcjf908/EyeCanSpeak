@@ -22,7 +22,7 @@ export default function Main() {
   }
 
   useEffect(() => {
-    IsCookies()
+    // IsCookies()
     const cookies = new Cookies()
     const token = cookies.get("accessToken")
     if (token !== undefined) {
