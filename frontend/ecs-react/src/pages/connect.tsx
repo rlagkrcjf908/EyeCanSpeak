@@ -33,10 +33,6 @@ function Connect() {
     if (!webcamRef.current) return
     const imageSrc = webcamRef.current.getScreenshot()
     if (imageSrc !== null) send(imageSrc)
-    else {
-      console.log("image null")
-      capture()
-    }
   }
 
   const send = async (imageSrc: string) => {
@@ -67,7 +63,7 @@ function Connect() {
   }, [])
   useEffect(() => {
     if (start && isSetting) {
-      setTimeout(capture, 1000)
+      setTimeout(capture, 2000)
       setStart(false)
     }
   }, [start, isSetting])
