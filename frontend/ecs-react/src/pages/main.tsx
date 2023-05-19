@@ -9,6 +9,7 @@ import { selector, useRecoilState } from "recoil"
 import HelpModal from "../components/modal/helpModal"
 import helpIcon from "../assets/help-bubble.png"
 import { helpModal } from "../recoil/atoms/modalState"
+import { IsCookies } from "../services/cookies"
 export default function Main() {
   const navigate = useNavigate()
   const cookies = new Cookies()
@@ -21,15 +22,16 @@ export default function Main() {
   }
 
   useEffect(() => {
-    const userNo = sessionStorage.getItem("userNo")
-    if (userNo !== null) setIsLog(true)
-    console.log(userNo)
+    IsCookies()
+    const cookies = new Cookies()
     const token = cookies.get("accessToken")
     if (token !== undefined) {
       const obj = parseJwt(token)
       sessionStorage.setItem("userNo", obj.no)
       sessionStorage.setItem("userName", obj.name)
     }
+    const userNo = sessionStorage.getItem("userNo")
+    if (userNo !== null) setIsLog(true)
   }, [])
   return (
     <div className={style.continer}>

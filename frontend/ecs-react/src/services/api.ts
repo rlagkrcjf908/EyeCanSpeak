@@ -1,5 +1,6 @@
 import axios from "axios"
 import { Cookies } from "react-cookie"
+import { parseJwt } from "./jwtDecode"
 // import { useSetRecoilState } from "recoil";
 // import { tokenAtom } from "../atoms";
 
@@ -13,6 +14,11 @@ const customAxios = axios.create({
 })
 const cookies = new Cookies()
 const token = cookies.get("accessToken")
+if (token !== undefined) {
+  const obj = parseJwt(token)
+  sessionStorage.setItem("userNo", obj.no)
+  sessionStorage.setItem("userName", obj.name)
+}
 customAxios.defaults.headers.common["Authorization"] = `Bearer ${token}`
 
 // customAxios.interceptors.request.use(

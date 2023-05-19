@@ -3,6 +3,7 @@ import style from "../../styles/common/navbar.module.css"
 import { Cookies } from "react-cookie"
 import logo from "../../assets/image/ECS.png"
 import { useEffect } from "react"
+import { IsCookies } from "../../services/cookies"
 export default function Navbar() {
   const navigate = useNavigate()
   const cookies = new Cookies()
@@ -28,7 +29,7 @@ export default function Navbar() {
   }
 
   useEffect(() => {
-    // IsCookies()
+    IsCookies()
     // setIsSetting(IsSocket())
   }, [])
   return (
