@@ -4,7 +4,7 @@ import { io, Socket } from "socket.io-client"
 import { useRef, useEffect, useState } from "react"
 import Webcam from "react-webcam"
 import { useRecoilState, useRecoilValue } from "recoil"
-import { settingState, userNo } from "../../recoil/atoms/userState"
+import { settingState } from "../../recoil/atoms/userState"
 import { Cookies } from "react-cookie"
 
 function SocketTest() {
@@ -12,7 +12,6 @@ function SocketTest() {
   const [loading, setLoading] = useState(true)
   const webcamRef = useRef<Webcam>(null)
   const isSetting = useRecoilValue(settingState)
-  const userNumber = useRecoilValue(userNo)
   const [start, setStart] = useState(false)
 
   const [isSet, setIsSet] = useRecoilState(settingState)
@@ -33,7 +32,7 @@ function SocketTest() {
     socketInstance?.emit("imageConversionByClient", {
       image: true,
       buffer: imageSrc,
-      userNo: userNumber,
+      // userNo: userNumber,
     })
   }
 

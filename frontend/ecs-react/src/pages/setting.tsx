@@ -4,7 +4,7 @@ import Webcam from "react-webcam"
 import { Cookies } from "react-cookie"
 import axios, { AxiosResponse } from "axios"
 import { useRecoilValue, useSetRecoilState } from "recoil"
-import { settingState, userNo } from "../recoil/atoms/userState"
+import { settingState } from "../recoil/atoms/userState"
 import { useNavigate } from "react-router"
 import eye from "../assets/image/eye.png"
 import eye1 from "../assets/image/eye1.png"
@@ -18,7 +18,6 @@ export default function Setting() {
   const webcamRef = useRef<Webcam>(null)
   const [currentCircle, setCurrentCircle] = useState(0)
   const cookies = new Cookies()
-  const userNumber = useRecoilValue(userNo)
   const navigate = useNavigate()
   const [isEnd, setIsEnd] = useState(false)
   const eyes = [eye1, eye2, eye3, eye4]
@@ -48,7 +47,11 @@ export default function Setting() {
       // "https://ecs_fastapi:5000/flask/setting",
       `https://k8d204.p.ssafy.io/flask/setting`,
       // `http://192.168.100.207:5000/flask/setting`,
-      { userNo: userNumber, imgSrc: imageSrc, index: currentCircle + 1 }
+      {
+        userNo: sessionStorage.getItem("userNo"),
+        imgSrc: imageSrc,
+        index: currentCircle + 1,
+      }
     )
     if (response.data[0] === 200) {
       setCurrentCircle((c) => c + 1)
@@ -60,7 +63,7 @@ export default function Setting() {
   }
 
   // 캡쳐보내기
-  const sendImage = async () => { }
+  const sendImage = async () => {}
 
   /* circles 인덱스번호*6초 후에 각 위치의 동그라미 나타나고 5초부터 0초까지 카운트다운, 카운트가 다 끝나기 전에 화면 캡쳐*/
   useEffect(() => {
