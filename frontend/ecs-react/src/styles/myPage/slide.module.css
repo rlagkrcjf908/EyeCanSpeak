@@ -1,0 +1,25 @@
+.buttons {
+  display: flex;
+  text-align: center;
+  margin-top: 50px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  bottom: 0;
+}
+.btn {
+  text-align: center;
+  margin: 0 30px;
+  padding: 0 50px;
+  background-color: rgb(219, 238, 255);
+  cursor: pointer;
+  border-radius: 20px 20px 0 0;
+  /* width: 500px; */
+  height: 70px;
+  font-size: 30px;
+}
+
+.empty {
+  font-size: 30px;
+  margin-top: 100px;
+}

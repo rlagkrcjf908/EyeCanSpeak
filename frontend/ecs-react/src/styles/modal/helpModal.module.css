@@ -1,0 +1,43 @@
+.continer {
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: aliceblue;
+  animation: show 0.5s ease, hide 0.5s 4.7s ease;
+}
+.section {
+  margin: 100px;
+  width: 1300px;
+  display: grid;
+  text-align: center;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.box {
+  margin: 0 20px;
+}
+
+.text {
+  text-align: center;
+}
+
+@keyframes show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes hide {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

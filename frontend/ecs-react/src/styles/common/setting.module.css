@@ -1,0 +1,74 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* .circle {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  margin: 10px;
+  border-radius: 50%;
+  background-color: rgb(255, 72, 72);
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 2em;
+  font-weight: bold;
+} */
+
+.circle {
+  margin: 0 auto 20px auto;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: rgb(255, 72, 72);
+  top: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 2em;
+  font-weight: bold;
+}
+.box {
+  /* margin-top: 100px; */
+}
+.content {
+  font-size: 40px;
+  text-align: center;
+}
+.text {
+  text-align: center;
+  font-size: 40px;
+}
+
+.text2 {
+  text-align: center;
+  font-size: 30px;
+  color: rgb(148, 148, 148);
+  animation: show 1s infinite alternate;
+}
+
+@keyframes show {
+  from {
+    opacity: 0.3;
+  }
+  to {
+    opacity: 0.8;
+  }
+}
+
+.cam {
+  display: block;
+}
+
+.cam {
+  position: absolute;
+  right: 100%;
+}

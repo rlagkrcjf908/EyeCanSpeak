@@ -1,0 +1,32 @@
+.container {
+  /* border: 1px solid black; */
+  margin-top: 2vh;
+  text-align: center;
+}
+
+.item {
+  margin: 0 20px;
+  width: 150px;
+  height: 70px;
+  border-radius: 30px;
+  font-size: 20px;
+  background: none;
+}
+
+.btns {
+  display: flex;
+  justify-content: right;
+  margin: 10px 0;
+}
+
+.sortBtn1,
+.sortBtn2 {
+  cursor: pointer;
+  background: none;
+  font-size: 20px;
+  margin: 0 50px;
+}
+
+.sortBtn2 {
+  margin-right: 130px;
+}

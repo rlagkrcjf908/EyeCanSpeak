@@ -1,0 +1,8 @@
+.cam {
+  display: block;
+}
+
+.cam {
+  position: absolute;
+  right: 100%;
+}

@@ -1,0 +1,25 @@
+.iconBtn {
+  background: none;
+  position: fixed;
+  /* width: 30px;
+  height: 30px; */
+  right: -55px;
+  bottom: -55px;
+  transform: rotate(45deg);
+}
+
+.icon {
+  width: 150px;
+}
+
+.iconBtn:hover {
+  animation: move 1s ease forwards;
+}
+@keyframes move {
+  to {
+    transform: rotate(145deg);
+    scale: 1.1;
+    right: 20px;
+    bottom: 20px;
+  }
+}

@@ -1,0 +1,176 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+.card {
+  color: inherit;
+  cursor: pointer;
+  width: 500px;
+  height: 600px;
+  margin: auto;
+  perspective: 1000px;
+  position: relative;
+  user-select: none;
+}
+.title {
+  font-size: 2em;
+  font-weight: bold;
+  text-align: center;
+}
+.front,
+.back {
+  display: flex;
+  border-radius: 20px;
+  text-align: center;
+  justify-content: center;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transition: ease-in-out 600ms;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: #eef8ff;
+  background-position: center bottom;
+}
+
+.front {
+  font-size: 2.1em;
+  font-weight: 500;
+  color: black;
+  overflow: hidden;
+  padding-top: 10%;
+}
+
+/* .card:hover .front {
+  transform: rotateY(180deg);
+} */
+
+.hover .front {
+  transform: rotateY(180deg);
+}
+.back {
+  transform: rotateY(-180deg);
+  padding: 0 2em;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.back:before {
+  position: absolute;
+  display: block;
+  content: "";
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #eef8ff;
+  z-index: -1;
+  border-radius: 20px;
+}
+.back .subject {
+  background: white;
+}
+.back .subject:before {
+  background-color: rgba(26, 87, 230, 0.25);
+}
+
+/* .card:hover .back {
+  transform: rotateY(0deg);
+} */
+.hover .back {
+  transform: rotateY(0deg);
+}
+.subject {
+  width: calc(40%);
+  height: calc(40%);
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  transform: translateZ(40px);
+  cursor: pointer;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  font-weight: bold;
+  font-size: 2rem;
+  color: black;
+  padding: 0.5em 1em;
+  border-radius: 10px;
+  border: none;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: 300ms ease;
+}
+.subject:before {
+  transition: 300ms ease;
+  position: absolute;
+  display: block;
+  content: "";
+  transform: translateZ(-40px);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 10px;
+  left: 10px;
+  top: 16px;
+}
+.subject:hover {
+  transform: translateZ(55px);
+}
+.subject:hover:before {
+  transform: translateZ(-55px);
+}
+.subject:active {
+  transform: translateZ(20px);
+}
+.subject:active:before {
+  transform: translateZ(-20px);
+  top: 12px;
+}
+
+.subjectItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.subjectItem p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: white;
+  width: 80%;
+  height: 40%;
+  font-size: 2rem;
+}
+
+.draw {
+  width: 80%;
+  height: 20%;
+  background-color: #eef8ff;
+  border-radius: 100px;
+  border: 2px solid rgb(123, 180, 255);
+  font-size: 1.5rem;
+  margin: 20px;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+}
+.draw:hover {
+  background-color: rgb(123, 180, 255);
+}
+.buttonBox img {
+  width: 100px;
+  height: 100px;
+  margin: 10px 50px;
+}

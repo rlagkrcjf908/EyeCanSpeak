@@ -1,0 +1,36 @@
+.container {
+  height: 90vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.wrapper {
+  margin: 0 auto;
+  width: 94vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.board {
+  border-radius: 10px;
+  border: 4px solid rgb(95, 95, 95);
+  width: 1012px;
+  height: 712px;
+  margin-right: 100px;
+}
+.canvas {
+  width: 100%;
+  height: 100%;
+}
+.btn {
+  text-align: center;
+  margin: 20px 10px;
+  border: 4px solid #555;
+  background: none;
+  cursor: pointer;
+  border-radius: 20px;
+  width: 250px;
+  height: 70px;
+  font-size: 30px;
+}

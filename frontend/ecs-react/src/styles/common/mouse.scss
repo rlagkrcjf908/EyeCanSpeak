@@ -1,0 +1,202 @@
+$button-width: 50px;
+$button-height: 50px;
+$button-color: rgba(220, 20, 60, 0.5);
+$button-font-size: 1.9em;
+
+$frill-vert-space: 45px; //vertical spacing between frills
+$frill-horizontal-offset: 14px; //initial offset
+$frill-distance: 80px; //distance moved by frills
+$frill-stagger: 15px; //distance between center and edge frills
+
+$frill-rotation: 34deg;
+$frill-height: 8px;
+$frill-width: 38px;
+
+$speed: 0.38s;
+$timing-function: ease-out;
+
+.mouse {
+  z-index: 3001;
+  position: fixed;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  top: 490px;
+  color: white;
+  width: $button-width;
+  height: $button-height;
+  background-color: rgba($color: #000000, $alpha: 0);
+  background-image: url("../../assets/icon/pencil.png"); /* 16px x 16px */
+  background-size: cover;
+  border-radius: 4px;
+}
+
+.fancy-button1 {
+  // border: 1px solid red;
+  z-index: 1000;
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  margin: auto;
+  left: 20px;
+  right: 0;
+  top: 490px;
+}
+.fancy-button2 {
+  // border: 1px solid blue;
+  z-index: 1000;
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  margin: auto;
+  left: 10px;
+  right: 0;
+  top: 490px;
+}
+
+.frills,
+.frills:after,
+.frills:before {
+  position: absolute;
+  background: $button-color;
+  border-radius: ($frill-height/2);
+  height: $frill-height;
+}
+.frills:after,
+.frills:before {
+  content: "";
+  display: block;
+}
+.frills:before {
+  bottom: $frill-vert-space;
+}
+.frills:after {
+  top: $frill-vert-space;
+}
+.leftFrills {
+  right: $button-width + $frill-horizontal-offset;
+  top: ($button-height/2)- ($frill-height/2);
+  .active & {
+    animation: move-left $speed $timing-function,
+      width-to-zero $speed $timing-function;
+  }
+
+  &:before,
+  &:after {
+    left: $frill-stagger;
+  }
+  &:before {
+    .active & {
+      animation: width-to-zero $speed $timing-function,
+        move-up $speed $timing-function;
+    }
+  }
+  &:after {
+    .active & {
+      animation: width-to-zero $speed $timing-function,
+        move-down $speed $timing-function;
+    }
+  }
+}
+.rightFrills {
+  left: $button-width + $frill-horizontal-offset;
+  top: ($button-height/2)- ($frill-height/2);
+  .active & {
+    animation: move-right $speed $timing-function,
+      width-to-zero $speed $timing-function;
+  }
+  &:before,
+  &:after {
+    right: $frill-stagger;
+  }
+  &:before {
+    .active & {
+      animation: width-to-zero $speed $timing-function,
+        move-up $speed $timing-function;
+    }
+  }
+  &:after {
+    .active & {
+      animation: width-to-zero $speed $timing-function,
+        move-down $speed $timing-function;
+    }
+  }
+}
+
+.leftFrills:before,
+.rightFrills:after {
+  transform: rotate($frill-rotation);
+}
+
+.leftFrills:after,
+.rightFrills:before {
+  transform: rotate(-$frill-rotation);
+}
+
+.controller {
+  position: fixed;
+  bottom: 500px;
+}
+.notice {
+  width: 100%;
+  text-align: center;
+  position: fixed;
+  margin: 0 auto;
+  left: 0;
+  top: 40vh;
+  font-size: 30px;
+  animation: show 1s ease alternate infinite;
+  color: rgb(255, 72, 72);
+}
+@keyframes move-left {
+  0% {
+    transform: none;
+  }
+  65% {
+    transform: translateX(-1 * $frill-distance);
+  }
+  100% {
+    transform: translateX(-1 * $frill-distance);
+  }
+}
+@keyframes move-right {
+  0% {
+    transform: none;
+  }
+  65% {
+    transform: translateX($frill-distance);
+  }
+  100% {
+    transform: translateX($frill-distance);
+  }
+}
+@keyframes width-to-zero {
+  0% {
+    width: $frill-width;
+  }
+  100% {
+    width: $frill-height;
+  }
+}
+@keyframes move-up {
+  0% {
+  }
+  100% {
+    bottom: $frill-vert-space * 1.55;
+  }
+}
+@keyframes move-down {
+  0% {
+  }
+  100% {
+    top: $frill-vert-space * 1.55;
+  }
+}
+@keyframes show {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
+}
