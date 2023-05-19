@@ -24,6 +24,7 @@ export default function Main() {
   useEffect(() => {
     const cookies = new Cookies()
     const token = cookies.get("accessToken")
+    console.log(cookies.get("accessToken"))
     if (token !== undefined) {
       const obj = parseJwt(token)
       sessionStorage.setItem("userNo", obj.no)
